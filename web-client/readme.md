@@ -13,3 +13,18 @@
 - должен кешировать последнее место навигации;
 - должна быть обращения к API через ссылки, который предоставляет HATEOAS реализация;
 - веб клиент должен предоставлять ссылку на скачивание мобильного клиента
+
+## Project setup
+```
+npm install
+```
+
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
+
+### Compiles and minifies for production
+```
+npm run build
+```
