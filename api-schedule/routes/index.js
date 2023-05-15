@@ -12,6 +12,7 @@ const audienceRouter = require('./audienceRouter');
 const corpusRouter = require('./corpusRouter');
 const teacherRouter = require('./teacherRouter');
 const teacherSubjectRouter = require('./teacherSubjectRouter');
+const userRouter = require('./userRouter');
 
 router.use('/', linkRouter);
 
@@ -25,5 +26,6 @@ router.use(`${process.env.MAIN_VERSION}${process.env.URI_AUDIENCE}`, audienceRou
 router.use(`${process.env.MAIN_VERSION}${process.env.URI_CORPUS}`, corpusRouter);
 router.use(`${process.env.MAIN_VERSION}${process.env.URI_TEACHER}`, teacherRouter);
 router.use(`${process.env.MAIN_VERSION}${process.env.URI_TEACHERSUBJECT}`, teacherSubjectRouter);
+router.use(`${process.env.MAIN_VERSION}${process.env.URI_USER}`, userRouter);
 
 module.exports = router
