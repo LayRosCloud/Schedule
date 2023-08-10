@@ -16,7 +16,7 @@ app.use(cors({
 }));
 
 app.use(express.json());
-app.use('/api' ,router);
+app.use(process.env.URL_START_POINT ,router);
 app.use(errorHandling);
 
 const start = async () => {

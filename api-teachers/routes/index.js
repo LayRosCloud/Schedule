@@ -4,10 +4,12 @@ const TeacherRoute = require('./teacher-route')
 const StudyRoute = require('./study-route')
 const SubjectRoute = require('./subject-route')
 const TeacherSubjectRoute = require('./teachersubject-route')
+const HateoasRoute = require('./hateoas-router')
 
-router.use('/teachers', TeacherRoute)
-router.use('/studies', StudyRoute)
-router.use('/subjects', SubjectRoute)
-router.use('/teachersSubjects', TeacherSubjectRoute)
+router.use('/', HateoasRoute)
+router.use(`${process.env.URL_VERSION}${process.env.URL_TEACHERS}`, TeacherRoute)
+router.use(`${process.env.URL_VERSION}${process.env.URL_STUDIES}`, StudyRoute)
+router.use(`${process.env.URL_VERSION}${process.env.URL_SUBJECTS}`, SubjectRoute)
+router.use(`${process.env.URL_VERSION}${process.env.URL_SUBJECTS}`, TeacherSubjectRoute)
 
 module.exports = router
