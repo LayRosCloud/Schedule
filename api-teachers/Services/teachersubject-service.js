@@ -8,7 +8,8 @@ class TeacherSubjectService {
 
     async create(TeacherId, SubjectId){
 
-        return await TeacherSubjectEntity.create({TeacherId, SubjectId})
+         const response = await TeacherSubjectEntity.create({TeacherId, SubjectId})
+        return this.getById(response.id)
     }
 
     async getById(id){
@@ -34,9 +35,10 @@ class TeacherSubjectService {
 
     async update(id, TeacherId, SubjectId){
         await this.getById(id)
-        return await TeacherSubjectEntity.update({TeacherId, SubjectId}, {
+        await TeacherSubjectEntity.update({TeacherId, SubjectId}, {
             where: {id}
         })
+        return this.getById(id)
     }
 }
 module.exports = new TeacherSubjectService()

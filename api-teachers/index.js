@@ -9,7 +9,6 @@ const sequelize = require('./core/database');
 const router = require('./routes');
 const events = require('events')
 const errorHandling = require('./middleware/error-handling')
-
 const emitter = new events.EventEmitter()
 
 const app = express();
@@ -24,24 +23,12 @@ app.use(fileUpload({}));
 app.use(process.env.URL_START_POINT, router);
 app.use(express.static(path.resolve(__dirname, 'static')))
 
-app.get('/connect', (req, res)=> {
-    res.writeHead(200, {
-        'Connection': 'keep-alive',
-        'Connection-Type': 'text/event-stream',
-        'Cache-Control': 'no-cache',
-    })
-    emitter.on('newMessage', (message) => {
-        res.write(message)
-    })
-})
+app.use(errorHandling);
 
-app.post('/new-messages', ((req, res) => {
-    const message = req.body
-    emitter.emit('newMessage', message)
+app.get('/1', ((req, res) => {
+    emitter.emit('newMessage', {message: 'text'})
     res.status(200)
 }))
-
-app.use(errorHandling);
 
 const start = async () => {
     try {

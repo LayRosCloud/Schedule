@@ -1,9 +1,22 @@
 const TeacherSubjectService = require('../Services/teachersubject-service')
+const events = require("events");
+const emitter = new events.EventEmitter
 
 class TeacherSubjectController {
     async getAll(request, res){
         const response = await TeacherSubjectService.getAll()
         return res.json(response)
+    }
+
+    async connect(request, res){
+        res.writeHead(200, {
+            'Connection': 'keep-alive',
+            'Content-Type': 'text/event-stream',
+            'Cache-Control': 'no-cache'
+        })
+        emitter.on('newMessage', (message) => {
+            res.write(`data: ${JSON.stringify(message)} \n\n`)
+        })
     }
 
     async get(request, res, next){
@@ -34,6 +47,7 @@ class TeacherSubjectController {
         const {TeacherId, SubjectId} = request.body
         try{
             const response = await TeacherSubjectService.create(TeacherId, SubjectId)
+            emitter.emit('newMessage',response)
             return res.json(response)
         }
         catch(e){
@@ -47,6 +61,7 @@ class TeacherSubjectController {
 
         try{
             const response = await TeacherSubjectService.update(id, TeacherId, SubjectId)
+            emitter.emit('newMessage',response)
             return res.json(response)
         }
         catch(e){

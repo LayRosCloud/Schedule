@@ -7,7 +7,8 @@ class TeacherService {
     }
 
     async create(Name, LastName, Patronymic, Phone, StudyId = null, Image = null){
-        return await TeacherEntity.create({Name, LastName, Patronymic, Phone, StudyId, Image})
+        const response = await TeacherEntity.create({Name, LastName, Patronymic, Phone, StudyId, Image})
+        return this.getById(response.id)
     }
 
     async getById(id){
@@ -33,9 +34,11 @@ class TeacherService {
 
     async update(id, Name, LastName, Patronymic, Phone, StudyId = null, Image = null){
         await this.getById(id)
-        return await TeacherEntity.update({Name, LastName, Patronymic, Phone, StudyId, Image}, {
+        await TeacherEntity.update({Name, LastName, Patronymic, Phone, StudyId, Image}, {
             where: {id}
         })
+
+        return this.getById(id)
     }
 }
 module.exports = new TeacherService()
