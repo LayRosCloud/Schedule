@@ -15,7 +15,7 @@ class CityService{
         const response = await CityEntity.findOne({where: {id}, include:[RegionEntity]});
 
         if (!response){
-            throw APIerror.badRequest("ЧЗХ") //Исправить в будушем
+            throw APIerror.badRequest("ЧЗХ") //TODO:Исправить
         }
 
         return response;

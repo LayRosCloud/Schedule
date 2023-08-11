@@ -1,9 +1,9 @@
-const {TeacherEntity, SubjectEntity, TeacherSubjectEntity} = require('../core/models')
+const {TeacherEntity, SubjectEntity, TeacherSubjectEntity, StudyEntity} = require('../core/models')
 const ApiError = require('../error/api-error')
 
 class TeacherSubjectService {
     async getAll(){
-        return await TeacherSubjectEntity.findAll({include: [TeacherEntity, SubjectEntity]})
+        return await TeacherSubjectEntity.findAll({include: [SubjectEntity, {model: TeacherEntity, include: [StudyEntity]}]})
     }
 
     async create(TeacherId, SubjectId){

@@ -1,6 +1,9 @@
 const service = require('../services/corpus-service');
 const saveImage = require('../scripts/save-image')
 
+const events = require("events");
+const emitter = new events.EventEmitter
+
 class CorpusController{
     async create(req, res, next){
         const {name, streetId} = req.body;
@@ -14,11 +17,23 @@ class CorpusController{
             }
 
             const response = await service.create(name, streetId, path);
+            emitter.emit('newMessage',response)
             return res.json(response);
         }
         catch (e){
             return next(e);
         }
+    }
+
+    async connect(request, res){
+        res.writeHead(200, {
+            'Connection': 'keep-alive',
+            'Content-Type': 'text/event-stream',
+            'Cache-Control': 'no-cache'
+        })
+        emitter.on('newMessage',  (message) => {
+            res.write(`data: ${JSON.stringify(message)} \n\n`)
+        })
     }
 
     async getAll(req, res){
@@ -46,7 +61,9 @@ class CorpusController{
                 const {image} = req.files;
                 path = await saveImage(image);
             }
-            return res.json(await service.update(id, name, path, streetId));
+            const response = await service.update(id, name, path, streetId);
+            emitter.emit('newMessage', response)
+            return res.json(response);
         }
         catch (e){
             return next(e);

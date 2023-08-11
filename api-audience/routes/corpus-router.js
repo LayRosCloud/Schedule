@@ -4,6 +4,7 @@ const controller = require('../controllers/corpus-controller');
 
 router.post('/', controller.create);
 router.get('/', controller.getAll);
+router.get('/connect', controller.connect);
 router.get('/:id', controller.get);
 router.put('/:id', controller.update);
 router.delete('/:id', controller.delete);

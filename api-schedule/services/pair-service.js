@@ -1,5 +1,8 @@
 const {PairEntity, GroupEntity, TimeEntity, DayOfWeekEntity, TypeOfPairEntity} = require('../core/models')
 const ApiException = require('../exceptions/ApiException')
+const TeacherService = require('./teacher-service')
+const AudienceService = require('./audience-service')
+const PairDto = require('../core/dto/PairDto')
 
 class PairService {
     async getAll(teacherId, audienceId, groupId){
@@ -19,8 +22,14 @@ class PairService {
         if(groupId){
             response = response.filter((t)=>t.teacherId === groupId)
         }
-
-        return response;
+        const result = []
+        for (let i = 0; i < response.length; i++) {
+            const teacher = await TeacherService.getById(response[i].teacherId)
+            const audience = await AudienceService.getById(response[i].audienceId)
+            const dto = new PairDto(response[i], teacher, audience)
+            result.push(dto)
+        }
+        return result;//
     }
 
 
@@ -29,6 +38,7 @@ class PairService {
         if(!response){
             throw ApiException.notFound('Ошибка! Объект не найден')
         }
+        response.teacher = {message: 'text'}
         return response;
     }
 

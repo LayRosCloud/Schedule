@@ -1,12 +1,17 @@
 const client = require('../core/database/redis')
+const cluster = 'audience'
 
 class AudienceService {
-    async getAll(){
-        return JSON.parse(await client.get('audiences'));
+    async getById(id){
+        return JSON.parse(await client.get(`${cluster}-${id}`));
     }
 
-    async create(audiences){
-        await client.set('audiences', JSON.stringify(audiences))
+    async createOrUpdate(audience){
+        try{
+            audience = JSON.parse(audience)
+        }catch (e){
+            await client.set(`${cluster}-${audience.id}`, JSON.stringify(audience))
+        }
     }
 
 }

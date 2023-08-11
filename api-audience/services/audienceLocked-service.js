@@ -3,7 +3,7 @@ const APIerror = require('../error/api-error')
 class AudienceLockedService{
     async create(dateStart, dateEnd, audienceId){
         const response = await AudienceLockedEntity.create({dateStart, dateEnd, audienceId});
-        return response;
+        return await this.get(response.id);
     }
 
     async getAll(){
@@ -23,8 +23,8 @@ class AudienceLockedService{
 
     async update(id, dateStart, dateEnd, audienceId){
         await this.get(id);
-
-        return await AudienceLockedEntity.update({dateStart, dateEnd, audienceId}, {where: {id}});
+        await AudienceLockedEntity.update({dateStart, dateEnd, audienceId}, {where: {id}})
+        return await this.get(id);
     }
 
     async delete(id, name){

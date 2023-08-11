@@ -1,4 +1,4 @@
-const {AudienceEntity,CorpusEntity} = require('../core/models');
+const {AudienceEntity,CorpusEntity, AudienceLockedEntity, RegionEntity, CityEntity, StreetEntity} = require('../core/models');
 const APIerror = require('../error/api-error')
 class AudienceService{
     async create(name, corpuId){
@@ -7,12 +7,12 @@ class AudienceService{
     }
 
     async getAll(){
-        const response = await AudienceEntity.findAll({include: [CorpusEntity]});
+        const response = await AudienceEntity.findAll({include: [AudienceLockedEntity, CorpusEntity]})
         return response;
     }
 
     async get(id){
-        const response = await AudienceEntity.findOne({where: {id}, include:[CorpusEntity]});
+        const response = await AudienceEntity.findOne({where: {id}, include:[CorpusEntity, AudienceLockedEntity]});
 
         if (!response){
             throw APIerror.badRequest("ЧЗХ"); //Исправить в будушем

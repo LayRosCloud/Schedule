@@ -1,11 +1,13 @@
 const service = require('../services/audienceLocked-service');
 
+
 class AudienceLockedController{
     async create(req, res, next){
         const {dateStart, dateEnd, audienceId} = req.body;
 
         try {
             const response = await service.create(dateStart, dateEnd, audienceId);
+
             return res.json(response);
         }
         catch (e){
@@ -33,7 +35,9 @@ class AudienceLockedController{
         const {dateStart, dateEnd, audienceId} = req.body;
 
         try {
-            return res.json(await service.update(id, dateStart, dateEnd, audienceId));
+            const response = await service.update(id, dateStart, dateEnd, audienceId);
+            emitter.emit('newMessage', response)
+            return res.json(response);
         }
         catch (e){
             return next(e);

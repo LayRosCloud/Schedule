@@ -1,12 +1,16 @@
 const client = require('../core/database/redis')
-
+const cluster = 'teacher'
 class TeacherService {
-    async getAll(){
-        return JSON.parse(await client.get('teacher'));
+    async getById(id){
+        return JSON.parse(await client.get(`${cluster}-${id}`));
     }
 
-    async create(teachers){
-        await client.set('teacher', JSON.stringify(teachers))
+    async createOrUpdate(teacher){
+        try{
+            teacher = JSON.parse(teacher)
+        }catch (e){
+            await client.set(`${cluster}-${teacher.id}`, JSON.stringify(teacher))
+        }
     }
 
 }
