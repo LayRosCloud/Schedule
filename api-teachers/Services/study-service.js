@@ -1,4 +1,4 @@
-const {StudyEntity, TeacherEntity} = require('../core/models')
+const {StudyEntity} = require('../core/models')
 const ApiError = require("../error/api-error");
 
 class StudyService {
@@ -7,7 +7,11 @@ class StudyService {
     }
 
     async create(Name){
-        return await StudyEntity.create({Name})
+        if(!Name){
+            throw ApiError.badBody()
+        }
+        const response = await StudyEntity.create({Name});
+        return this.getById(response.id)
     }
 
     async getById(id){
@@ -31,10 +35,14 @@ class StudyService {
     }
 
     async update(id, Name){
+        if(!Name){
+            throw ApiError.badBody()
+        }
         await this.getById(id)
-        return await StudyEntity.update({Name}, {
+        await StudyEntity.update({Name}, {
             where: {id}
         })
+        return await this.getById(id)
     }
 }
 module.exports = new StudyService()

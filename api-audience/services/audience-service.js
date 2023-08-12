@@ -1,11 +1,6 @@
-const {AudienceEntity,CorpusEntity, AudienceLockedEntity, RegionEntity, CityEntity, StreetEntity} = require('../core/models');
+const {AudienceEntity,CorpusEntity, AudienceLockedEntity} = require('../core/models');
 const APIerror = require('../error/api-error')
 class AudienceService{
-    async create(name, corpuId){
-        const response = await AudienceEntity.create({name, corpuId});
-        return response;
-    }
-
     async getAll(){
         const response = await AudienceEntity.findAll({include: [AudienceLockedEntity, CorpusEntity]})
         return response;
@@ -15,16 +10,27 @@ class AudienceService{
         const response = await AudienceEntity.findOne({where: {id}, include:[CorpusEntity, AudienceLockedEntity]});
 
         if (!response){
-            throw APIerror.badRequest("ЧЗХ"); //Исправить в будушем
+            throw APIerror.badRequest("Ошибка! Объект не найден");
         }
 
         return response;
     }
 
-    async update(id, name, corpuId){
-        await this.get(id);
+    async create(name, corpuId){
+        if(!name || !corpuId){
+            throw APIerror.badBody()
+        }
+        const response = await AudienceEntity.create({name, corpuId});
+        return this.get(response.id);
+    }
 
-        return await AudienceEntity.update({name, corpuId}, {where: {id}});
+    async update(id, name, corpuId){
+        if(!name || !corpuId){
+            throw APIerror.badBody()
+        }
+        await this.get(id);
+        await AudienceEntity.update({name, corpuId}, {where: {id}});
+        return await this.get(id);
     }
 
     async delete(id, name){

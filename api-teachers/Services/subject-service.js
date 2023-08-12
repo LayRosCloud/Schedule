@@ -7,7 +7,13 @@ class SubjectService {
     }
 
     async create(Name){
-        return await SubjectEntity.create({Name})
+        if(!Name){
+            throw ApiError.badBody()
+        }
+
+        const response = await SubjectEntity.create({Name})
+
+        return await this.getById(response.id)
     }
 
     async getById(id){
@@ -31,10 +37,14 @@ class SubjectService {
     }
 
     async update(id, Name){
+        if(!Name){
+            throw ApiError.badBody()
+        }
         await this.getById(id)
-        return await SubjectEntity.update({Name}, {
+        await SubjectEntity.update({Name}, {
             where: {id}
         })
+        return await this.getById(id)
     }
 }
 module.exports = new SubjectService()

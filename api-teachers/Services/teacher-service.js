@@ -7,6 +7,9 @@ class TeacherService {
     }
 
     async create(Name, LastName, Patronymic, Phone, StudyId = null, Image = null){
+        if(!Name || !LastName || !Patronymic || !Phone){
+            throw ApiError.badBody()
+        }
         const response = await TeacherEntity.create({Name, LastName, Patronymic, Phone, StudyId, Image})
         return this.getById(response.id)
     }
@@ -33,6 +36,9 @@ class TeacherService {
     }
 
     async update(id, Name, LastName, Patronymic, Phone, StudyId = null, Image = null){
+        if(!Name || !LastName || !Patronymic || !Phone){
+            throw ApiError.badBody()
+        }
         await this.getById(id)
         await TeacherEntity.update({Name, LastName, Patronymic, Phone, StudyId, Image}, {
             where: {id}

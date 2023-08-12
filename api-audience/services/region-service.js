@@ -1,11 +1,6 @@
 const {RegionEntity} = require('../core/models');
 const APIerror = require('../error/api-error')
 class RegionService{
-    async create(name){
-        const response = await RegionEntity.create({name});
-        return response;
-    }
-
     async getAll(){
         const response = await RegionEntity.findAll();
         return response;
@@ -15,16 +10,27 @@ class RegionService{
         const response = await RegionEntity.findOne({where: {id}});
 
         if (!response){
-            throw APIerror.badRequest("ЧЗХ") //Исправить в будушем
+            throw APIerror.badRequest("Ошибка! Объект не найден")
         }
 
         return response;
     }
 
-    async update(id, name){
-       await this.get(id);
+    async create(name){
+        if(!name ){
+            throw APIerror.badBody()
+        }
+        const response = await RegionEntity.create({name});
+        return this.get(response.id);
+    }
 
-       return await RegionEntity.update({name}, {where: {id}});
+    async update(id, name){
+        if(!name ){
+            throw APIerror.badBody()
+        }
+       await this.get(id);
+        await RegionEntity.update({name}, {where: {id}})
+       return await this.get(id);
     }
 
     async delete(id, name){

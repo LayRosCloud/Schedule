@@ -1,11 +1,6 @@
 const {AudienceLockedEntity,AudienceEntity} = require('../core/models');
 const APIerror = require('../error/api-error')
 class AudienceLockedService{
-    async create(dateStart, dateEnd, audienceId){
-        const response = await AudienceLockedEntity.create({dateStart, dateEnd, audienceId});
-        return await this.get(response.id);
-    }
-
     async getAll(){
         const response = await AudienceLockedEntity.findAll({include: [AudienceEntity]});
         return response;
@@ -15,13 +10,25 @@ class AudienceLockedService{
         const response = await AudienceLockedEntity.findOne({where: {id}, include:[AudienceEntity]});
 
         if (!response){
-            throw APIerror.badRequest("ЧЗХ"); //Исправить в будушем
+            throw APIerror.badRequest("Ошибка! Объект не найден");
         }
 
         return response;
     }
 
+    async create(dateStart, dateEnd, audienceId){
+        if(!dateStart || !dateEnd || !audienceId){
+            throw APIerror.badBody()
+        }
+        const response = await AudienceLockedEntity.create({dateStart, dateEnd, audienceId});
+        return await this.get(response.id);
+    }
+
     async update(id, dateStart, dateEnd, audienceId){
+        if(!dateStart || !dateEnd || !audienceId){
+            throw APIerror.badBody()
+        }
+
         await this.get(id);
         await AudienceLockedEntity.update({dateStart, dateEnd, audienceId}, {where: {id}})
         return await this.get(id);

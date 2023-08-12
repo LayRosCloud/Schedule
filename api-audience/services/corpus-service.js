@@ -1,21 +1,16 @@
 const {CorpusEntity,StreetEntity, CityEntity, RegionEntity} = require('../core/models');
 const APIerror = require('../error/api-error')
 class CorpusService{
-    async create(name, streetId, image){
-        const response = await CorpusEntity.create({name, streetId, image});
-        return this.get(response.id);
-    }
-
     async getAll(){
         const response = await CorpusEntity.findAll({include: [{
-            model: StreetEntity,
+                model: StreetEntity,
                 include: [{
                     model: CityEntity,
                     include: [{
                         model: RegionEntity
                     }]
                 }]
-        }]});
+            }]});
         return response;
     }
 
@@ -31,13 +26,24 @@ class CorpusService{
             }]});
 
         if (!response){
-            throw APIerror.badRequest("ЧЗХ"); //Исправить в будушем
+            throw APIerror.badRequest('Ошибка! Объект не найден!');
         }
 
         return response;
     }
 
+    async create(name, streetId, image){
+        if(!name || !streetId){
+            throw APIerror.badBody()
+        }
+        const response = await CorpusEntity.create({name, streetId, image});
+        return this.get(response.id);
+    }
+
     async update(id, name, image, streetId){
+        if(!name || !streetId){
+            throw APIerror.badBody()
+        }
         await this.get(id);
         await CorpusEntity.update({name, image, streetId}, {where: {id}});
         return await this.get(id);
