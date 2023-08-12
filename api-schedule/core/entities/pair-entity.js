@@ -6,7 +6,7 @@ const PairEntity = sequelize.define('pair', {
     dateStart: {type: DataTypes.DATE, allowNull: false},
     numberOfWeeks: {type: DataTypes.SMALLINT, allowNull: false},
     audienceId: {type: DataTypes.INTEGER, allowNull: false},
-    teacherId: {type: DataTypes.INTEGER, allowNull: false},
+    teacherSubjectId: {type: DataTypes.INTEGER, allowNull: false},
 }, {timestamps: false});
 
 module.exports = PairEntity;
