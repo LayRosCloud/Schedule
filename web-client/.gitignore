@@ -2,6 +2,8 @@ build/Release
 
 node_modules/
 jspm_packages/
-
+.next/
+.idea/
+next/
 logs
 *.log

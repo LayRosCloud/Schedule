@@ -1,2 +1,2 @@
 #WEB CLIENT
-Реализован на React
+Реализован на Next React

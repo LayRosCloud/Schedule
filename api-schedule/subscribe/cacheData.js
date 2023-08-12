@@ -8,28 +8,20 @@ const CorpusService = require('../services/Corpus-service')
 
 module.exports = async function cacheData(){
     try{
-        await cacheTeachers()
+        const teacher = new CacheDto(`${process.env.API_URL_TEACHERS}/v1/teachers`, TeacherService)
+		const teacherSubject = new CacheDto(`${process.env.API_URL_TEACHERS}/v1/teachersSubjects`, TeachersSubjectsService)
+		await cacheService(teacher, teacherSubject)
     } catch (e) {
-        console.log(e)
+        console.log(e.message)
     }
 
     try{
-        await cacheAudience()
+        const audience = new CacheDto(`${process.env.API_URL_AUDIENCE}/v1/audience`, AudienceService)
+		const corpus = new CacheDto(`${process.env.API_URL_AUDIENCE}/v1/corpus`, CorpusService)
+		await cacheService(audience, corpus)
     } catch (e){
-        console.log(e)
+        console.log(e.message)
     }
-}
-
-async function cacheTeachers(){
-    const teacher = new CacheDto(`${process.env.API_URL_TEACHERS}/v1/teachers`, TeacherService)
-    const teacherSubject = new CacheDto(`${process.env.API_URL_TEACHERS}/v1/teachersSubjects`, TeachersSubjectsService)
-    await cacheService(teacher, teacherSubject)
-}
-
-async function cacheAudience(){
-    const audience = new CacheDto(`${process.env.API_URL_AUDIENCE}/v1/audience`, AudienceService)
-    const corpus = new CacheDto(`${process.env.API_URL_AUDIENCE}/v1/corpus`, CorpusService)
-    await cacheService(audience, corpus)
 }
 
 async function cacheService(cacheDto1, cacheDto2){

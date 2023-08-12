@@ -1,0 +1,23 @@
+.container{
+    cursor: pointer;
+    padding: 5px 15px;
+    margin-top: 5px;
+    border-radius: 15px;
+    transition: 0.15s;
+}
+.container.active{
+    background: var(--accent-color);
+}
+.active__h1{
+    color: var(--main-color);
+}
+.active__p{
+    color: var(--main-color);
+}
+.container:hover{
+    background: var(--two-color);
+}
+.container.active:hover{
+    background: var(--accent-color);
+    opacity: 0.8;
+}

@@ -1,0 +1,14 @@
+.item{
+    padding: 5px 20px;
+    background: var(--main-color);
+    margin-right: 5px;
+    cursor: pointer;
+    transition: 0.15s;
+}
+.item.active{
+    background: var(--accent-color);
+    color: var(--main-color);
+}
+.item:hover{
+    opacity: 0.8;
+}

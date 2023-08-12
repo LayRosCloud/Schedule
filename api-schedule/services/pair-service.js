@@ -7,21 +7,49 @@ const PairDto = require('../core/dto/PairDto')
 class PairService {
     async getAll(teacherId, audienceId, groupId){
         const include = {include: [GroupEntity, TimeEntity, DayOfWeekEntity, TypeOfPairEntity]}
-        let response = await PairEntity.findAll({
-            ...include
-        })
-        
-        if(teacherId){
-            response = response.filter((t)=>t.teacherId === teacherId)
+        let response = null
+
+        if(!teacherId && !audienceId && !groupId){
+            response = await PairEntity.findAll({
+                ...include
+            })
+        }
+        else if(!teacherId && !audienceId && groupId){
+            response = await PairEntity.findAll({where: {groupId},
+                ...include
+            })
+        }
+        else if(!teacherId && audienceId && !groupId){
+            response = await PairEntity.findAll({where: {audienceId},
+                ...include
+            })
+        }
+        else if(teacherId && !audienceId && !groupId){
+            response = await PairEntity.findAll({where: {teacherId},
+                ...include
+            })
+        }
+        else if(!teacherId && audienceId && groupId){
+            response = await PairEntity.findAll({where: {audienceId, groupId},
+                ...include
+            })
+        }
+        else if(teacherId && audienceId && !groupId){
+            response = await PairEntity.findAll({where: {audienceId, teacherId},
+                ...include
+            })
+        }
+        else if(teacherId && !audienceId && groupId){
+            response = await PairEntity.findAll({where: {groupId, teacherId},
+                ...include
+            })
+        }
+        else if(teacherId && audienceId && groupId){
+            response = await PairEntity.findAll({where: {groupId, teacherId, audienceId},
+                ...include
+            })
         }
 
-        if(audienceId){
-            response = response.filter((t)=>t.teacherId === audienceId)
-        }
-
-        if(groupId){
-            response = response.filter((t)=>t.teacherId === groupId)
-        }
         const result = []
         for (let i = 0; i < response.length; i++) {
             const teacher = await TeacherService.getById(response[i].teacherId)

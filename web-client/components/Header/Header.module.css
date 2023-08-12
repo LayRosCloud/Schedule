@@ -1,0 +1,34 @@
+.main__container{
+    max-width: var(--max-width);
+    margin: 0 auto;
+    justify-content: space-between;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 5px 0;
+}
+
+.logo__container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.clicked{
+    cursor: pointer;
+}
+
+.img{
+    border-radius: 10px;
+    margin-right: 15px;
+    box-shadow: 1px 1px 4px var(--foreground-color);
+    transition: 0.15s;
+}
+
+.img:hover{
+    opacity: 0.8;
+}
+
+.logo__title{
+    color: var(--accent-color);
+}

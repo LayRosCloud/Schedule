@@ -1,0 +1,17 @@
+.upper__container{
+    margin-top: 15px;
+    background: var(--two-accent-color);
+    border-radius: 15px;
+    padding: 10px;
+}
+.title__container{
+    padding: 5px;
+    border-bottom: 2px solid var(--accent-color);
+}
+
+.title{
+    font-weight: bold;
+}
+.title span{
+    opacity: 0.8;
+}
