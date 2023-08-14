@@ -3,7 +3,7 @@ const ApiException = require('../exceptions/ApiException')
 const TeacherSubjectService = require('./teacher-subject-service')
 const AudienceService = require('./audience-service')
 const PairDto = require('../core/dto/PairDto')
-
+const { Op } = require("sequelize");
 function getDateWithoutTime(dateTime) {
     return new Date(dateTime.getFullYear(), dateTime.getMonth(), dateTime.getDate());
 }
@@ -11,11 +11,7 @@ function getDateWithoutTime(dateTime) {
 class PairService {
     async getAll(teacherSubjectId, audienceId, groupId, isCurrentDate){
 		
-		let pairs = await this.#getFromDatabase(teacherSubjectId, audienceId, groupId)
-
-        if(isCurrentDate){
-            pairs = this.#filterOnCurrentDate(pairs)
-        }
+		let pairs = await this.#getFromDatabase(teacherSubjectId, audienceId, groupId, isCurrentDate)
 
         pairs = await Promise.all(pairs.map(async (pair) => {
 			const teacherSubject = await TeacherSubjectService.getById(pair.teacherSubjectId);
@@ -24,38 +20,29 @@ class PairService {
 		}));
         return pairs;
     }
-    async #getFromDatabase(teacherSubjectId, audienceId, groupId){
+	
+    async #getFromDatabase(teacherSubjectId, audienceId, groupId, isCurrentDate){
         const include = {include: [GroupEntity, TimeEntity, DayOfWeekEntity, TypeOfPairEntity]}
         const where = {}
 
         if(teacherSubjectId) where.teacherSubjectId = teacherSubjectId;
         if(audienceId) where.audienceId = audienceId;
         if(groupId) where.groupId = groupId;
-
-        return await PairEntity.findAll({...include, where})
-    }
-
-    #filterOnCurrentDate(pairs){
-        const filteredList = []
-        const currentDate = getDateWithoutTime(new Date());
-        const currentDateWithWeek = getDateWithoutTime(currentDate)
-
-        currentDateWithWeek.setDate(currentDateWithWeek.getDate() + 7);
-
-        pairs.map(pair => {
-            const dateStart = getDateWithoutTime(pair.dateStart)
-            const dateEnd = new Date(dateStart);
-
-            const numberOfDays = pair.numberOfWeeks * 7
-
-            dateEnd.setDate(dateEnd.getDate() + numberOfDays)
-
-            if(currentDate >= dateStart && currentDate < dateEnd || currentDateWithWeek >= dateStart && currentDateWithWeek < dateEnd){
-                filteredList.push(pair)
+        if(isCurrentDate) {
+            const currentDate = getDateWithoutTime(new Date());
+            const nextWeekDate = getDateWithoutTime(new Date(currentDate));
+            nextWeekDate.setDate(nextWeekDate.getDate() + 7)
+            where.dateStart = {
+                [Op.lt]: nextWeekDate
             }
-        })
-        return filteredList
+            where.dateEnd = {
+                [Op.gte]:currentDate
+            }
+        }
+
+        return await PairEntity.findAll({where})
     }
+
     async getById(id){
         const response = await PairEntity.findOne({where: {id}, include: [GroupEntity, TimeEntity, DayOfWeekEntity, TypeOfPairEntity]})
         if(!response){

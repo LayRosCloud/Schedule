@@ -3,22 +3,6 @@ import classes from './ScheduleItem.module.css'
 import Link from "next/link";
 const ScheduleItem = ({item}) => {
 
-    const [endDate, setEndDate] = useState('')
-
-    useEffect(()=>{
-        const endDate = new Date(item.dateStart)
-        endDate.setDate(endDate.getDate() + (item.numberOfWeeks - 1) * 7);
-
-        const options = {
-            year: 'numeric',
-            month: 'numeric',
-            day: 'numeric',
-            timezone: 'UTC'
-        };
-        setEndDate(`${endDate.toLocaleString("ru", options)}`)
-        },
-        [])
-
     return (
         <td>
             <div className={classes.tile} style={{background: item.typeOfPair.color}}>
@@ -38,7 +22,7 @@ const ScheduleItem = ({item}) => {
                         ${item.teacherSubject.Teacher.Patronymic[0]}.`}
                         </p>
                     </Link>
-                <p>{endDate}</p>
+                <p>{item.dateStart} {item.dateEnd}</p>
             </div>
         </td>
 

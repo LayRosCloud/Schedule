@@ -23,8 +23,8 @@ export async function getServerSideProps(context) {
         let [pairs, fullTimes, days, typeOfPairs] = await Promise.all([
             getPairs(),
             getFullTimes(),
-            getTypeOfPairs(),
-            getDays()
+            getDays(),
+            getTypeOfPairs()
         ])
         const res = []
 
