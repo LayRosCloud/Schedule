@@ -22,7 +22,7 @@ const Index = ({colleges}) => {
     return (
             <MainContainer>
                 <ListContainer title='Институты' count={colleges.length}>
-                    <div className={selectedCollege ? 'flex__row' : ''}>
+                    <div className={selectedCollege ? 'container__list' : ''}>
 
                         <CollegeList colleges={colleges}
                                      setActiveButton={(id) => setActiveCollege(id)}/>

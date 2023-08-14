@@ -2,11 +2,15 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    border-radius: 20px;
+    height: 100%;
     justify-content: center;
 }
-.rectangle{
-    background: black;
-    opacity: 0.05;
-    width: 100%;
-    height: 10px;
+
+.tile h3{
+    font-size: 33px;
+    font-weight: bold;
+}
+.tile p{
+    font-size: 15px;
 }

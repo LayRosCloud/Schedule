@@ -1,43 +1,54 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import classes from './Schedule.module.css'
 import PairGroupedDto from "../../api/PairGroupedDto";
-import ScheduleItem from "./Tile/ScheduleItem";
-import Line from "./Line";
-const Schedule = ({pairs, times, days}) => {
+import Line from "./Line/Line";
+import ScheduleTimes from "../Lists/ScheduleTimes/ScheduleTimes";
+import TypeColor from "../Lists/TypeColor/TypeColor";
+import Link from "next/link";
+const Schedule = ({pairs, times, days, fullTimes, typeOfPairs}) => {
     const [groupedPairs, setGroupedPairs] = useState([])
 
     useEffect(()=>{
-        const data = []
+        const dayMap = new Map()
 
-        for (let i = 0; i < days.length; i++) {
-            data.push(new PairGroupedDto(days[i]))
+        for (const day of days) {
+            dayMap.set(day.id, new PairGroupedDto(day))
         }
-        for (let i = 0; i < pairs.length; i++) {
-            for (let j = 0; j < days.length; j++) {
-                if(days[j].id === pairs[i].dayOfWeek.id){
-                    data[j].pairs.push(pairs[i])
-                }
+
+        for (const pair of pairs) {
+            const dayId = pair.dayOfWeek.id
+            if(dayMap.has(dayId)){
+                dayMap.get(dayId).pairs.push(pair)
             }
         }
-
-        setGroupedPairs(data)
+        setGroupedPairs([...dayMap.values()])
     },[])
 
 
     return (
-        <table className={classes.resp__tab}>
-            <thead>
-            <tr>
-                <th></th>
-                {times.map(time => <th key={time.id}>{time.name}</th>)}
-            </tr>
-            </thead>
+        <>
+            <table className={classes.resp__tab}>
+                <thead>
+                    <tr>
+                        <th className={classes.head}></th>
+                        {times.map(time => <th className={classes.head} key={time.id}>{time.name}</th>)}
+                    </tr>
+                </thead>
 
-            <tbody>
-            {groupedPairs.map(groupedPair => <Line item={groupedPair} times={times}/>)}
+                <tbody>
+                {groupedPairs.map((groupedPair, index) =>
+                    <Line key={groupedPair.dayOfWeek.id} item={groupedPair} times={times} index={index}/>)}
+                </tbody>
+            </table>
+            <div className={classes.footer}>
+                <ScheduleTimes fullTimes={fullTimes}/>
+                <Link href='/' className='link'>
+                    <h3>Так же доступна мобильная версия!</h3>
+                </Link>
+                <TypeColor typeOfPairs={typeOfPairs}/>
+            </div>
+        </>
 
-            </tbody>
-        </table>
     );
 };
 

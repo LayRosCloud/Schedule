@@ -1,4 +1,3 @@
-import React from 'react';
 import CourseList from "../../CourseList/CourseList";
 
 const FacultyItem = ({item, setActive, activeList}) => {

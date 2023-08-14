@@ -1,7 +1,7 @@
-import React from 'react';
 import classes from './Header.module.css'
 import Image from "next/image";
 import Search from "../Search/Search";
+import Link from "next/link";
 
 const Header = () => {
     return (
@@ -11,7 +11,9 @@ const Header = () => {
                     <a href='http://khsu.ru/'>
                         <Image className={`${classes.clicked} ${classes.img}`} src='/logo.svg' alt='Логотип ХГУ' width={60} height={60}/>
                     </a>
-                    <h1 className={`${classes.logo__title} ${classes.clicked}`}>расписание</h1>
+                    <Link href='/' className='link'>
+                        <h1 className={`${classes.logo__title} ${classes.clicked}`}>расписание</h1>
+                    </Link>
                 </div>
                 <Search/>
             </div>

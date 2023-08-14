@@ -1,4 +1,3 @@
-import React from 'react';
 import classes from './CollegeItem.module.css'
 const CollegeItem = ({item, clickActive, isActive}) => {
 

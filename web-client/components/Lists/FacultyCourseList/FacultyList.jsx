@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import FacultyItem from "./Item/FacultyItem";
 
 const FacultyList = ({faculties, setActive}) => {

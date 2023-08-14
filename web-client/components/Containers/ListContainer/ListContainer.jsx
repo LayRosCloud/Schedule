@@ -1,4 +1,3 @@
-import React from 'react';
 import classes from './ListContainer.module.css'
 
 const ListContainer = ({title, count, children}) => {

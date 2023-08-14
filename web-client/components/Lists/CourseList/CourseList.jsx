@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import CourseItem from "./Item/CourseItem";
 import classes from './CourseList.module.css'
 

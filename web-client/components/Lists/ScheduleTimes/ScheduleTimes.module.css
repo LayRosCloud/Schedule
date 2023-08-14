@@ -1,0 +1,9 @@
+.container{
+    margin-top: 5px;
+    background: var(--two-accent-color);
+    padding: 5px;
+    border-radius: 10px;
+}
+.time{
+    text-align: justify;
+}

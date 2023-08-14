@@ -2,9 +2,9 @@ const service = require('../services/pair-service')
 
 class PairController{
     async getAll(req, res){
-        const {teacherSubjectId, audienceId, groupId} = req.query;
+        const {teacherSubjectId, audienceId, groupId, isCurrentDate} = req.query;
 
-        return res.json(await service.getAll(teacherSubjectId, audienceId, groupId))
+        return res.json(await service.getAll(teacherSubjectId, audienceId, groupId, isCurrentDate))
     }
 
     async get(req, res, next){

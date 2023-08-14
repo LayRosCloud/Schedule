@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import FinderInput from "../UI/Input/FinderInput";
 
 const Search = () => {

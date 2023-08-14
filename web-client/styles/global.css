@@ -19,16 +19,16 @@
 body{
     background: var(--main-color);
 }
-h1,h2,h3,h4,h5,h6,p,div,button, input{
+h1,h2,h3,h4,h5,h6,p,div,button, input, th, tr{
     font-family: 'Montserrat', sans-serif;
     color: var(--foreground-color)
 }
 
 header{
+    width: 100%;
     background: var(--two-accent-color);
     box-shadow: 1px 1px 5px var(--foreground-color);
 }
-
 
 main{
     max-width: var(--max-width);
@@ -39,7 +39,7 @@ main{
     vertical-align: middle;
 }
 
-.flex__row{
+.container__list{
     display: flex;
     flex-direction: row;
 }
@@ -49,4 +49,74 @@ main{
     flex-direction: column;
     max-width: calc(100%/3);
     margin-right: 15px;
+}
+
+.one{
+   background: #FFBABA;
+}
+
+.two{
+    background: #FFAC89;
+}
+
+.three{
+    background: #FFD789;
+}
+
+.four{
+    background: #B6FF89;
+}
+
+.five{
+    background: #AFC6FF;
+}
+
+.six{
+    background: #D196FF;
+}
+
+.title, .under__tile{
+    text-align: center;
+    color: var(--accent-color);
+}
+
+.title{
+    margin-top: 15px;
+}
+
+.under__tile{
+    opacity: 0.8;
+}
+.link{
+    text-decoration: none;
+    transition: 0.15s;
+}
+.link:hover{
+    opacity: 0.8;
+}
+@media (max-width: 1200px) {
+    :root{
+        --max-width: 900px;
+    }
+}
+@media (max-width: 900px) {
+    .list{
+        max-width: 100%;
+    }
+    .container__list{
+        flex-direction: column;
+    }
+    :root{
+        --max-width: 800px;
+    }
+}
+@media (max-width: 800px) {
+    :root{
+        --max-width: 768px;
+    }
+}
+@media (max-width: 768px) {
+    :root{
+        --max-width: 600px;
+    }
 }

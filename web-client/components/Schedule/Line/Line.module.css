@@ -1,0 +1,28 @@
+.day{
+    transform: rotate(180deg);
+    writing-mode: vertical-rl;
+    text-align: center;
+    align-items: center;
+    width: 15px;
+}
+
+.day p{
+    font-size: 20px;
+}
+
+@media(max-width: 768px) {
+    .day{
+        display: flex;
+        flex-direction: column;
+        transform: rotate(0deg);
+        writing-mode: inherit;
+        text-align: center;
+        border-radius: 20px;
+        height: 15px;
+    }
+    .day p{
+        align-items: center;
+        font-size: 40px;
+        margin-top: 70px;
+    }
+}

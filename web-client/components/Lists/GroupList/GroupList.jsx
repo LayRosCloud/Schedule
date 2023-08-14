@@ -1,4 +1,3 @@
-import React from 'react';
 import GroupItem from "./Item/GroupItem";
 import classes from './GroupList.module.css'
 

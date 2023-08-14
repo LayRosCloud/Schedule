@@ -1,0 +1,13 @@
+.rectangle{
+    width: 15px;
+    height: 15px;
+    margin-right: 5px;
+    border-radius: 50%;
+    box-shadow: 0 0 3px var(--foreground-color);
+}
+.container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 5px;
+}
