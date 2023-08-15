@@ -3,7 +3,6 @@ import {domain} from "./index";
 
 class GroupController{
     async getAll(){
-
         const url = domain+'/api/v1/groups'
         return await $api.get(url);
     }

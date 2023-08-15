@@ -9,6 +9,7 @@ const collegeRouter = require('./college-router')
 const facultyRouter = require('./faculty-router')
 const courseRouter = require('./course-router')
 const groupRouter = require('./group-router')
+const redisRouter = require('./redis-router')
 
 router.use('/', hateoasRouter)
 router.use(`${process.env.URL_VERSION}${process.env.URL_TYPE_OF_PAIRS}`, typeOfPairRouter)
@@ -19,5 +20,6 @@ router.use(`${process.env.URL_VERSION}${process.env.URL_COURSES}`, courseRouter)
 router.use(`${process.env.URL_VERSION}${process.env.URL_FACULTYS}`, facultyRouter)
 router.use(`${process.env.URL_VERSION}${process.env.URL_COLLEGES}`, collegeRouter)
 router.use(`${process.env.URL_VERSION}${process.env.URL_DAYOFWEEKS}`, dayOfWeekRouter)
+router.use(`${process.env.URL_VERSION}cache`, redisRouter)
 
 module.exports = router

@@ -1,9 +1,17 @@
 const client = require('../core/database/redis')
 const cluster = 'teacherSubject'
 class TeacherSubjectService {
-    async getById(id){
-        return JSON.parse(await client.get(`${cluster}-${id}`));
+    async getAll(){
+        let response = await client.hVals(cluster)
+        response = response.map(res =>  JSON.parse(res))
+        return response
     }
+
+    async getById(id){
+        const response = await client.hGet(cluster, id);
+        return JSON.parse(response);
+    }
+
     async updateArray(teacherSubjects){
         try{
             teacherSubjects = JSON.parse(teacherSubjects)
@@ -11,7 +19,7 @@ class TeacherSubjectService {
             console.log(e.message)
         }finally {
             for (const teacherSubject of teacherSubjects){
-                await client.set(`${cluster}-${teacherSubject.id}`, JSON.stringify(teacherSubject))
+                await client.hSet(cluster, teacherSubject.id, JSON.stringify(teacherSubject))
             }
         }
     }
@@ -20,9 +28,8 @@ class TeacherSubjectService {
             teacherSubject = JSON.parse(teacherSubject)
         }catch (e){
             console.log(e.message)
-        }finally {//
-
-            await client.set(`${cluster}-${teacherSubject.id}`, JSON.stringify(teacherSubject))
+        }finally {
+            await client.hSet(cluster, teacherSubject.id, JSON.stringify(teacherSubject))
         }
     }
 

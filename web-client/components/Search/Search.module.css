@@ -1,0 +1,8 @@
+.list{
+    margin-top: 15px;
+    border-radius: 15px;
+    position: absolute;
+    background: var(--two-accent-color);
+    padding: 5px 15px;
+    box-shadow: 0 0 5px var(--foreground-color);
+}

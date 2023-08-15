@@ -2,8 +2,15 @@ const client = require('../core/database/redis')
 const cluster = 'audience'
 
 class AudienceService {
+    async getAll(){
+        let response = await client.hVals(cluster)
+        response = response.map(res =>  JSON.parse(res))
+        return response
+    }
+
     async getById(id){
-        return JSON.parse(await client.get(`${cluster}-${id}`));
+        const response = await client.hGet(cluster, id);
+        return JSON.parse(response);
     }
 
     async createOrUpdate(audience){
@@ -12,7 +19,7 @@ class AudienceService {
         }catch (e){
             console.log(e.message)
         }finally {
-            await client.set(`${cluster}-${audience.id}`, JSON.stringify(audience))
+            await client.hSet(cluster, audience.id, JSON.stringify(audience))
         }
     }
 

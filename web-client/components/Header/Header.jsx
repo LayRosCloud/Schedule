@@ -2,11 +2,13 @@ import classes from './Header.module.css'
 import Image from "next/image";
 import Search from "../Search/Search";
 import Link from "next/link";
+import classesMainContainer from '../Containers/MainContainer.module.css'
 
-const Header = () => {
+const Header = ({search}) => {
+
     return (
         <header>
-            <div className={classes.main__container}>
+            <div className={`${classes.main__container} ${classesMainContainer.main__container}`}>
                 <div className={classes.logo__container}>
                     <a href='http://khsu.ru/'>
                         <Image className={`${classes.clicked} ${classes.img}`} src='/logo.svg' alt='Логотип ХГУ' width={60} height={60}/>
@@ -15,7 +17,7 @@ const Header = () => {
                         <h1 className={`${classes.logo__title} ${classes.clicked}`}>расписание</h1>
                     </Link>
                 </div>
-                <Search/>
+                <Search array={search}/>
             </div>
         </header>
     );

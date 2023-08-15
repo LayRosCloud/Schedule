@@ -1,6 +1,5 @@
 import {useState} from 'react';
 import CourseItem from "./Item/CourseItem";
-import classes from './CourseList.module.css'
 
 const CourseList = ({courses, setActive, activeList}) => {
     const [activeId, setActiveId] = useState(0)
@@ -11,7 +10,7 @@ const CourseList = ({courses, setActive, activeList}) => {
     }
 
     return (
-        <div className={classes.container}>
+        <div className='container__list'>
             {courses.map(course =>
                 <CourseItem key={course.id}
                            item={course}

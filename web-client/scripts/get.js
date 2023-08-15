@@ -4,12 +4,17 @@ import timeController from "../api/time-controller";
 import dayOfWeekController from "../api/dayOfWeek-controller";
 import courseController from "../api/course-controller";
 import collegeController from "../api/college-controller";
+import cacheController from "../api/cache-controller";
+import groupController from "../api/group-controller";
+import DataSearchDto from "../api/DataSearchDto";
 const cache = new Map();
 
 const cachedKeys = {
     days: 'days',
     fullTime: 'fullTimes',
-    typeOfPair: 'typeOfPairs'
+    typeOfPair: 'typeOfPairs',
+    college: 'college',
+    dataSearch: 'groups',
 }
 
 export async function getPairs(groupId, teacherId, audienceId){
@@ -22,6 +27,7 @@ export async function getTypeOfPairs(){
 
     if(cache.get(cachedKeys.typeOfPair)){
         typeOfPairs = cache.get(cachedKeys.typeOfPair);
+        console.log(cachedKeys.typeOfPair)
     }else{
         typeOfPairs = (await typeOfPairController.getAll()).data
         cache.set(cachedKeys.typeOfPair, typeOfPairs)
@@ -30,11 +36,26 @@ export async function getTypeOfPairs(){
     return typeOfPairs
 }
 
+export async function getColleges(){
+    let colleges = []
+
+    if(cache.get(cachedKeys.college)){
+        colleges = cache.get(cachedKeys.college)
+        console.log(cachedKeys.college)
+    }else {
+        const response = await collegeController.getAll();
+        colleges = response.data
+        cache.set(cachedKeys.college, colleges)
+    }
+    return colleges
+}
+
 export async function getFullTimes(){
     let fullTimes = []
 
     if(cache.get(cachedKeys.fullTime)){
         fullTimes = cache.get(cachedKeys.fullTime);
+        console.log(cachedKeys.fullTime)
     }else{
         const responseTime = await timeController.getAll()
         fullTimes = responseTime.data;
@@ -47,6 +68,7 @@ export async function getDays(){
     let days = []
     if(cache.get(cachedKeys.days)){
         days = cache.get(cachedKeys.days);
+        console.log(cachedKeys.days)
     }else{
         const responseTime = await dayOfWeekController.getAll()
         days = responseTime.data;
@@ -83,4 +105,20 @@ export async function getCollege(group){
     const responseCourse = await courseController.get(group.courseId)
     const responseCollege = await collegeController.get(responseCourse.data.faculty.collegeId);
     return responseCollege.data
+}
+
+export async function getDataSearch(){
+    let result
+
+    if(cache.get(cachedKeys.dataSearch)){
+        result = cache.get(cachedKeys.dataSearch)
+    }else{
+        const audiences = (await cacheController.getAllAudiences()).data
+        const teachers = (await cacheController.getAllTeachers()).data
+        const groups = (await groupController.getAll()).data
+        result = new DataSearchDto(audiences, groups, teachers);
+        cache.set(cachedKeys.dataSearch, result)
+    }
+
+    return {audiences: result.audiences, groups: result.groups, teachers: result.teachers}
 }

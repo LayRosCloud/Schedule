@@ -32,6 +32,7 @@ header{
 
 main{
     max-width: var(--max-width);
+    margin: 0 auto;
 }
 
 .notFound{
@@ -49,6 +50,16 @@ main{
     flex-direction: column;
     max-width: calc(100%/3);
     margin-right: 15px;
+}
+
+.list__item{
+    padding: 5px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: .1s;
+}
+.list__item:hover{
+    background: var(--two-color);
 }
 
 .one{

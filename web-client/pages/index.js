@@ -1,12 +1,12 @@
 import MainContainer from "../components/Containers/MainContainer";
 import ListContainer from "../components/Containers/ListContainer/ListContainer";
-import collegeController from '../api/college-controller'
 import CollegeList from "../components/Lists/CollegeList/CollegeList";
 import FacultyList from "../components/Lists/FacultyCourseList/FacultyList";
 import {useState} from "react";
 import GroupList from "../components/Lists/GroupList/GroupList";
+import {getColleges, getDataSearch} from "../scripts/get";
 
-const Index = ({colleges}) => {
+const Index = ({colleges, dataSearch}) => {
     const [selectedCollege, setSelectedCollege] = useState(null)
     const [selectedCourse, setSelectedCourse] = useState(null)
 
@@ -20,7 +20,7 @@ const Index = ({colleges}) => {
     }
 
     return (
-            <MainContainer>
+            <MainContainer search={dataSearch}>
                 <ListContainer title='Институты' count={colleges.length}>
                     <div className={selectedCollege ? 'container__list' : ''}>
 
@@ -44,12 +44,13 @@ const Index = ({colleges}) => {
 export default Index;
 
 export async function getStaticProps(context) {
-    const response = await collegeController.getAll()
-    const colleges = response.data
+    const dataSearch = await getDataSearch()
+    const colleges = await getColleges()
 
     return {
         props: {
             colleges,
+            dataSearch
         },
     }
 }

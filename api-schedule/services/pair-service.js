@@ -17,9 +17,14 @@ class PairService {
 		let pairs = await this.#getFromDatabase(teacherSubjectId, audienceId, groupId, isCurrentDate)
 
         pairs = await Promise.all(pairs.map(async (pair) => {
-			const teacherSubject = await TeacherSubjectService.getById(pair.teacherSubjectId);
-			const audience = await AudienceService.getById(pair.audienceId);
-			return new PairDto(pair, teacherSubject, audience);
+            try{
+                const teacherSubject = await TeacherSubjectService.getById(String(pair.teacherSubjectId));
+                const audience = await AudienceService.getById(String(pair.audienceId));
+                return new PairDto(pair, teacherSubject, audience);
+            }catch (e){
+                console.log(e.message)
+            }
+
 		}));
         return pairs;
     }

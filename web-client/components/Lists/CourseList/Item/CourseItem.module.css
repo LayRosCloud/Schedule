@@ -3,6 +3,7 @@
     background: var(--main-color);
     margin-right: 5px;
     cursor: pointer;
+    border-radius: 10px;
     transition: 0.15s;
 }
 .item.active{
