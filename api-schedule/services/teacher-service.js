@@ -9,6 +9,9 @@ class TeacherService {
         try{
             teacher = JSON.parse(teacher)
         }catch (e){
+            console.log(e.message)
+        }
+        finally {
             await client.set(`${cluster}-${teacher.id}`, JSON.stringify(teacher))
         }
     }

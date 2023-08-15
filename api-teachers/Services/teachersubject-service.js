@@ -1,9 +1,20 @@
 const {TeacherEntity, SubjectEntity, TeacherSubjectEntity, StudyEntity} = require('../core/models')
 const ApiError = require('../error/api-error')
-
+const include = [SubjectEntity, {model: TeacherEntity, include: [StudyEntity]}]
+const attributes = ['id']
 class TeacherSubjectService {
     async getAll(){
-        return await TeacherSubjectEntity.findAll({include: [SubjectEntity, {model: TeacherEntity, include: [StudyEntity]}]})
+        return await TeacherSubjectEntity.findAll({attributes, include})
+    }
+
+    async getByTeacherId(TeacherId){
+        const response = await TeacherSubjectEntity.findAll({
+            attributes,
+            include,
+        where:{
+            TeacherId
+        }})
+        return response
     }
 
     async create(TeacherId, SubjectId){
@@ -16,8 +27,9 @@ class TeacherSubjectService {
 
     async getById(id){
         const teacherSubject = await TeacherSubjectEntity.findOne({
+            attributes,
             where: {id},
-            include:[TeacherEntity, SubjectEntity]
+            include
         })
 
         if (!teacherSubject){

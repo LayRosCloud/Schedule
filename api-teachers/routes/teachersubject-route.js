@@ -1,6 +1,6 @@
 const Router = require('express');
 const router = new Router();
-const controller = require('../controllers/teachersubject-controller')
+const {controller} = require('../controllers/teachersubject-controller')
 
 router.get('/', controller.getAll)
 router.get('/connect', controller.connect)

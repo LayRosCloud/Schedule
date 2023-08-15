@@ -2,6 +2,7 @@ const TeacherService = require('../Services/teacher-service')
 const SaveImage = require('../Scripts/SaveImage')
 const events = require("events");
 const emitter = new events.EventEmitter
+const {getEmitter} = require('./teachersubject-controller')
 
 class TeacherController {
     async getAll(request, res){
@@ -11,6 +12,7 @@ class TeacherController {
     }
 
     async connect(request, res){
+        console.log('connect teacher')
         res.writeHead(200, {
             'Connection': 'keep-alive',
             'Content-Type': 'text/event-stream',
@@ -39,7 +41,6 @@ class TeacherController {
             let pathName
             if (request.files){
                 const {Image} = request.files
-
 
                 if (Image){
                     pathName = await SaveImage(Image, 'avatars')
@@ -80,6 +81,8 @@ class TeacherController {
 
             const response = await TeacherService.update(id, Name, LastName, Patronymic, Phone, StudyId, path)
             emitter.emit('newMessage',response)
+            console.log(getEmitter())
+            getEmitter().emit('newMessage', response)
             return res.json(response)
         }
         catch(e){
@@ -87,5 +90,5 @@ class TeacherController {
         }
     }
 }
-//todo
+
 module.exports = new TeacherController()

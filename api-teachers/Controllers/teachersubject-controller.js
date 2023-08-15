@@ -1,6 +1,6 @@
 const TeacherSubjectService = require('../Services/teachersubject-service')
 const events = require("events");
-const emitter = new events.EventEmitter
+const emitterSubject = new events.EventEmitter
 
 class TeacherSubjectController {
     async getAll(request, res){
@@ -9,14 +9,19 @@ class TeacherSubjectController {
     }
 
     async connect(request, res){
+        console.log('connect teacherSubject')
         res.writeHead(200, {
             'Connection': 'keep-alive',
             'Content-Type': 'text/event-stream',
             'Cache-Control': 'no-cache'
         })
-        emitter.on('newMessage', (message) => {
-            res.write(`data: ${JSON.stringify(message)} \n\n`)
+
+        emitterSubject.on('newMessage', async (message) => {
+            const teachersSubjects = await TeacherSubjectService.getByTeacherId(message.id)
+            res.write(`data: ${JSON.stringify(teachersSubjects)} \n\n`)
         })
+
+
     }
 
     async get(request, res, next){
@@ -47,7 +52,7 @@ class TeacherSubjectController {
         const {TeacherId, SubjectId} = request.body
         try{
             const response = await TeacherSubjectService.create(TeacherId, SubjectId)
-            emitter.emit('newMessage',response)
+            emitterSubject.emit('newMessage',response)
             return res.json(response)
         }
         catch(e){
@@ -61,7 +66,7 @@ class TeacherSubjectController {
 
         try{
             const response = await TeacherSubjectService.update(id, TeacherId, SubjectId)
-            emitter.emit('newMessage',response)
+            emitterSubject.emit('newMessage', response)
             return res.json(response)
         }
         catch(e){
@@ -70,4 +75,8 @@ class TeacherSubjectController {
     }
 }
 
-module.exports = new TeacherSubjectController()
+function getEmitter(){
+    return emitterSubject;
+}
+
+module.exports = {controller: new TeacherSubjectController(), getEmitter}

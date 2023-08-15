@@ -9,9 +9,9 @@ const EventRoute = require('./event-route')
 
 router.use('/', HateoasRoute)
 router.use('/events', EventRoute)
+router.use(`${process.env.URL_VERSION}${process.env.URL_TEACHER_SUBJECTS}`, TeacherSubjectRoute)
 router.use(`${process.env.URL_VERSION}${process.env.URL_TEACHERS}`, TeacherRoute)
 router.use(`${process.env.URL_VERSION}${process.env.URL_STUDIES}`, StudyRoute)
 router.use(`${process.env.URL_VERSION}${process.env.URL_SUBJECTS}`, SubjectRoute)
-router.use(`${process.env.URL_VERSION}${process.env.URL_TEACHER_SUBJECTS}`, TeacherSubjectRoute)
 
 module.exports = router

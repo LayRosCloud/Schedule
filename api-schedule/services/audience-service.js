@@ -10,6 +10,8 @@ class AudienceService {
         try{
             audience = JSON.parse(audience)
         }catch (e){
+            console.log(e.message)
+        }finally {
             await client.set(`${cluster}-${audience.id}`, JSON.stringify(audience))
         }
     }

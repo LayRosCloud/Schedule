@@ -27,10 +27,15 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/group/[id]": [
+    "/audience/[id]": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/group/[id].js"
+      "static/chunks/pages/audience/[id].js"
+    ],
+    "/teacher/[id]": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/teacher/[id].js"
     ]
   },
   "ampFirstPages": []

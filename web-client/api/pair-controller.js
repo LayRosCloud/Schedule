@@ -6,7 +6,7 @@ class PairController{
 
         const url = domain+'/api/v1/pairs'
         if(!groupId && !teacherSubjectId && !audienceId){
-            return await $api.get(url)
+            return await $api.get(url, {params: {isCurrentDate: 1}})
         }
         return await $api.get(url,
             {

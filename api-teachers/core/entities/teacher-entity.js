@@ -9,5 +9,5 @@ const TeacherEntity = sequelize.define('Teacher', {
     Phone: {type: DataTypes.STRING, allowNull: true},
     DateFired: {type: DataTypes.DATE, allowNull: true},
     Image: {type: DataTypes.STRING, allowNull: true}
-});
+}, {timestamps: false});
 module.exports = TeacherEntity;

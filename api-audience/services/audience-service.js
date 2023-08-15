@@ -1,13 +1,16 @@
-const {AudienceEntity,CorpusEntity, AudienceLockedEntity} = require('../core/models');
+const {AudienceEntity,CorpusEntity} = require('../core/models');
 const APIerror = require('../error/api-error')
+
+const include = [CorpusEntity]
+const attributes = ['id', 'name']
 class AudienceService{
     async getAll(){
-        const response = await AudienceEntity.findAll({include: [AudienceLockedEntity, CorpusEntity]})
+        const response = await AudienceEntity.findAll({attributes, include})
         return response;
     }
 
     async get(id){
-        const response = await AudienceEntity.findOne({where: {id}, include:[CorpusEntity, AudienceLockedEntity]});
+        const response = await AudienceEntity.findOne({attributes, where: {id}, include});
 
         if (!response){
             throw APIerror.badRequest("Ошибка! Объект не найден");

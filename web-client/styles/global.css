@@ -83,7 +83,11 @@ main{
 .title{
     margin-top: 15px;
 }
-
+.img__page{
+    margin-top: 15px;
+    justify-content: center;
+    border-radius: 20px;
+}
 .under__tile{
     opacity: 0.8;
 }

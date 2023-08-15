@@ -2,7 +2,8 @@ import axios from 'axios'
 import hashtable from './links'
 
 export const domain = 'http://localhost:5000'
-
+export const domainTeacher = 'http://localhost:5002'
+export const domainAudience = 'http://localhost:5001'
 const $api = axios.create({
     withCredentials: true,
 })

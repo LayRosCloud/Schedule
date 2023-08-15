@@ -1,33 +1,22 @@
 const {CollegeEntity, FacultyEntity, CourseEntity, GroupEntity} = require('../core/models')
 const ApiException = require('../exceptions/ApiException')
 
+const include = [
+    {model: FacultyEntity,
+        include: [{
+            model: CourseEntity,
+            include:[{
+                model: GroupEntity,
+            }]
+        }]
+    }]
 class CollegeService {
     async getAll(){
-        const response = await CollegeEntity.findAll({
-            include:[
-                {model: FacultyEntity,
-                include: [{
-                    model: CourseEntity,
-                    include:[{
-                        model: GroupEntity,
-                    }]
-                }]
-                }
-            ]
-        });
+        const response = await CollegeEntity.findAll({include});
         return response;
     }
     async getById(id){
-        const response = await CollegeEntity.findOne({where: {id},include:[
-                {model: FacultyEntity,
-                    include: [{
-                        model: CourseEntity,
-                        include:[{
-                            model: GroupEntity,
-                        }]
-                    }]
-                }
-            ]})
+        const response = await CollegeEntity.findOne({where: {id}, include})
         if(!response){
             throw ApiException.notFound('Ошибка! Объект не найден')
         }

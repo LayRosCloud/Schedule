@@ -3,7 +3,6 @@ module.exports = class PairDto{
         this.id = object.id
         this.dateStart = object.dateStart
         this.dateEnd = object.dateEnd
-        this.audienceId = object.audienceId
         this.audience = audience
         this.teacherSubject = teacherSubject
         this.dayOfWeek = object.dayOfWeek

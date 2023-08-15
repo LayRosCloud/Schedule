@@ -1,13 +1,14 @@
 const {GroupEntity, CourseEntity} = require('../core/models')
 const ApiException = require('../exceptions/ApiException')
-
+const attributes = ['id', 'name']
+const include = [CourseEntity]
 class GroupService {
     async getAll(){
-        const response = await GroupEntity.findAll({include: [CourseEntity]});
+        const response = await GroupEntity.findAll({attributes, include});
         return response;
     }
     async getById(id){
-        const response = await GroupEntity.findOne({where: {id}, include: [CourseEntity]})
+        const response = await GroupEntity.findOne({attributes, where: {id}, include})
         if(!response){
             throw ApiException.notFound('Ошибка! Объект не найден')
         }

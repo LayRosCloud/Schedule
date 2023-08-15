@@ -4,10 +4,13 @@ const TeacherSubjectService = require('./teacher-subject-service')
 const AudienceService = require('./audience-service')
 const PairDto = require('../core/dto/PairDto')
 const { Op } = require("sequelize");
+
 function getDateWithoutTime(dateTime) {
     return new Date(dateTime.getFullYear(), dateTime.getMonth(), dateTime.getDate());
 }
 
+const include = [GroupEntity, TimeEntity, DayOfWeekEntity, TypeOfPairEntity]
+const attributes = ['id','dateStart','dateEnd','teacherSubjectId', 'audienceId']
 class PairService {
     async getAll(teacherSubjectId, audienceId, groupId, isCurrentDate){
 		
@@ -22,7 +25,6 @@ class PairService {
     }
 	
     async #getFromDatabase(teacherSubjectId, audienceId, groupId, isCurrentDate){
-        const include = {include: [GroupEntity, TimeEntity, DayOfWeekEntity, TypeOfPairEntity]}
         const where = {}
 
         if(teacherSubjectId) where.teacherSubjectId = teacherSubjectId;
@@ -40,16 +42,21 @@ class PairService {
             }
         }
 
-        return await PairEntity.findAll({where})
+        return await PairEntity.findAll({
+            attributes,
+            where,
+            include
+        })
     }
 
     async getById(id){
-        const response = await PairEntity.findOne({where: {id}, include: [GroupEntity, TimeEntity, DayOfWeekEntity, TypeOfPairEntity]})
+        const response = await PairEntity.findOne({attributes, where: {id}, include})
         if(!response){
             throw ApiException.notFound('Ошибка! Объект не найден')
         }
-        response.teacher = {message: 'text'}
-        return response;
+        const teacherSubject = await TeacherSubjectService.getById(response.teacherSubjectId);
+        const audience = await AudienceService.getById(response.audienceId);
+        return new PairDto(response, teacherSubject, audience);
     }
 
     async create(dateStart, numberOfWeeks, audienceId, teacherSubjectId, groupId, timeId, dayOfWeekId, typeOfPairId){

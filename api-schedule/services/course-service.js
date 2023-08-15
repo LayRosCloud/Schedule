@@ -1,13 +1,16 @@
 const {CourseEntity, FacultyEntity} = require('../core/models')
 const ApiException = require('../exceptions/ApiException')
 
+const include = [FacultyEntity]
+const attributes = ['id', 'name']
+
 class CourseService {
     async getAll(){
-        const response = await CourseEntity.findAll({include: [FacultyEntity]});
+        const response = await CourseEntity.findAll({attributes, include});
         return response;
     }
     async getById(id){
-        const response = await CourseEntity.findOne({where: {id}, include: [FacultyEntity]})
+        const response = await CourseEntity.findOne({attributes, where: {id}, include})
         if(!response){
             throw ApiException.notFound('Ошибка! Объект не найден')
         }

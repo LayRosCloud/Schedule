@@ -2,13 +2,19 @@ import React from 'react';
 import Schedule from "../../components/Schedule/Schedule";
 import MainContainer from "../../components/Containers/MainContainer";
 import {getPairs, getTypeOfPairs, getFullTimes, getDays, getShortTimes} from '../../scripts/get'
+import Image from "next/image";
+import {domainTeacher} from "../../api";
 
 const Teacher = ({pairs, times ,days, fullTimes, typeOfPairs}) => {
+    const teacher = pairs[0]?.teacherSubject.Teacher;
+    const fullName = `${teacher.LastName} ${teacher.Name} ${teacher.Patronymic}`
+    const src = `${domainTeacher}/avatars/${teacher.Image}`
 
     return (
         <MainContainer>
-
-            <h1 className='title'>{`${pairs[0]?.teacherSubject.Teacher.LastName} ${pairs[0]?.teacherSubject.Teacher.Name} ${pairs[0]?.teacherSubject.Teacher.Patronymic}`}</h1>
+            <Image width={400} height={400} loader={()=>src} className='img__page'
+                   objectFit='contain' src={src} alt={`фотография преподавателя: ${fullName}.`}/>
+            <h1 className='title'>{`${fullName}`}</h1>
             {pairs.length
                 ?<Schedule pairs={pairs} times={times} days={days} fullTimes={fullTimes} typeOfPairs={typeOfPairs}/>
                 :<h1>Пар нет...</h1>}
