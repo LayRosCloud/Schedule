@@ -7,7 +7,6 @@ class GroupController{
         return await $api.get(url);
     }
     async get(id){
-
         const url = domain+`/api/v1/groups/${id}`
         return await $api.get(url);
     }

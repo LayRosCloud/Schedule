@@ -102,7 +102,8 @@ export function getShortTimes(pairs, fullTimes){
 }
 
 export async function getCollege(group){
-    const responseCourse = await courseController.get(group.courseId)
+    console.log(group)
+    const responseCourse = await courseController.get(group.course.id)
     const responseCollege = await collegeController.get(responseCourse.data.faculty.collegeId);
     return responseCollege.data
 }

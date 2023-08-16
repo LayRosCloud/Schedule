@@ -1,12 +1,32 @@
 import MainContainer from "../../components/Containers/MainContainer";
 import Schedule from "../../components/Schedule/Schedule";
-import {getDays, getFullTimes, getPairs, getTypeOfPairs} from "../../scripts/get";
+import {getDataSearch, getDays, getFullTimes, getPairs, getTypeOfPairs} from "../../scripts/get";
+import {useEffect} from "react";
+import {useRouter} from "next/router";
+import cacheController from "../../api/cache-controller";
+import {domainAudience} from '../../api/index'
+const Audience = ({pairs, times ,days, typeOfPairs, audience, dataSearch}) => {
+    const router = useRouter();
 
-const Audience = ({pairs, times ,days, typeOfPairs}) => {
+    useEffect(()=>{
+        if(!audience){
+            router.push('/')
+        }
+    },[])
+
     return (
-        <MainContainer>
-            <h1 className='title'>{`${pairs[0]?.audience.name} аудитория`}</h1>
-            <h3 className='under__tile'>{`корпус ${pairs[0]?.audience.corpu.name}`}</h3>
+        <MainContainer search={dataSearch}>
+            <p className='img__center'>
+            {audience.corpu.image
+                ? <img className='img__page' src={`${domainAudience}/corpuses/${audience.corpu.image}`} alt=''/>
+                : <img className='img__page' src='/undefined-home.png' alt='фото корпуса'/>}
+            </p>
+            <h1 className='title'>{`${audience.name} аудитория`}</h1>
+            <h3 className='under__tile'>{`корпус ${audience.corpu.name}`}</h3>
+            <div className='more__info'>
+                <h3>Дополнительная информация</h3>
+                <p><b>Адрес</b>: {audience.corpu.street.name}, {audience.corpu.numberOfHome}</p>
+            </div>
             <Schedule pairs={pairs} times={times} days={days} fullTimes={times} typeOfPairs={typeOfPairs}/>
         </MainContainer>
     );
@@ -14,22 +34,25 @@ const Audience = ({pairs, times ,days, typeOfPairs}) => {
 
 export default Audience;
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps({query}) {
 
     try{
-        const [pairs, times, typeOfPairs, days] = await Promise.all([
-            getPairs(undefined, undefined, context.query.id),
+        const [pairs, times, typeOfPairs, days,dataSearch] = await Promise.all([
+            getPairs(undefined, undefined, query.id),
             getFullTimes(),
             getTypeOfPairs(),
-            getDays()
+            getDays(),
+            getDataSearch()
         ])
-
+        const audience = (await cacheController.getByIdAudience(query.id)).data
         return {
             props:{
                 pairs,
                 times,
                 typeOfPairs,
-                days
+                days,
+                audience,
+                dataSearch
             }
         }
     } catch (e){
@@ -38,7 +61,9 @@ export async function getServerSideProps(context) {
                 pairs: [],
                 times: [],
                 days: [],
-                typeOfPairs: []
+                typeOfPairs: [],
+                audience: {},
+                dataSearch: []
             },
         }
     }

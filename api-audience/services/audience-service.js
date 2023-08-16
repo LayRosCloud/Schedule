@@ -1,7 +1,7 @@
-const {AudienceEntity,CorpusEntity} = require('../core/models');
+const {AudienceEntity,CorpusEntity,StreetEntity} = require('../core/models');
 const APIerror = require('../error/api-error')
 
-const include = [CorpusEntity]
+const include = [{model: CorpusEntity, include: [StreetEntity]}]
 const attributes = ['id', 'name']
 class AudienceService{
     async getAll(){

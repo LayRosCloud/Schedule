@@ -6,7 +6,7 @@ const emitter = new events.EventEmitter
 
 class CorpusController{
     async create(req, res, next){
-        const {name, streetId} = req.body;
+        const {name, streetId, numberOfHome} = req.body;
 
         try {
             let path = null;
@@ -16,7 +16,7 @@ class CorpusController{
                 path = await saveImage(image);
             }
 
-            const response = await service.create(name, streetId, path);
+            const response = await service.create(name, streetId, path, numberOfHome);
             emitter.emit('newMessage',response)
             return res.json(response);
         }
@@ -53,7 +53,7 @@ class CorpusController{
 
     async update(req, res, next){
         const {id} = req.params;
-        const {name, streetId} = req.body;
+        const {name, streetId, numberOfHome} = req.body;
         let {path} = req.body
 
         try {
@@ -61,7 +61,7 @@ class CorpusController{
                 const {image} = req.files;
                 path = await saveImage(image);
             }
-            const response = await service.update(id, name, path, streetId);
+            const response = await service.update(id, name, path, streetId, numberOfHome);
             emitter.emit('newMessage', response)
             return res.json(response);
         }

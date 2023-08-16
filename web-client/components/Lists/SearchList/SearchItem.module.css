@@ -1,0 +1,11 @@
+.item{
+    width: 100%;
+    padding: 5px 15px;
+    transition: .15s;
+    cursor: pointer;
+    border-radius: 20px;
+}
+
+.item:hover{
+    background: var(--two-color);
+}

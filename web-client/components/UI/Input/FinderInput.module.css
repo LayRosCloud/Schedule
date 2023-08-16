@@ -1,7 +1,7 @@
 .inp{
     background: var(--two-color);
     padding: 10px 40px;
-    width: 300px;
+    width: var(--width-finder);
     border: 0;
     outline: none;
     font-weight: bold;
@@ -11,14 +11,19 @@
 .icon {
     width: 26px;
     height: 26px;
+    padding-left: 5px;
     position: relative;
     margin-top: 5px;
     z-index: 1;
+    border-radius: 50%;
     float: left;
-    cursor: text;
+    cursor: pointer;
     user-select: none;
     margin-right: -45px;
-    padding-left: 5px;
+    transition: .1s;
+}
+.icon:hover{
+    background: var(--two-accent-color);
 }
 .btn{
     width: 26px;
@@ -30,5 +35,8 @@
     float: right;
     margin-left: -50px;
     padding-right: 5px;
-
+    transition: .15s;
+}
+.btn:hover{
+    opacity: 0.8;
 }

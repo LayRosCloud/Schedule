@@ -1,14 +1,28 @@
 import MainContainer from "../../components/Containers/MainContainer";
 import Schedule from "../../components/Schedule/Schedule";
-import {getCollege, getDays, getFullTimes, getPairs, getShortTimes, getTypeOfPairs} from "../../scripts/get";
-const Group = ({pairs, times, days, fullTimes, college, typeOfPairs}) => {
+import {
+    getCollege,
+    getDataSearch,
+    getDays,
+    getFullTimes,
+    getPairs,
+    getShortTimes,
+    getTypeOfPairs
+} from "../../scripts/get";
+import groupController from "../../api/group-controller";
+const Group = ({pairs, times, days, fullTimes, college, typeOfPairs, group, dataSearch}) => {
 
     return (
-        <MainContainer>
-            <h1 className='title'>{`${college.shortName} ${pairs[0]?.group.name}`}</h1>
+        <MainContainer search={dataSearch}>
+            {college.shortName && group.name
+                ?<h1 className='title'>{`${college.shortName} ${group.name}`}</h1>
+                :''}
+
             {pairs.length
                 ?<Schedule pairs={pairs} times={times} days={days} fullTimes={fullTimes} typeOfPairs={typeOfPairs}/>
-                :<h1>Пар нет...</h1>}
+                :group.name
+                    ? <h1>Пар нет...</h1>
+                    : <h1>Группы не существует</h1>}
         </MainContainer>
     );
 };
@@ -21,11 +35,12 @@ export async function getServerSideProps(context) {
             getPairs(context.query.id, undefined, undefined),
             getTypeOfPairs(),
             getFullTimes(),
-            getDays()
+            getDays(),
         ]);
-        const college = await getCollege(pairs[0].group);
+        const group = (await groupController.get(context.query.id)).data
+        const college = await getCollege(group);
         const times = getShortTimes(pairs, fullTimes);
-
+        const dataSearch = await getDataSearch();
         return {
             props: {
                 pairs,
@@ -33,11 +48,13 @@ export async function getServerSideProps(context) {
                 college,
                 typeOfPairs,
                 fullTimes,
-                days
+                days,
+                group,
+                dataSearch
             }
         };
     } catch (e) {
-        console.log("Error fetching data:", e);
+        console.log("Error fetching data: ", e);
         return {
             props: {
                 pairs: [],
@@ -45,7 +62,9 @@ export async function getServerSideProps(context) {
                 days: [],
                 fullTimes: [],
                 college: [],
-                typeOfPairs: []
+                typeOfPairs: [],
+                group: {},
+                dataSearch: []
             }
         };
     }

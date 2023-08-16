@@ -1,0 +1,10 @@
+.item{
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    background: var(--two-color);
+    margin-bottom: 5px;
+}
+.item:hover{
+    opacity: 0.8;
+}

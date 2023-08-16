@@ -7,6 +7,8 @@ import TypeColor from "../Lists/TypeColor/TypeColor";
 import Link from "next/link";
 const Schedule = ({pairs, times, days, fullTimes, typeOfPairs}) => {
     const [groupedPairs, setGroupedPairs] = useState([])
+    const [isList, setIsList] = useState(false)
+    const [isToday, setIsToday] = useState(false)
 
     useEffect(()=>{
         const dayMap = new Map()
@@ -21,13 +23,55 @@ const Schedule = ({pairs, times, days, fullTimes, typeOfPairs}) => {
                 dayMap.get(dayId).pairs.push(pair)
             }
         }
-        setGroupedPairs([...dayMap.values()])
-    },[])
+        let todayResult = []
+        if(isToday){
+            const dateNow = new Date();
+            const options = { weekday: 'long' };
+            const weekDay = dateNow.toLocaleString('ru', options)
 
+            for (const obj of dayMap.values()){
+                if(obj.dayOfWeek.name.toLowerCase() === weekDay){
+                    todayResult = obj
+                }
+            }
+            setGroupedPairs([todayResult])
+        }
+        else{
+            setGroupedPairs([...dayMap.values()])
+        }
+
+    },[isToday])
+
+    const setList = (value) => {
+        setIsList(value)
+        if(!value){
+            setToday(false)
+        }
+        localStorage.setItem('list', value)
+    }
+
+    const setToday = (value) => {
+        setIsToday(value)
+        if(value){
+            setList(true)
+        }
+        localStorage.setItem('today', value)
+    }
 
     return (
         <>
-            <table className={classes.resp__tab}>
+            <button className={classes.btn} onClick={()=>setList(!isList)}>
+                {isList
+                    ?<img className={classes.btn__icon} src='/list-icon.png' alt='лист'/>
+                    :<img className={classes.btn__icon} src='/table-icon.png' alt='таблица'/>
+                }
+            </button>
+            <button className={classes.btn} onClick={()=>setToday(!isToday)}>
+                {isToday
+                    ?<img className={classes.btn__icon} src='/calendar-today.png' alt='сегодня'/>
+                    :<img className={classes.btn__icon} src='/calendar.png' alt='все дни'/>}
+            </button>
+            <table className={`${classes.resp__tab} ${isList ? classes.linear_table : ''}`}>
                 <thead>
                     <tr>
                         <th className={classes.head}></th>
@@ -37,7 +81,7 @@ const Schedule = ({pairs, times, days, fullTimes, typeOfPairs}) => {
 
                 <tbody>
                 {groupedPairs.map((groupedPair, index) =>
-                    <Line key={groupedPair.dayOfWeek.id} item={groupedPair} times={times} index={index}/>)}
+                    <Line key={groupedPair.dayOfWeek.id} item={groupedPair} times={times} index={index} isList={isList}/>)}
                 </tbody>
             </table>
             <div className={classes.footer}>

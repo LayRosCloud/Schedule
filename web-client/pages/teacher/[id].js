@@ -1,41 +1,65 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Schedule from "../../components/Schedule/Schedule";
 import MainContainer from "../../components/Containers/MainContainer";
-import {getPairs, getTypeOfPairs, getFullTimes, getDays, getShortTimes} from '../../scripts/get'
-import Image from "next/image";
+import {getPairs, getTypeOfPairs, getFullTimes, getDays, getShortTimes, getDataSearch} from '../../scripts/get'
 import {domainTeacher} from "../../api";
+import {useRouter} from "next/router";
+import cacheController from "../../api/cache-controller";
 
-const Teacher = ({pairs, times ,days, fullTimes, typeOfPairs}) => {
-    const teacher = pairs[0]?.teacherSubject.Teacher;
-    const fullName = `${teacher.LastName} ${teacher.Name} ${teacher.Patronymic}`
-    const src = `${domainTeacher}/avatars/${teacher.Image}`
+const Teacher = ({pairs, times ,days, fullTimes, typeOfPairs, dataSearch, teacher}) => {
+    const fullName = `${teacher?.LastName} ${teacher?.Name} ${teacher?.Patronymic}`
+    const src = `${domainTeacher}/avatars/${teacher?.Image}`
+    const router = useRouter()
+    useEffect(()=>{
+        if(!teacher){
+            router.push('/')
+        }
+    },[])
 
     return (
-        <MainContainer>
-            <Image width={400} height={400} loader={()=>src} className='img__page'
-                   objectFit='contain' src={src} alt={`фотография преподавателя: ${fullName}.`}/>
+        <MainContainer search={dataSearch}>
+            <p className='img__center'>
+            {teacher?.Image
+                ?<img className='img__page' src={src} alt={`фотография преподавателя: ${fullName}.`}/>
+                :<img className='img__page' src='/undefined-person.png' alt=''/>
+            }
+            </p>
+
             <h1 className='title'>{`${fullName}`}</h1>
+            <div className='more__info'>
+                <h3>Дополнительная информация</h3>
+                {teacher.Phone
+                    ? <p><b>Телефон</b>: {teacher.Phone}</p>
+                    : ''}
+                {teacher.Study
+                    ? <p><b>Образование</b>: {teacher.Study.Name}</p>
+                    : ''}
+                {teacher.DateFired
+                    ? <p><b>Уволен(а)</b>: {teacher.DateFired}</p>
+                    : ''}
+            </div>
             {pairs.length
                 ?<Schedule pairs={pairs} times={times} days={days} fullTimes={fullTimes} typeOfPairs={typeOfPairs}/>
-                :<h1>Пар нет...</h1>}
+                :<h1>Занятий нет, отдыхайте...</h1>}
         </MainContainer>
     );
 };
 
 export default Teacher;
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps({query}) {
     try{
-        let [pairs, fullTimes, days, typeOfPairs] = await Promise.all([
+        let [pairs, fullTimes, days, typeOfPairs, dataSearch] = await Promise.all([
             getPairs(),
             getFullTimes(),
             getDays(),
-            getTypeOfPairs()
+            getTypeOfPairs(),
+            getDataSearch()
         ])
         const res = []
-
+        const teacher = (await cacheController.getByIdTeacher(query.id)).data;
         for (const pair of pairs){
-            if(pair.teacherSubject.Teacher.id === Number(context.query.id)){
+            if(pair.teacherSubject.Teacher.id === Number(query.id)){
                 res.push(pair)
             }
         }
@@ -49,7 +73,9 @@ export async function getServerSideProps(context) {
                 times,
                 days,
                 fullTimes,
-                typeOfPairs
+                typeOfPairs,
+                dataSearch,
+                teacher
             },
         }
 
@@ -60,7 +86,9 @@ export async function getServerSideProps(context) {
                 times: [],
                 days: [],
                 fullTimes: [],
-                typeOfPairs: []
+                typeOfPairs: [],
+                dataSearch: [],
+                teacher: {}
             },
         }
     }

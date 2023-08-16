@@ -1,5 +1,6 @@
 const client = require('../core/database/redis')
 const cluster = 'audience'
+const ApiException = require('../exceptions/ApiException')
 
 class AudienceService {
     async getAll(){
@@ -10,6 +11,9 @@ class AudienceService {
 
     async getById(id){
         const response = await client.hGet(cluster, id);
+        if(!response){
+            throw ApiException.notFound('Ошибка! Объект не найден')
+        }
         return JSON.parse(response);
     }
 

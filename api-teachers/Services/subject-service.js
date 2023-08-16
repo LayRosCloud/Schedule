@@ -6,12 +6,12 @@ class SubjectService {
         return await SubjectEntity.findAll()
     }
 
-    async create(Name){
-        if(!Name){
+    async create(Name, FullName){
+        if(!FullName){
             throw ApiError.badBody()
         }
 
-        const response = await SubjectEntity.create({Name})
+        const response = await SubjectEntity.create({Name,FullName})
 
         return await this.getById(response.id)
     }
@@ -36,12 +36,12 @@ class SubjectService {
         return {status:200, message: `Объект с id ${id} успешно удален!`}
     }
 
-    async update(id, Name){
-        if(!Name){
+    async update(id, Name, FullName){
+        if(!FullName){
             throw ApiError.badBody()
         }
         await this.getById(id)
-        await SubjectEntity.update({Name}, {
+        await SubjectEntity.update({FullName, Name}, {
             where: {id}
         })
         return await this.getById(id)

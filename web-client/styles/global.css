@@ -7,6 +7,7 @@
 }
 :root{
     --max-width: 1200px;
+    --width-finder: 100%;
 
     --accent-color: #004f39;
     --two-accent-color: #FFF;
@@ -15,6 +16,8 @@
 
     --main-color: #f1f1f1;
     --two-color: #e9e9e9;
+
+    --radius-tile:5px
 }
 body{
     background: var(--main-color);
@@ -27,7 +30,7 @@ h1,h2,h3,h4,h5,h6,p,div,button, input, th, tr{
 header{
     width: 100%;
     background: var(--two-accent-color);
-    box-shadow: 1px 1px 5px var(--foreground-color);
+    box-shadow: 0 0 2px var(--foreground-color);
 }
 
 main{
@@ -41,6 +44,11 @@ main{
 }
 
 .container__list{
+    display: flex;
+    flex-direction: row;
+}
+
+.container__list-course{
     display: flex;
     flex-direction: row;
 }
@@ -96,8 +104,11 @@ main{
 }
 .img__page{
     margin-top: 15px;
-    justify-content: center;
+    height: 40vh;
     border-radius: 20px;
+}
+.img__center{
+    text-align: center;
 }
 .under__tile{
     opacity: 0.8;
@@ -105,6 +116,20 @@ main{
 .link{
     text-decoration: none;
     transition: 0.15s;
+}
+.more__info{
+    padding: 5px 15px;
+    border-radius: 15px;
+    background: var(--two-accent-color);
+}
+.more__info p{
+    padding: 10px;
+    border-radius: 15px;
+    transition: .15s;
+
+}
+.more__info p:hover{
+    background: var(--two-color);
 }
 .link:hover{
     opacity: 0.8;
@@ -133,5 +158,28 @@ main{
 @media (max-width: 768px) {
     :root{
         --max-width: 600px;
+    }
+}
+@media (max-width: 600px) {
+    :root{
+        --max-width: 500px;
+    }
+    .display__none{
+        display: none;
+    }
+}
+@media (max-width: 500px) {
+    :root{
+        --max-width: 400px;
+    }
+}
+@media (max-width: 400px) {
+    :root{
+        --max-width: 300px;
+    }
+}
+@media (max-width: 300px) {
+    :root{
+        --max-width: 200px;
     }
 }

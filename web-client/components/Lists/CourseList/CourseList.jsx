@@ -10,7 +10,7 @@ const CourseList = ({courses, setActive, activeList}) => {
     }
 
     return (
-        <div className='container__list'>
+        <div className='container__list-course'>
             {courses.map(course =>
                 <CourseItem key={course.id}
                            item={course}

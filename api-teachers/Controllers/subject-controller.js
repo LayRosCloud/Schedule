@@ -31,10 +31,10 @@ class SubjectController {
     }
 
     async create(request, res, next){
-        const {Name} = request.body
+        const {Name, FullName} = request.body
 
         try{
-            const response = await SubjectService.create(Name)
+            const response = await SubjectService.create(Name, FullName)
             return res.json(response)
         }
         catch(e){
@@ -43,11 +43,11 @@ class SubjectController {
     }
 
     async update(request, res, next){
-        const {Name} = request.body
+        const {Name, FullName} = request.body
         const {id} = request.params
 
         try{
-            const response = await SubjectService.update(id, Name)
+            const response = await SubjectService.update(id, Name,FullName)
             return res.json(response)
         }
         catch(e){

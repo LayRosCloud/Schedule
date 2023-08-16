@@ -2,58 +2,67 @@ import {useEffect, useState} from 'react';
 import FinderInput from "../UI/Input/FinderInput";
 import diff from 'difflib'
 import classes from './Search.module.css'
-const Search = ({array}) => {
-    const [value, setValue] = useState('')
+import {getSortedArrayRatio} from "../../scripts/sort";
+import SearchAudienceList from "../Lists/SearchList/AudienceList/SearchAudienceList";
+import SearchGroupList from "../Lists/SearchList/GroupList/SearchGroupList";
+import SearchTeacherList from "../Lists/SearchList/TeacherList/SearchTeacherList";
+const Search = ({array, myClass}) => {
+    const [filterText, setFilterText] = useState('')
     const [timeoutHandler, setTimeoutHandler] = useState({handle: null})
 
     const [filteredAudiences, setFilteredAudiences] = useState([])
     const [filteredGroups, setFilteredGroups] = useState([])
     const [filteredTeachers, setFilteredTeachers] = useState([])
-
+    const [isFocused, setFocused] = useState(false)
     useEffect(()=>{
-        console.log('Search отрисовался')
+        document.addEventListener('click', handleFocus)
+        return () => {
+            document.removeEventListener("click", handleFocus);
+        };
     },[])
 
-    function setText(text){
-        setValue(text)
+    const handleFocus = (event) => {
+        if(!event.target.classList.contains('ignore-click')){
+            setFocused(false)
+        }
+    }
+
+    const setText = (text)=>{
+        setFilterText(text)
 
         if(timeoutHandler.handle){
             clearTimeout(timeoutHandler.handle);
         }
 
         const handle = setTimeout(()=> {
+            const percent = 0.7;
+            const lowerText = text.toLowerCase();
+            function getFilteredArray(array, params, text){
+                let collection = []
 
-            const resultAudience = []
-            const resultGroup = []
-            const resultTeachers = []
-            for(const obj of array.audiences){
-                const sequence = new diff.SequenceMatcher(null, obj.name.toLowerCase(), text.toLowerCase())
-                if(sequence.ratio() > 0.7){
-                    resultAudience.push(obj)
+                for(const obj of array){
+                    for(const param of params){
+                        const sequence = new diff.SequenceMatcher(
+                            null,
+                            obj[param].toLowerCase(),
+                            text)
+
+                        const ratio = sequence.ratio()
+                        if(ratio > percent){
+                            obj.ratio = ratio;
+                            collection.push(obj)
+                            break;
+                        }
+                    }
                 }
+                collection = getSortedArrayRatio(collection);
+                return collection;
             }
 
-            for (const obj of array.groups){
-                const sequence = new diff.SequenceMatcher(null, obj.name.toLowerCase(), text.toLowerCase())
-                if(sequence.ratio() > 0.7){
-                    resultGroup.push(obj)
-                }
-            }
-            for (const obj of array.teachers){
-                const name = obj.Name.toLowerCase()
-                const lastName = obj.LastName.toLowerCase()
-                const patronymic = obj.Patronymic.toLowerCase()
-                const sequenceName = new diff.SequenceMatcher(null,name, text.toLowerCase())
-                const sequenceLastName = new diff.SequenceMatcher(null,lastName, text.toLowerCase())
-                const sequencePatronymic = new diff.SequenceMatcher(null, patronymic, text.toLowerCase())
-                const sequenceFull = new diff.SequenceMatcher(null, `${lastName} ${name} ${patronymic}`, text.toLowerCase())
-                if(sequenceName.ratio() > 0.7 || sequenceLastName.ratio() > 0.7 || sequencePatronymic.ratio() > 0.7 || sequenceFull.ratio() > 0.7){
-                    resultTeachers.push(obj)
-                }
-            }
-            setFilteredAudiences(resultAudience)
-            setFilteredGroups(resultGroup)
-            setFilteredTeachers(resultTeachers)
+            setFilteredAudiences(getFilteredArray(array.audiences,['name'],lowerText))
+            setFilteredGroups(getFilteredArray(array.groups, ['name'],lowerText))
+            setFilteredTeachers(getFilteredArray(array.teachers, ['Name', 'LastName', 'Patronymic'],lowerText))
+            setFocused(true)
         },1000)
 
         setTimeoutHandler({...timeoutHandler, handle})
@@ -61,22 +70,13 @@ const Search = ({array}) => {
     }
 
     return (
-        <div>
-            <FinderInput value={value} setValue={setText} placeholder='поиск...'/>
-            {filteredGroups.length || filteredTeachers.length || filteredAudiences.length
+        <div className={`${classes.search} ${myClass}`}>
+            <FinderInput value={filterText} setValue={setText} placeholder='поиск...' onFocus={setFocused}/>
+            {(filteredGroups.length || filteredTeachers.length || filteredAudiences.length) && isFocused
                 ?<div className={classes.list}>
-                    {filteredGroups.length
-                        ? filteredGroups.map(group => <div className='list__item'>{group.name}</div>)
-                        : ''
-                    }
-                    {filteredTeachers.length
-                        ? filteredTeachers.map(teacher => <div className='list__item'>{teacher.LastName} {teacher.Name} {teacher.Patronymic}</div>)
-                        : ''
-                    }
-                    {filteredAudiences.length
-                        ? filteredAudiences.map(audience => <div className='list__item'>{audience.name}</div>)
-                        : ''
-                    }
+                    <SearchAudienceList audiences={filteredAudiences}/>
+                    <SearchGroupList groups={filteredGroups}/>
+                    <SearchTeacherList teachers={filteredTeachers}/>
                 </div>:''
             }
 

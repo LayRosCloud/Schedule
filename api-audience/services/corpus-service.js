@@ -32,24 +32,24 @@ class CorpusService{
         return response;
     }
 
-    async create(name, streetId, image){
-        if(!name || !streetId){
+    async create(name, streetId, image, numberOfHome){
+        if(!name || !streetId || !numberOfHome){
             throw APIerror.badBody()
         }
-        const response = await CorpusEntity.create({name, streetId, image});
+        const response = await CorpusEntity.create({name, streetId, image, numberOfHome});
         return this.get(response.id);
     }
 
-    async update(id, name, image, streetId){
-        if(!name || !streetId){
+    async update(id, name, image, streetId, numberOfHome){
+        if(!name || !streetId || !numberOfHome){
             throw APIerror.badBody()
         }
         await this.get(id);
-        await CorpusEntity.update({name, image, streetId}, {where: {id}});
+        await CorpusEntity.update({name, image, streetId, numberOfHome}, {where: {id}});
         return await this.get(id);
     }
 
-    async delete(id, name){
+    async delete(id){
         await this.get(id);
         await CorpusEntity.destroy({where: {id}});
 

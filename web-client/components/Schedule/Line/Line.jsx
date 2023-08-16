@@ -3,31 +3,31 @@ import ScheduleItem from "../Tile/ScheduleItem";
 import classes from "./Line.module.css";
 import EmptyTile from "../EmptyTile/EmptyTile";
 
-const Line = ({item, times, index}) => {
+const Line = ({item, times, index, isList}) => {
     const [result, setResult] = useState([])
     const colorsForDays = ['one', 'two', 'three', 'four', 'five', 'six']
     useEffect(()=> {
-        const res = []
+        const tiles = []
 
         let count = 0
         let twoCount = 0;
 
         while(count < times.length){
             if(item.pairs[twoCount]?.time.id === times[count].id){
-                res.push(<ScheduleItem key={count} item={item.pairs[twoCount]}/>)
+                tiles.push(<ScheduleItem key={count} item={item.pairs[twoCount]}/>)
                 twoCount++;
             } else{
-                res.push(<EmptyTile key={count}/>)
+                tiles.push(<EmptyTile key={count} isList={isList} time={times[count]}/>)
             }
             count++;
         }
-        setResult(res)
+        setResult(tiles)
 
-    }, [])
+    }, [isList])
 
     return (
         <tr>
-            <td className={`${classes.day} ${colorsForDays[index]}`}>
+            <td className={`${classes.day} ${colorsForDays[index]} ${isList ? classes.day__isList : ''}`}>
                 <p>{item.dayOfWeek.name}</p>
             </td>
             {result.map(res=> res)}
