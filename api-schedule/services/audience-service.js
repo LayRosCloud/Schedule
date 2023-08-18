@@ -10,7 +10,7 @@ class AudienceService {
     }
 
     async getById(id){
-        const response = await client.hGet(cluster, id);
+        const response = await client.hGet(cluster, String(id));
         if(!response){
             throw ApiException.notFound('Ошибка! Объект не найден')
         }

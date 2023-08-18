@@ -8,8 +8,13 @@ class TeacherSubjectService {
     }
 
     async getById(id){
-        const response = await client.hGet(cluster, id);
-        return JSON.parse(response);
+        try{
+            const response = await client.hGet(cluster, String(id));
+            return JSON.parse(response);
+        }catch (e){
+            return null
+        }
+
     }
 
     async updateArray(teacherSubjects){

@@ -10,7 +10,7 @@ class CorpusService {
     }
 
     async getById(id){
-        return JSON.parse(await client.hGet(cluster, id));
+        return JSON.parse(await client.hGet(cluster, String(id)));
     }
 
     async createOrUpdate(corpus){
