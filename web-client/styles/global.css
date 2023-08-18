@@ -19,6 +19,7 @@
 
     --radius-tile:5px
 }
+
 body{
     background: var(--main-color);
 }
@@ -36,6 +37,12 @@ header{
 main{
     max-width: var(--max-width);
     margin: 0 auto;
+}
+.error{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
 }
 
 .notFound{
@@ -122,12 +129,41 @@ main{
     border-radius: 15px;
     background: var(--two-accent-color);
 }
+
+
 .more__info p{
     padding: 10px;
     border-radius: 15px;
     transition: .15s;
 
 }
+.container__buttons{
+    display: flex;
+    flex-direction: row;
+}
+.button__find{
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    padding: 5px 15px;
+    background: none;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 20px;
+    transition: 0.1s;
+}
+
+.button__find:hover{
+    background: var(--two-color);
+}
+.active{
+    border-bottom: 2px solid var(--accent-color);
+}
+.middle__button{
+    margin: 0 5px 5px 0;
+}
+
+
 .more__info p:hover{
     background: var(--two-color);
 }

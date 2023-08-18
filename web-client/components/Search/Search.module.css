@@ -1,6 +1,6 @@
 .list{
     margin-top: 5px;
-    width: var(--width-finder);
+    width: 300px;
     border-radius: 15px;
     position: absolute;
     background: var(--two-accent-color);

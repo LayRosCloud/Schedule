@@ -5,6 +5,7 @@ import FacultyList from "../components/Lists/FacultyCourseList/FacultyList";
 import {useState} from "react";
 import GroupList from "../components/Lists/GroupList/GroupList";
 import {getColleges, getDataSearch} from "../scripts/get";
+import ServerError from "../components/ServerError";
 
 const Index = ({colleges, dataSearch}) => {
     const [selectedCollege, setSelectedCollege] = useState(null)
@@ -18,7 +19,6 @@ const Index = ({colleges, dataSearch}) => {
     function setActiveCourse(item){
         setSelectedCourse(item)
     }
-
     return (
             <MainContainer search={dataSearch}>
                 <ListContainer title='Институты' count={colleges.length}>
@@ -44,13 +44,25 @@ const Index = ({colleges, dataSearch}) => {
 export default Index;
 
 export async function getStaticProps(context) {
-    const dataSearch = await getDataSearch()
-    const colleges = await getColleges()
-
-    return {
-        props: {
-            colleges,
-            dataSearch
-        },
+    try{
+        const dataSearch = await getDataSearch()
+        const colleges = await getColleges()
+        return {
+            props: {
+                colleges,
+                dataSearch
+            },
+        }
+    }catch (e){
+        console.log(e.message)
+        return {
+            props: {
+                colleges:[],
+                dataSearch:[]
+            },
+        }
     }
+
+
+
 }

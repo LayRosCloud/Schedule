@@ -20,7 +20,7 @@ module.exports = async function (){
         await TeacherService.createOrUpdate(message.data)
     };
 
-    const audienceEvent = new EventSource(`${process.env.API_URL_AUDIENCE}/v1/audienceLocked/connect`)
+    const audienceEvent = new EventSource(`${process.env.API_URL_AUDIENCE}/v1/audience/connect`)
     audienceEvent.onmessage = async function (message) {
         await AudienceService.createOrUpdate(message.data)
     };

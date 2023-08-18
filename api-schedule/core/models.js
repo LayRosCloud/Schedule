@@ -1,5 +1,5 @@
 
-const DayOfWeekEntity = require('./entities/dayOfweek-entity')
+const DayOfWeekEntity = require('./entities/dayOfWeek-entity')
 const TimeEntity = require('./entities/time-entity')
 
 const PairEntity = require('./entities/pair-entity')

@@ -27,7 +27,6 @@ export async function getTypeOfPairs(){
 
     if(cache.get(cachedKeys.typeOfPair)){
         typeOfPairs = cache.get(cachedKeys.typeOfPair);
-        console.log(cachedKeys.typeOfPair)
     }else{
         typeOfPairs = (await typeOfPairController.getAll()).data
         cache.set(cachedKeys.typeOfPair, typeOfPairs)
@@ -41,7 +40,6 @@ export async function getColleges(){
 
     if(cache.get(cachedKeys.college)){
         colleges = cache.get(cachedKeys.college)
-        console.log(cachedKeys.college)
     }else {
         const response = await collegeController.getAll();
         colleges = response.data
@@ -55,7 +53,6 @@ export async function getFullTimes(){
 
     if(cache.get(cachedKeys.fullTime)){
         fullTimes = cache.get(cachedKeys.fullTime);
-        console.log(cachedKeys.fullTime)
     }else{
         const responseTime = await timeController.getAll()
         fullTimes = responseTime.data;
@@ -68,7 +65,6 @@ export async function getDays(){
     let days = []
     if(cache.get(cachedKeys.days)){
         days = cache.get(cachedKeys.days);
-        console.log(cachedKeys.days)
     }else{
         const responseTime = await dayOfWeekController.getAll()
         days = responseTime.data;
@@ -102,7 +98,6 @@ export function getShortTimes(pairs, fullTimes){
 }
 
 export async function getCollege(group){
-    console.log(group)
     const responseCourse = await courseController.get(group.course.id)
     const responseCollege = await collegeController.get(responseCourse.data.faculty.collegeId);
     return responseCollege.data

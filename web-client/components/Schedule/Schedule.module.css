@@ -14,10 +14,11 @@
     vertical-align: top;
 }
 
-
 .resp__tab td span {
-    background: #CB785E;
+    background: #d0604c;
+    border: 2px solid var(--two-accent-color);
     color: #FFFFFF;
+    border-radius: 5px;
     padding: 5px 15px;
     display: none;
 }
@@ -34,7 +35,7 @@
 }
 .head{
     color: #FFF;
-    background: #CB785E;
+    background: #d0604c;
     position: sticky;
     font-weight: bold;
     font-size: 20px;
@@ -45,6 +46,7 @@
 .linear_table thead{
     display: none;
 }
+
 .btn{
     background: none;
     outline: none;
