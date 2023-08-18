@@ -208,6 +208,10 @@ main{
     :root{
         --max-width: 400px;
     }
+.container__buttons{
+    display: flex;
+    flex-direction: column;
+}
 }
 @media (max-width: 400px) {
     :root{
