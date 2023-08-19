@@ -5,6 +5,7 @@ import {useEffect} from "react";
 import {useRouter} from "next/router";
 import cacheController from "../../api/cache-controller";
 import {domainAudience} from '../../api/index'
+import ServerError from "../../components/ServerError";
 const Audience = ({pairs, times ,days, typeOfPairs, audience, dataSearch}) => {
     const router = useRouter();
 
@@ -13,7 +14,11 @@ const Audience = ({pairs, times ,days, typeOfPairs, audience, dataSearch}) => {
             router.push('/')
         }
     },[])
-
+    if(!dataSearch.groups?.length){
+        return (
+            <ServerError/>
+        )
+    }
     return (
         <MainContainer search={dataSearch}>
             <p className='img__center'>

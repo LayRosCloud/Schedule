@@ -19,6 +19,13 @@ const Index = ({colleges, dataSearch}) => {
     function setActiveCourse(item){
         setSelectedCourse(item)
     }
+
+    if(!colleges.length && !dataSearch.groups?.length){
+        return (
+            <ServerError/>
+        )
+    }
+
     return (
             <MainContainer search={dataSearch}>
                 <ListContainer title='Институты' count={colleges.length}>
@@ -35,7 +42,6 @@ const Index = ({colleges, dataSearch}) => {
                             : ''
                         }
                     </div>
-
                 </ListContainer>
             </MainContainer>
     );

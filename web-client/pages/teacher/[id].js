@@ -5,6 +5,7 @@ import {getPairs, getTypeOfPairs, getFullTimes, getDays, getShortTimes, getDataS
 import {domainTeacher} from "../../api";
 import {useRouter} from "next/router";
 import cacheController from "../../api/cache-controller";
+import ServerError from "../../components/ServerError";
 
 const Teacher = ({pairs, times ,days, fullTimes, typeOfPairs, dataSearch, teacher}) => {
     const fullName = `${teacher?.LastName} ${teacher?.Name} ${teacher?.Patronymic}`
@@ -15,7 +16,13 @@ const Teacher = ({pairs, times ,days, fullTimes, typeOfPairs, dataSearch, teache
             router.push('/')
         }
     },[])
-
+    if(!dataSearch.groups?.length){
+        if(!dataSearch.length){
+            return (
+                <ServerError/>
+            )
+        }
+    }
     return (
         <MainContainer search={dataSearch}>
             <p className='img__center'>
@@ -26,18 +33,21 @@ const Teacher = ({pairs, times ,days, fullTimes, typeOfPairs, dataSearch, teache
             </p>
 
             <h1 className='title'>{`${fullName}`}</h1>
-            <div className='more__info'>
-                <h3>Дополнительная информация</h3>
-                {teacher.Phone
-                    ? <p><b>Телефон</b>: {teacher.Phone}</p>
-                    : ''}
-                {teacher.Study
-                    ? <p><b>Образование</b>: {teacher.Study.Name}</p>
-                    : ''}
-                {teacher.DateFired
-                    ? <p><b>Уволен(а)</b>: {teacher.DateFired}</p>
-                    : ''}
-            </div>
+            {teacher.Phone || teacher.Study || teacher.DateFired
+                ? <div className='more__info'>
+                    <h3>Дополнительная информация</h3>
+                    {teacher.Phone
+                        ? <p><b>Телефон</b>: {teacher.Phone}</p>
+                        : ''}
+                    {teacher.Study
+                        ? <p><b>Образование</b>: {teacher.Study.Name}</p>
+                        : ''}
+                    {teacher.DateFired
+                        ? <p><b>Уволен(а)</b>: {teacher.DateFired}</p>
+                        : ''}
+                </div>
+                : ''}
+
             {pairs.length
                 ?<Schedule pairs={pairs} times={times} days={days} fullTimes={fullTimes} typeOfPairs={typeOfPairs}/>
                 :<h1>Занятий нет, отдыхайте...</h1>}

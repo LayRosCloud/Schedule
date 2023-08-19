@@ -5,8 +5,15 @@ import FindTeacherList from "../../components/Lists/FindLists/FindTeacherList/Fi
 import FindGroupList from "../../components/Lists/FindLists/FindGroupList/FindGroupList";
 import FindAudienceList from "../../components/Lists/FindLists/FindAudienceList/FindAudienceList";
 import {getFilteredArray} from "../../scripts/sort";
+import ServerError from "../../components/ServerError";
 
 const FindPage = ({query, dataSearch, dataForFind}) => {
+    if(!dataSearch.groups?.length){
+        return (
+            <ServerError/>
+        )
+    }
+
     const pageNumbers = {audience: 0, groups: 1, teachers: 2}
     let select = 0
     if(dataForFind.audiences.length){

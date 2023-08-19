@@ -10,8 +10,13 @@ import {
     getTypeOfPairs
 } from "../../scripts/get";
 import groupController from "../../api/group-controller";
+import ServerError from "../../components/ServerError";
 const Group = ({pairs, times, days, fullTimes, college, typeOfPairs, group, dataSearch}) => {
-
+    if(!dataSearch.groups?.length){
+        return (
+            <ServerError/>
+        )
+    }
     return (
         <MainContainer search={dataSearch}>
             {college.shortName && group.name

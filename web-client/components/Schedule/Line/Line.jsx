@@ -6,7 +6,12 @@ import EmptyTile from "../EmptyTile/EmptyTile";
 const Line = ({item, times, index, isList}) => {
     const [result, setResult] = useState([])
     const colorsForDays = ['one', 'two', 'three', 'four', 'five', 'six']
+
+    const [visibleLine, setVisibleLine] = useState(!isList)
+
     useEffect(()=> {
+        setVisibleLine(!isList)
+
         const tiles = []
 
         let count = 0
@@ -25,12 +30,23 @@ const Line = ({item, times, index, isList}) => {
 
     }, [isList])
 
+    const setVisible = (value) => {
+        if(isList || window.innerWidth <= 768){
+            setVisibleLine(value)
+        }
+    }
+
     return (
         <tr>
-            <td className={`${classes.day} ${colorsForDays[index]} ${isList ? classes.day__isList : ''}`}>
+            <td onClick={()=>setVisible(!visibleLine)}
+                className={`${classes.day} ${colorsForDays[index]} ${isList ? classes.day__isList : ''}  ${colorsForDays[index] === 'one'?classes.first:''}`}>
                 <p>{item.dayOfWeek.name}</p>
             </td>
-            {result.map(res=> res)}
+            {visibleLine
+                ?result.map(res=> res)
+                :''
+            }
+
         </tr>
     );
 };
