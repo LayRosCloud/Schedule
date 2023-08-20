@@ -50,7 +50,7 @@ class PairService {
         return await PairEntity.findAll({
             attributes,
             where,
-            include
+            include,
         })
     }
 

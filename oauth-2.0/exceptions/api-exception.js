@@ -1,7 +1,8 @@
 const statusCode = {
     badBody:400,
     notFound: 404,
-    internal: 500
+    internal: 500,
+    forbidden: 403
 }
 const badBody = 'Ошибка! Неправильно тело запроса!'
 
@@ -21,5 +22,8 @@ module.exports = class ApiException extends Error{
 
     static internal(message){
         return new ApiException(statusCode.internal, message)
+    }
+    static forbidden(message){
+        return new ApiException(statusCode.forbidden, message)
     }
 }

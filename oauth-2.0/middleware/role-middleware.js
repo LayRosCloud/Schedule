@@ -1,5 +1,5 @@
 const ApiError = require("../exceptions/api-exception");
-const tokenService = require('../services/jwt-service')
+const usersService = require('../services/users-service')
 
 module.exports = function (roles){
     return async function (req, res, next){
@@ -13,7 +13,7 @@ module.exports = function (roles){
             if(!accessToken){
                 throw ApiError.notFound('Пользователь не авторизован')
             }
-            const permissions = tokenService.verify(accessToken).permissions
+            const permissions = usersService.verify(accessToken).permissions
             let hasRole = false
             for (const permission of permissions){
                 const isRole = roles.includes(permission.role.name);

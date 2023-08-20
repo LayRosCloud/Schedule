@@ -30,7 +30,9 @@ class UsersService{
         if(!user){
             throw ApiException.badBody();
         }
+
         const response = JwtService.verify(token)
+
         if(!response){
             throw ApiException.badBody('Ошибка! Токен неправильный')
         }
