@@ -15,6 +15,7 @@ const Schedule = ({pairs, times, days, fullTimes, typeOfPairs}) => {
         window.addEventListener('resize', setVisible)
         setVisible();
     },[])
+
     useEffect(()=>{
         const dayMap = new Map()
 
@@ -32,8 +33,11 @@ const Schedule = ({pairs, times, days, fullTimes, typeOfPairs}) => {
         if(isToday){
             const dateNow = new Date();
             const options = { weekday: 'long' };
-            const weekDay = dateNow.toLocaleString('ru', options)
 
+            let weekDay = dateNow.toLocaleString('ru', options)
+            if(weekDay === 'воскресенье'){
+                weekDay = 'суббота'
+            }
             for (const obj of dayMap.values()){
                 if(obj.dayOfWeek.name.toLowerCase() === weekDay){
                     todayResult = obj
