@@ -1,0 +1,55 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:MVVM.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" Width="600" Height="450"
+        MinWidth="600" MinHeight="450"
+        x:Class="MVVM.Views.AuthWindow"
+        x:DataType="vm:AuthViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Авторизация"
+        WindowState="Normal"
+        CanResize="False"
+        WindowStartupLocation="CenterScreen" x:Name="authWindow">
+
+    <Design.DataContext>
+        <vm:AuthViewModel/>
+    </Design.DataContext>
+
+    <Grid VerticalAlignment="Center" Margin="100 0 100 0">
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock Text="Авторизация" FontSize="24"/>
+        <TextBox Text="{Binding Login}" 
+                 Margin="0 5 0 0" 
+                 Padding="15 5" 
+                 Grid.Row="1" 
+                 Watermark="Введите логин*"/>
+        <TextBox Text="{Binding Password}" 
+                 Margin="0 5 0 0" 
+                 Padding="15 5" 
+                 Grid.Row="2" 
+                 Watermark="Введите пароль*" 
+                 PasswordChar="*"/>
+        
+        <Grid Grid.Row="3" Margin="0 10 0 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <CheckBox HorizontalAlignment="Left"  Content="Запомнить меня"/>
+            <Button Grid.Column="1" 
+                    HorizontalAlignment="Right" 
+                    Content="Войти" 
+                    Command="{Binding Path=EnterToApplication}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                    />
+        </Grid>
+    </Grid>
+
+</Window>
