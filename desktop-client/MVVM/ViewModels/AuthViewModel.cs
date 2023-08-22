@@ -1,6 +1,6 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+using System.Diagnostics;
+using System.Security.Authentication;
 using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls;
@@ -9,10 +9,10 @@ using MVVM.Views;
 
 namespace MVVM.ViewModels;
 
-public class AuthViewModel : INotifyPropertyChanged
+public class AuthViewModel : ViewModelBase
 {
-    private string _login;
-    private string _password;
+    private string _login = "";
+    private string _password = "";
     public AuthViewModel()
     {
         EnterToApplication = new RelayCommand(Click);
@@ -31,17 +31,51 @@ public class AuthViewModel : INotifyPropertyChanged
 
     public ICommand EnterToApplication { get; private set; }
 
-    private void Click(object obj)
+    private async void Click(object obj)
     {
-        Window mainWindow = new MainWindow();
-        mainWindow.Show(); //TODO: Check login and password
-        (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow?.Close();
+        var desktopStyleApplicationLifetime =
+            Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime;
+        
+        Window? currentWindow = desktopStyleApplicationLifetime?.MainWindow;
+        string login = Login.ToLower();
+
+        try
+        {
+            CheckLoginAndPassword(login, Password);
+
+            await MessageBox.Show(currentWindow, "Успех, вы успешно авторизовались", "Успех");
+
+            ShowNewWindow();
+
+            CloseWindow(currentWindow);
+        }
+        catch (AuthenticationException ex)
+        {
+            Debug.Write(ex.Message);
+            await MessageBox.Show(currentWindow, "Ошибка! Неправильный логин или пароль", "Ошибка!");
+        }
+        catch (Exception ex)
+        {
+            Debug.Write(ex.Message);
+        }
     }
 
-    public event PropertyChangedEventHandler? PropertyChanged;
-
-    protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = "")
+    private void ShowNewWindow()
     {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        Window mainWindow = new MainWindow();
+        mainWindow.Show();
+    }
+    
+    private void CheckLoginAndPassword(string login, string password)
+    {
+        if (!login.Equals("admin") || !password.Equals("admin"))
+        {
+            throw new AuthenticationException();
+        }
+    }
+
+    private void CloseWindow(Window? window)
+    {
+        window?.Close();
     }
 }

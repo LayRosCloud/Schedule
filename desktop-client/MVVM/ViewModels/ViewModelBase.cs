@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace MVVM.ViewModels;
 
-public class MainViewModel : INotifyPropertyChanged
+public class ViewModelBase : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler? PropertyChanged;
 

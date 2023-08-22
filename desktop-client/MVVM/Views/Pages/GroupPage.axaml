@@ -1,0 +1,28 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:MVVM.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="MVVM.Views.Pages.GroupPage"
+             x:DataType="vm:GroupViewModel" x:Name="groupWindow">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="Группы" FontWeight="Bold" FontSize="20"/>
+        <ListBox Grid.Row="1" ItemsSource="{Binding Groups}" Background="Transparent">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Button Command="{Binding NavigateToPairs}">
+                        <Border CornerRadius="20" BorderThickness="2" BorderBrush="Gray" Padding="10">
+                            <TextBlock Text="{Binding name}"/>
+                        </Border>
+                    </Button>
+                    
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</UserControl>

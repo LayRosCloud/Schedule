@@ -13,16 +13,22 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = MVVM
-build_property.ProjectDir = C:\Users\betrayal\RiderProjects\MVVM\MVVM\
+build_property.ProjectDir = D:\Projects\WebProjects\Schedule\desktop-client\MVVM\
 
-[C:/Users/betrayal/RiderProjects/MVVM/MVVM/App.axaml]
+[D:/Projects/WebProjects/Schedule/desktop-client/MVVM/App.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/betrayal/RiderProjects/MVVM/MVVM/Views/AuthWindow.axaml]
+[D:/Projects/WebProjects/Schedule/desktop-client/MVVM/Views/AuthWindow.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/betrayal/RiderProjects/MVVM/MVVM/Views/MainWindow.axaml]
+[D:/Projects/WebProjects/Schedule/desktop-client/MVVM/Views/MainWindow.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/betrayal/RiderProjects/MVVM/MVVM/Views/MessageBox.axaml]
+[D:/Projects/WebProjects/Schedule/desktop-client/MVVM/Views/MessageBox.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[D:/Projects/WebProjects/Schedule/desktop-client/MVVM/Views/Pages/GroupPage.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[D:/Projects/WebProjects/Schedule/desktop-client/MVVM/Views/Pages/PairPage.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml

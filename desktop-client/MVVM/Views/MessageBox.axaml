@@ -2,10 +2,26 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" Width="450" Height="200"
         x:Class="MVVM.Views.MessageBox"
-        Title="MessageBox">
-    <Grid>
-        <TextBlock x:Name="text"/>
+        Title="MessageBox"
+        CanResize="False"
+        WindowState="Normal"
+        WindowStartupLocation="CenterOwner">
+    <Grid HorizontalAlignment="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition/>
+            <RowDefinition Height="80"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" HorizontalAlignment="Center" Name="TitleMain" Text="Привет" FontSize="25" FontWeight="Bold"/>
+        <TextBlock Grid.Row="1" Name="Text" HorizontalAlignment="Left" Text="Дорогой друг" Padding="10"/>
+        <StackPanel Grid.Row="2" HorizontalAlignment="Center" Orientation="Horizontal" Name="Buttons">
+            <StackPanel.Styles>
+                <Style Selector="Button">
+                    <Setter Property="Margin" Value="5"/>
+                </Style>
+            </StackPanel.Styles>
+        </StackPanel>
     </Grid>
 </Window>

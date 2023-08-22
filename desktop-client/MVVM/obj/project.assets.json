@@ -4698,11 +4698,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\betrayal\\RiderProjects\\MVVM\\MVVM\\MVVM.csproj",
+      "projectUniqueName": "D:\\Projects\\WebProjects\\Schedule\\desktop-client\\MVVM\\MVVM.csproj",
       "projectName": "MVVM",
-      "projectPath": "C:\\Users\\betrayal\\RiderProjects\\MVVM\\MVVM\\MVVM.csproj",
+      "projectPath": "D:\\Projects\\WebProjects\\Schedule\\desktop-client\\MVVM\\MVVM.csproj",
       "packagesPath": "C:\\Users\\betrayal\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\betrayal\\RiderProjects\\MVVM\\MVVM\\obj\\",
+      "outputPath": "D:\\Projects\\WebProjects\\Schedule\\desktop-client\\MVVM\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\betrayal\\AppData\\Roaming\\NuGet\\NuGet.Config"
