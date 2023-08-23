@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Security.Authentication;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls;
@@ -15,6 +16,7 @@ public class AuthViewModel : ViewModelBase
 {
     private string _login = "";
     private string _password = "";
+
     public AuthViewModel()
     {
         EnterToApplication = new RelayCommand(Click);
@@ -46,7 +48,7 @@ public class AuthViewModel : ViewModelBase
         {
             CheckLoginAndPassword(login, Password);
 
-            SendSuccessfulNotification(currentWindow!);
+            await SendSuccessfulNotification(currentWindow!);
 
             ShowNewWindow();
 
@@ -55,7 +57,7 @@ public class AuthViewModel : ViewModelBase
         catch (AuthenticationException ex)
         {
             Debug.Write(ex.Message);
-            SendErrorNotification(currentWindow!);
+            await SendErrorNotification(currentWindow!);
         }
         catch (Exception ex)
         {
@@ -63,22 +65,22 @@ public class AuthViewModel : ViewModelBase
         }
     }
 
-    private async void SendSuccessfulNotification(Window currentWindow)
+    private Task<MessageBox.MessageBoxResult> SendSuccessfulNotification(Window currentWindow)
     {
         Run[] runs = new Run[2];
         runs[0] = new Run("Успех! ");
         runs[0].Foreground = Brushes.ForestGreen;
         runs[1] = new Run("Вы успешно авторизовались");
-        await MessageBox.Show(currentWindow, runs, "Успех");
+        return MessageBox.Show(currentWindow, runs, "Успех");
     }
     
-    private async void SendErrorNotification(Window currentWindow)
+    private Task<MessageBox.MessageBoxResult> SendErrorNotification(Window currentWindow)
     {
         Run[] runs = new Run[2];
         runs[0] = new Run("Ошибка! ");
         runs[0].Foreground = Brushes.DarkRed;
         runs[1] = new Run("Неверный логин или пароль!");
-        await MessageBox.Show(currentWindow, runs, "Ошибка!");
+        return MessageBox.Show(currentWindow, runs, "Ошибка!");
     }
     
     private void ShowNewWindow()
