@@ -16,7 +16,7 @@ namespace MVVM.ViewModels
 
         public bool CanExecute(object parameter)
         {
-            return _canExecute?.Invoke(parameter) ?? true;
+            return true;
         }
 
         public event EventHandler? CanExecuteChanged

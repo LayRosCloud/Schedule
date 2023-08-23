@@ -7,20 +7,33 @@
              x:Class="MVVM.Views.Pages.PairPage" x:DataType="vm:PairViewModel">
     <Grid Margin="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <TextBox Watermark="поиск..." FontSize="20"/>
-        <ListBox Grid.Row="1" Background="Transparent" ItemsSource="{Binding Pairs}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Button>
-                        <Border CornerRadius="20" BorderThickness="2" BorderBrush="Gray" Padding="10">
-                            <TextBlock Text="{Binding id}"/>
-                        </Border>
-                    </Button>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+        <TextBlock Grid.Row="0" Text="Группа И-31" FontSize="20" FontWeight="Bold"/>
+        <TextBox Grid.Row="1"  Watermark="поиск..." FontSize="20"/>
+        <DataGrid Grid.Row="2" 
+                  ItemsSource="{Binding Pairs}" 
+                  AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" 
+                                    Binding="{Binding id}" 
+                                    IsReadOnly="True"/>
+                
+                <DataGridTextColumn Header="Name" 
+                                    IsReadOnly="True"/>
+                
+                <DataGridTemplateColumn Header="Actions" 
+                                        IsReadOnly="True">
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="✏️" Click="ChangePair"/>
+                            <Button Content="🗑️" Click="DeletePair"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </UserControl>

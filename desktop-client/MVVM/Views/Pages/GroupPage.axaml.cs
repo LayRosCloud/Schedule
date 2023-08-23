@@ -4,6 +4,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using MVVM.Models;
+using MVVM.Scripts;
 using MVVM.ViewModels;
 
 namespace MVVM.Views.Pages;
@@ -19,5 +20,11 @@ public partial class GroupPage : UserControl
     private void InitializeComponent()
     {
         AvaloniaXamlLoader.Load(this);
+    }
+
+    private void SelectedChanged(object? sender, SelectionChangedEventArgs e)
+    {
+        Group? selectedGroup = (sender as Button)?.DataContext as Group;
+        SaveVariables.Instance.NavigateTo(new PairPage());
     }
 }

@@ -1,10 +1,15 @@
-﻿using Avalonia.Controls;
+﻿using System;
+using System.Collections.Generic;
+using Avalonia.Controls;
 
 namespace MVVM.Scripts;
 
 public class SaveVariables
 {
     private static SaveVariables s_instance;
+    private readonly Stack<UserControl> _listNavigate = new();
+    private ContentControl _pageControl;
+    private Window _mainWindow;
     
     public static SaveVariables Instance
     {
@@ -19,5 +24,45 @@ public class SaveVariables
         }
     }
 
-    public ContentControl PageControl { get; set; }
+    public void SetPageControl(ContentControl pageControl)
+    {
+        if (_pageControl != null)
+        {
+            throw new ArgumentException();
+        }
+
+        _pageControl = pageControl;
+    }
+
+    public void SetMainWindow(Window window)
+    {
+        if (_mainWindow != null)
+        {
+            throw new ArgumentException();
+        }
+
+        _mainWindow = window;
+    }
+
+    public Window GetMainWindow()
+    {
+        return _mainWindow;
+    }
+    
+    public void NavigateTo(UserControl page)
+    {
+        _listNavigate.Push(page);
+        _pageControl.Content = page;
+    }
+
+    public void Back()
+    {
+        if (_listNavigate.Count <= 0)
+        {
+            throw new IndexOutOfRangeException();
+        }
+        
+        _pageControl.Content = _listNavigate.Pop();
+    }
+    
 }

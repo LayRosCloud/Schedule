@@ -5,22 +5,60 @@
              xmlns:vm="clr-namespace:MVVM.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="MVVM.Views.Pages.GroupPage"
-             x:DataType="vm:GroupViewModel" x:Name="groupWindow">
+             x:DataType="vm:GroupViewModel" 
+             x:Name="GroupWindow">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <TextBlock Text="Группы" FontWeight="Bold" FontSize="20"/>
-        <ListBox Grid.Row="1" ItemsSource="{Binding Groups}" Background="Transparent">
+        
+        <TextBlock Grid.Row="0" 
+                   Text="Группы" 
+                   FontWeight="Bold" 
+                   FontSize="20"/>
+
+        <TextBox Grid.Row="1"  
+                 Watermark="Поиск..." 
+                 Width="350" 
+                 HorizontalAlignment="Left"/>
+        
+        <ListBox Grid.Row="2" 
+                 ItemsSource="{Binding Groups}" 
+                 Background="Transparent" 
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 HorizontalAlignment="Left"
+                 SelectionChanged="SelectedChanged">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal" 
+                               HorizontalAlignment="Center"/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Button Command="{Binding NavigateToPairs}">
-                        <Border CornerRadius="20" BorderThickness="2" BorderBrush="Gray" Padding="10">
-                            <TextBlock Text="{Binding name}"/>
-                        </Border>
-                    </Button>
-                    
+                    <Border CornerRadius="20" 
+                            Height="100" 
+                            Width="100" 
+                            Padding="10">
+                        <Border.Background>
+                            <LinearGradientBrush>
+                                <GradientStop 
+                                        Color="#f598a8" 
+                                        Offset="0"/>
+                                <GradientStop 
+                                        Color="#f6edb2"
+                                        Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <TextBlock Text="{Binding name}" 
+                                   HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center" 
+                                   FontSize="20"
+                                   FontWeight="Bold"
+                                   Foreground="#FFF"/>
+                    </Border>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

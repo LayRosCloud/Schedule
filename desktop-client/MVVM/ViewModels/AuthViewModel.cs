@@ -5,6 +5,8 @@ using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Controls.Documents;
+using Avalonia.Media;
 using MVVM.Views;
 
 namespace MVVM.ViewModels;
@@ -23,6 +25,7 @@ public class AuthViewModel : ViewModelBase
         get { return _login;}
         set { _login = value; OnPropertyChanged(); }
     }
+    
     public string Password
     {
         get { return _password;}
@@ -43,7 +46,7 @@ public class AuthViewModel : ViewModelBase
         {
             CheckLoginAndPassword(login, Password);
 
-            await MessageBox.Show(currentWindow, "Успех, вы успешно авторизовались", "Успех");
+            SendSuccessfulNotification(currentWindow!);
 
             ShowNewWindow();
 
@@ -52,7 +55,7 @@ public class AuthViewModel : ViewModelBase
         catch (AuthenticationException ex)
         {
             Debug.Write(ex.Message);
-            await MessageBox.Show(currentWindow, "Ошибка! Неправильный логин или пароль", "Ошибка!");
+            SendErrorNotification(currentWindow!);
         }
         catch (Exception ex)
         {
@@ -60,6 +63,24 @@ public class AuthViewModel : ViewModelBase
         }
     }
 
+    private async void SendSuccessfulNotification(Window currentWindow)
+    {
+        Run[] runs = new Run[2];
+        runs[0] = new Run("Успех! ");
+        runs[0].Foreground = Brushes.ForestGreen;
+        runs[1] = new Run("Вы успешно авторизовались");
+        await MessageBox.Show(currentWindow, runs, "Успех");
+    }
+    
+    private async void SendErrorNotification(Window currentWindow)
+    {
+        Run[] runs = new Run[2];
+        runs[0] = new Run("Ошибка! ");
+        runs[0].Foreground = Brushes.DarkRed;
+        runs[1] = new Run("Неверный логин или пароль!");
+        await MessageBox.Show(currentWindow, runs, "Ошибка!");
+    }
+    
     private void ShowNewWindow()
     {
         Window mainWindow = new MainWindow();

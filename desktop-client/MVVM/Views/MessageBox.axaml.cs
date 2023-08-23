@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Avalonia.Controls;
+using Avalonia.Controls.Documents;
 using Avalonia.Markup.Xaml;
 
 namespace MVVM.Views;
@@ -27,13 +28,13 @@ public partial class MessageBox : Window
         AvaloniaXamlLoader.Load(this);
     }
 
-    public static Task<MessageBoxResult> Show(Window? parent, string text, string title = "", MessageBoxButtons buttons = MessageBoxButtons.Ok)
+    public static Task<MessageBoxResult> Show(Window? parent, Run[] text, string title = "", MessageBoxButtons buttons = MessageBoxButtons.Ok)
     {
         var messageBox = new MessageBox()
         {
             Title = title
         };
-        messageBox.FindControl<TextBlock>("Text")!.Text = text;
+        messageBox.FindControl<TextBlock>("Text")!.Inlines.AddRange(text);
         messageBox.FindControl<TextBlock>("TitleMain")!.Text = title;
         var buttonPanel = messageBox.FindControl<StackPanel>("Buttons");
 

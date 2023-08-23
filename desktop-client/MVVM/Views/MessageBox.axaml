@@ -14,9 +14,17 @@
             <RowDefinition/>
             <RowDefinition Height="80"/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" HorizontalAlignment="Center" Name="TitleMain" Text="Привет" FontSize="25" FontWeight="Bold"/>
-        <TextBlock Grid.Row="1" Name="Text" HorizontalAlignment="Left" Text="Дорогой друг" Padding="10"/>
-        <StackPanel Grid.Row="2" HorizontalAlignment="Center" Orientation="Horizontal" Name="Buttons">
+        <TextBlock Grid.Row="0" HorizontalAlignment="Center" Name="TitleMain"
+                   Text="Привет" FontSize="25" 
+                   FontWeight="Bold"/>
+        <TextBlock Grid.Row="1" 
+                   Name="Text" 
+                   HorizontalAlignment="Left" 
+                   Padding="10" TextWrapping="Wrap"/>
+            <StackPanel Grid.Row="2"
+                        HorizontalAlignment="Center" 
+                        Orientation="Horizontal" 
+                        Name="Buttons">
             <StackPanel.Styles>
                 <Style Selector="Button">
                     <Setter Property="Margin" Value="5"/>

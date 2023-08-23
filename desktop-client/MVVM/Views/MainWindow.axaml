@@ -2,31 +2,131 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" Width="800" Height="450"
+        MinHeight="450" MinWidth="800"
         x:Class="MVVM.Views.MainWindow"
         WindowStartupLocation="CenterScreen"
         WindowState="Normal"
         Title="Главное окно">
     <Grid>
+        
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Grid Background="#C6C1C1">
+        
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="100"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Button Content="Меню"/>
-            <StackPanel Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center">
-                <Border Background="#B3CF" Width="50" Height="50" CornerRadius="50"/>
+            
+            <Border Grid.RowSpan="3" 
+                    CornerRadius="0 10 10  0">
+                <Border.Background>
+                    <LinearGradientBrush>
+                        <GradientStop Color="#00A693" 
+                                      Offset="0"/>
+                        
+                        <GradientStop Color="#009784" 
+                                      Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+            </Border>
+            
+            <Button Grid.Row="0">
+                <StackPanel>
+                   <Border Width="15" 
+                   Height="3" 
+                   Background="#FFF" 
+                   Opacity="0.8" 
+                   CornerRadius="10"/> 
+                   
+                   <Border Width="15" 
+                   Height="3" 
+                   Margin="0 3" 
+                   Background="#FFF" 
+                   Opacity="0.8" CornerRadius="10"/> 
+                   
+                   <Border Width="15" 
+                   Height="3" 
+                   Background="#FFF" 
+                   Opacity="0.8" 
+                   CornerRadius="10"/> 
+                </StackPanel>
+            </Button>
+            
+            <StackPanel Grid.Row="1" 
+                        HorizontalAlignment="Left" 
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal"
+                        Margin="5">
+                
+                <Border Width="50" 
+                        Height="50" 
+                        CornerRadius="50">
+                    
+                    <Border.Background>
+                        <LinearGradientBrush>
+                            <GradientStop 
+                                Color="#F9B0" 
+                                Offset="0"/>
+                            <GradientStop 
+                                Color="#F9FF" 
+                                Offset="1"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    
+                    <TextBlock 
+                        Text="Д" 
+                        Foreground="White" 
+                        FontWeight="Bold" 
+                        HorizontalAlignment="Center" 
+                        VerticalAlignment="Center"/>
+                </Border>
+                <TextBlock Text="Диспетчерская"
+                           VerticalAlignment="Center"
+                           Margin="10 0 0 0"
+                           Foreground="White"
+                           FontWeight="Bold"/>
             </StackPanel>
-            <StackPanel Grid.Row="2" Width="200">
-                <Button Content="Расписание"/>
+            
+            <StackPanel Grid.Row="2" 
+                        Width="200">
+                <Button HorizontalAlignment="Stretch" 
+                        BorderThickness="0" 
+                        HorizontalContentAlignment="Left" 
+                        Padding="0 5">
+                    
+                    <StackPanel Orientation="Horizontal">
+                        <Border Width="5" 
+                                Background="White" 
+                                CornerRadius="5" 
+                                Opacity="0.8"/>
+                        <TextBlock Text="Расписание" 
+                                   Foreground="#FFF" 
+                                   Margin="15 0 0 0" 
+                                   FontSize="25"/>
+                    </StackPanel>
+                </Button>
             </StackPanel>
-            <Button Grid.Row="2" VerticalAlignment="Bottom" Content="Выйти"/>
+            
+            <Button Grid.Row="2" 
+                    HorizontalAlignment="Stretch" 
+                    VerticalAlignment="Bottom" 
+                    BorderThickness="0" 
+                    VerticalContentAlignment="Center" 
+                    HorizontalContentAlignment="Center"
+                    Click="ExitApplication">
+                
+                <TextBlock Text="Выйти" 
+                           Foreground="#FFF" 
+                           FontSize="25"/>
+            </Button>
         </Grid>
-        <ContentControl x:Name="PageControl" Grid.Column="1"/>
+        
+        <ContentControl x:Name="PageControl" 
+                        Grid.Column="1"/>
     </Grid>
 </Window>

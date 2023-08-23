@@ -3,11 +3,13 @@
   <component name="AvaloniaProject">
     <option name="projectPerEditor">
       <map>
+        <entry key="MVVM/App.axaml" value="MVVM/MVVM.csproj" />
         <entry key="MVVM/Views/AuthWindow.axaml" value="MVVM/MVVM.csproj" />
         <entry key="MVVM/Views/GroupPage.axaml" value="MVVM/MVVM.csproj" />
         <entry key="MVVM/Views/MainWindow.axaml" value="MVVM/MVVM.csproj" />
         <entry key="MVVM/Views/MessageBox.axaml" value="MVVM/MVVM.csproj" />
         <entry key="MVVM/Views/Pages/GroupPage.axaml" value="MVVM/MVVM.csproj" />
+        <entry key="MVVM/Views/Pages/PairChangerPage.axaml" value="MVVM/MVVM.csproj" />
         <entry key="MVVM/Views/Pages/PairPag.axaml" value="MVVM/MVVM.csproj" />
         <entry key="MVVM/Views/Pages/PairPage.axaml" value="MVVM/MVVM.csproj" />
       </map>
