@@ -8,6 +8,7 @@ public class SaveVariables
 {
     private static SaveVariables s_instance;
     private readonly Stack<UserControl> _listNavigate = new();
+    
     private ContentControl _pageControl;
     private Window _mainWindow;
     
@@ -26,21 +27,11 @@ public class SaveVariables
 
     public void SetPageControl(ContentControl pageControl)
     {
-        if (_pageControl != null)
-        {
-            throw new ArgumentException();
-        }
-
         _pageControl = pageControl;
     }
 
     public void SetMainWindow(Window window)
     {
-        if (_mainWindow != null)
-        {
-            throw new ArgumentException();
-        }
-
         _mainWindow = window;
     }
 

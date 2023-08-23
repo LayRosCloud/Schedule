@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Net.Http.Json;
 using MVVM.Scripts.API;
+using MVVM.Scripts.Repositories.Interfaces;
 
 namespace MVVM.Scripts.Repositories
 {
@@ -21,7 +22,7 @@ namespace MVVM.Scripts.Repositories
         public async Task<Pair> Get(int id)
         {
             HttpClient httpClient = new HttpClient();
-            var response = await httpClient.GetFromJsonAsync<Pair>($"{Const.DOMAIN}/v1/pairs/{id}");
+            var response = await httpClient.GetFromJsonAsync<Pair>($"{Constants.DOMAIN}/v1/pairs/{id}");
             
             return response!;
         }
@@ -29,7 +30,16 @@ namespace MVVM.Scripts.Repositories
         public async Task<Pair[]> GetAll()
         {
             HttpClient httpClient = new HttpClient();
-            var response = await httpClient.GetFromJsonAsync<Pair[]>($"{Const.DOMAIN}/v1/pairs/");
+            var response = await httpClient.GetFromJsonAsync<Pair[]>($"{Constants.DOMAIN}/v1/pairs/");
+
+            return response!;
+        }
+        public async Task<Pair[]> GetAll(int groupId)
+        {
+            HttpClient httpClient = new HttpClient();
+
+            var response = 
+                await httpClient.GetFromJsonAsync<Pair[]>($"{Constants.DOMAIN}/v1/pairs?groupId={groupId}");
 
             return response!;
         }

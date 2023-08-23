@@ -2,9 +2,8 @@
 
 namespace MVVM.Models;
 
-public class Pair
+public class Pair : Model
 {
-    public int id { get; set; }
     public DateOnly dateStart { get; set; }
     public DateOnly dateEnd { get; set; }
     public Audience audience { get; set; }
@@ -14,8 +13,8 @@ public class Pair
     public TypeOfPair typeOfPair { get; set; }
 
     public Pair(int id, DateOnly dateStart, DateOnly dateEnd, Audience audience, TeacherSubject teacherSubject, DayOfWeek dayOfWeek, Time time, TypeOfPair typeOfPair)
+        : base(id)
     {
-        this.id = id;
         this.dateStart = dateStart;
         this.dateEnd = dateEnd;
         this.audience = audience;

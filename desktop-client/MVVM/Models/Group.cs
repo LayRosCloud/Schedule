@@ -1,12 +1,9 @@
 ﻿namespace MVVM.Models;
 
-public class Group
+public class Group : DictionaryModel
 {
     public Group(int id, string name)
+        : base(id, name)
     {
-        this.id = id;
-        this.name = name;
     }
-    public int id { get; set; }
-    public string name { get; set; }
 }

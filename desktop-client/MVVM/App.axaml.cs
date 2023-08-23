@@ -17,10 +17,7 @@ public partial class App : Application
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            desktop.MainWindow = new AuthWindow
-            {
-                DataContext = new AuthViewModel(),
-            };
+            desktop.MainWindow = new AuthWindow();
         }
 
         base.OnFrameworkInitializationCompleted();

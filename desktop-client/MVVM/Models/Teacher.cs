@@ -2,17 +2,15 @@
 
 namespace MVVM.Models
 {
-    public class Teacher
+    public class Teacher : Model
     {
-        public int id { get; set; }
         public string Name { get; set; }
         public string LastName { get; set; }
         public string Patronymic { get; set; }
         public string Phone { get; set; }
 
-        public Teacher(int id, string name, string lastName, string patronymic, string phone) 
+        public Teacher(int id, string name, string lastName, string patronymic, string phone):base(id)
         { 
-            this.id = id;
             this.Name = name;
             this.LastName = lastName;
             this.Patronymic = patronymic;

@@ -6,7 +6,7 @@
         MinHeight="450" MinWidth="800"
         x:Class="MVVM.Views.MainWindow"
         WindowStartupLocation="CenterScreen"
-        WindowState="Normal"
+        WindowState="Maximized"
         Title="Главное окно">
     <Grid>
         
@@ -97,7 +97,8 @@
                 <Button HorizontalAlignment="Stretch" 
                         BorderThickness="0" 
                         HorizontalContentAlignment="Left" 
-                        Padding="0 5">
+                        Padding="0 5"
+                        Click="NavigateToGroupPage">
                     
                     <StackPanel Orientation="Horizontal">
                         <Border Width="5" 

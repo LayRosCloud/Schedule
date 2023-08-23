@@ -1,14 +1,10 @@
-﻿namespace MVVM.Models
-{
-    public class DayOfWeek
-    {
-        public int id {  get; set; }
-        public string name { get; set; }
+﻿namespace MVVM.Models;
 
-        public DayOfWeek(int id, string name)
-        {
-            this.id = id;
-            this.name = name;
-        }
+public class DayOfWeek : DictionaryModel
+{
+    public DayOfWeek(int id, string name)
+        : base(id, name)
+    {
     }
 }
+

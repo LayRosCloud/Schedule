@@ -1,8 +1,9 @@
 ﻿using System.Collections.ObjectModel;
-using System.Windows.Input;
+using System.Threading.Tasks;
 using DynamicData;
 using MVVM.Models;
 using MVVM.Scripts.Repositories;
+using MVVM.Scripts.Repositories.Interfaces;
 
 namespace MVVM.ViewModels;
 
@@ -12,7 +13,12 @@ public class PairViewModel : ViewModelBase
 
     public PairViewModel()
     {
-        GetPairs();
+        Init();
+    }
+
+    private async void Init()
+    {
+        await GetPairs();
     }
     
     public ObservableCollection<Pair> Pairs
@@ -20,10 +26,8 @@ public class PairViewModel : ViewModelBase
         get { return _pairs; }
         set { _pairs = value; OnPropertyChanged(); }
     }
-    
-    public ICommand ItemClickedCommand { get; set; }
 
-    private async void GetPairs() 
+    private async Task GetPairs() 
     {
         ICrudRepository<Pair> repository = new PairRepository();
         var pairs = await repository.GetAll();

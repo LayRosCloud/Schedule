@@ -12,9 +12,10 @@ public partial class MainWindow : Window
         InitializeComponent();
         SaveVariables variables = SaveVariables.Instance;
         variables.SetMainWindow(this);
+
         variables.SetPageControl(PageControl);
+
         variables.NavigateTo(new GroupPage());
-        
     }
 
     private void ExitApplication(object? sender, RoutedEventArgs e)
@@ -22,5 +23,11 @@ public partial class MainWindow : Window
         AuthWindow authWindow = new AuthWindow();
         authWindow.Show();
         this.Close();
+    }
+
+    private void NavigateToGroupPage(object? sender, RoutedEventArgs e)
+    {
+        SaveVariables variables = SaveVariables.Instance;
+        variables.NavigateTo(new GroupPage());
     }
 }

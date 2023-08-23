@@ -1,14 +1,11 @@
-﻿namespace MVVM.Models
-{
-    public class Audience
-    {
-        public int id { get; set; }
-        public string name { get; set; }
+﻿
+using MVVM.Models;
 
-        public Audience(int id, string name)
-        {
-            this.id = id;
-            this.name = name;
-        }
+public class Audience : DictionaryModel
+{
+    public Audience(int id, string name)
+        : base(id, name)
+    {
     }
 }
+

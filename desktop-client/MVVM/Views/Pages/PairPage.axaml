@@ -11,18 +11,38 @@
             <RowDefinition Height="40"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <TextBox  Watermark="поиск..." FontSize="20" Width="200"/>
+            <Button Content="Добавить" Margin="10 0 0 0" Click="ChangePair"/>
+        </StackPanel>
         <TextBlock Grid.Row="0" Text="Группа И-31" FontSize="20" FontWeight="Bold"/>
-        <TextBox Grid.Row="1"  Watermark="поиск..." FontSize="20"/>
         <DataGrid Grid.Row="2" 
                   ItemsSource="{Binding Pairs}" 
                   AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Id" 
-                                    Binding="{Binding id}" 
-                                    IsReadOnly="True"/>
                 
-                <DataGridTextColumn Header="Name" 
-                                    IsReadOnly="True"/>
+                <DataGridTextColumn Header="Полное название" 
+                                    IsReadOnly="True"
+                                    Binding="{Binding teacherSubject.Subject.FullName}"/>
+                <DataGridTextColumn Header="Дата начало" 
+                                    IsReadOnly="True"
+                                    Binding="{Binding dateStart}"/>
+                <DataGridTextColumn Header="Дата конец" 
+                                    IsReadOnly="True"
+                                    Binding="{Binding dateEnd}"/>
+                <DataGridTextColumn Header="Преподаватель" 
+                                    IsReadOnly="True"
+                                    Binding="{Binding teacherSubject.Teacher.LastName}"/>
+                <DataGridTextColumn Header="День недели" 
+                                    IsReadOnly="True"
+                                    Binding="{Binding dayOfWeek.name}"/>
+                <DataGridTextColumn Header="Время" 
+                                    IsReadOnly="True"
+                                    Binding="{Binding time.name}"/>
+                
+                <DataGridTextColumn Header="Тип пары" 
+                                    IsReadOnly="True"
+                                    Binding="{Binding typeOfPair.name}"/>
                 
                 <DataGridTemplateColumn Header="Actions" 
                                         IsReadOnly="True">

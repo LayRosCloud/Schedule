@@ -1,14 +1,13 @@
 ﻿namespace MVVM.Models
 {
-    public class Subject
+    public class Subject : Model
     {
-        public int id { get; set; }
         public string FullName { get; set; }
         public string Name { get; set; }
 
         public Subject(int id, string fullName, string name) 
+            : base(id)
         {
-            this.id = id;
             this.FullName = fullName;
             this.Name = name;
         }

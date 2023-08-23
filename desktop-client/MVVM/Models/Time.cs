@@ -1,14 +1,10 @@
 ﻿namespace MVVM.Models
 {
-    public class Time
+    public class Time : DictionaryModel
     {
-        public int id { get; set; }
-        public string name { get; set; }
-
-        public Time(int id, string name)
+        public Time(int id, string name) 
+            : base(id, name)
         {
-            this.id = id;
-            this.name = name;
         }
     }
 }
