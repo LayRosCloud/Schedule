@@ -1,14 +1,11 @@
-using System;
-using System.Diagnostics;
 using System.Security.Authentication;
 using System.Threading.Tasks;
 using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Documents;
 using Avalonia.Interactivity;
 using Avalonia.Media;
+using MVVM.Scripts;
 using MVVM.Scripts.Repositories;
-using MVVM.ViewModels;
 
 namespace MVVM.Views;
 
@@ -22,29 +19,21 @@ public partial class AuthWindow : Window
     private async void EnterApplication(object? sender, RoutedEventArgs e)
     {
         string login = Login.Text.ToLower();
-
         try
         {
             await CheckLoginAndPassword(login, Password.Text);
-
             await SendSuccessfulNotification(this);
 
             ShowNewWindow();
 
             CloseWindow(this);
         }
-        catch (AuthenticationException ex)
+        catch (AuthenticationException)
         {
             await SendErrorNotification(this);
         }
-        catch (Exception ex)
-        {
-            await MessageBox.Show(this, ex.Message);
-        }
     }
-
-
-
+    
     private Task<MessageBox.MessageBoxResult> SendSuccessfulNotification(Window currentWindow)
     {
         Run[] runs = new Run[2];
@@ -73,13 +62,11 @@ public partial class AuthWindow : Window
     {
         UsersRepository usersRepository = new UsersRepository();
         await usersRepository.Login(login, password);
-        await MessageBox.Show(this, "");
     }
 
     private void CloseWindow(Window? window)
     {
         window?.Close();
     }
-
 }
     

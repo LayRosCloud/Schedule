@@ -24,6 +24,8 @@ public class SaveVariables
             return s_instance;
         }
     }
+    
+    public string AccessToken { get; set; }
 
     public void SetPageControl(ContentControl pageControl)
     {
@@ -42,18 +44,7 @@ public class SaveVariables
     
     public void NavigateTo(UserControl page)
     {
-        _listNavigate.Push(_pageControl.Content as UserControl);
         _pageControl.Content = page;
     }
 
-    public void Back()
-    {
-        if (_listNavigate.Count <= 0)
-        {
-            throw new IndexOutOfRangeException();
-        }
-        
-        _pageControl.Content = _listNavigate.Pop();
-    }
-    
 }
