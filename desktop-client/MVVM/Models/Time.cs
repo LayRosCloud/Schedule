@@ -2,8 +2,7 @@
 {
     public class Time : DictionaryModel
     {
-        public Time(int id, string name) 
-            : base(id, name)
+        public Time(int id, string name) : base(id, name)
         {
         }
     }

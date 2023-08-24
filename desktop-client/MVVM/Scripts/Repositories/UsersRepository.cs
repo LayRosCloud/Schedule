@@ -1,12 +1,20 @@
-﻿using System;
+﻿using MVVM.Models;
+using MVVM.Scripts.API;
+using System;
+using System.Net.Http;
+using System.Net.Http.Json;
 using System.Threading.Tasks;
 
 namespace MVVM.Scripts.Repositories;
 
-public class UsersRepository
+internal class UsersRepository
 {
-    public Task Login(string login, string password)
+    public async Task<User?> Login(string login, string password)
     {
-        throw new Exception();
+        HttpClient httpClient = new HttpClient();
+
+        var post = await httpClient.PostAsJsonAsync<User>($"{Constants.DOMAIN_OAUTH}", new User(1,login, password, ""));
+        User? user = await post.Content.ReadFromJsonAsync<User>();
+        return user;
     }
 }

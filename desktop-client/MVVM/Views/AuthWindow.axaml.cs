@@ -7,6 +7,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Documents;
 using Avalonia.Interactivity;
 using Avalonia.Media;
+using MVVM.Scripts.Repositories;
 using MVVM.ViewModels;
 
 namespace MVVM.Views;
@@ -24,7 +25,7 @@ public partial class AuthWindow : Window
 
         try
         {
-            CheckLoginAndPassword(login, Password.Text);
+            await CheckLoginAndPassword(login, Password.Text);
 
             await SendSuccessfulNotification(this);
 
@@ -38,7 +39,7 @@ public partial class AuthWindow : Window
         }
         catch (Exception ex)
         {
-            Debug.Write(ex.Message);
+            await MessageBox.Show(this, ex.Message);
         }
     }
 
@@ -68,17 +69,17 @@ public partial class AuthWindow : Window
         mainWindow.Show();
     }
     
-    private void CheckLoginAndPassword(string login, string password)
+    private async Task CheckLoginAndPassword(string login, string password)
     {
-        if (!login.Equals("admin") || !password.Equals("admin"))
-        {
-            throw new AuthenticationException();
-        }
+        UsersRepository usersRepository = new UsersRepository();
+        await usersRepository.Login(login, password);
+        await MessageBox.Show(this, "");
     }
 
     private void CloseWindow(Window? window)
     {
         window?.Close();
     }
+
 }
     
