@@ -15,7 +15,7 @@
             <TextBox  Watermark="поиск..." FontSize="20" Width="200"/>
             <Button Content="Добавить" Margin="10 0 0 0" Click="ChangePair"/>
         </StackPanel>
-        <TextBlock Grid.Row="0" Text="Группа И-31" FontSize="20" FontWeight="Bold"/>
+        <TextBlock Grid.Row="0" Text="{Binding Path=NameGroup}" FontSize="20" FontWeight="Bold"/>
         <DataGrid Grid.Row="2" 
                   ItemsSource="{Binding Pairs}" 
                   AutoGenerateColumns="False">

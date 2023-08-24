@@ -2,6 +2,7 @@
 using Avalonia.Interactivity;
 using MVVM.Scripts;
 using MVVM.Views.Pages;
+using MVVM.Models;
 
 namespace MVVM.Views;
 

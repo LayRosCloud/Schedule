@@ -2,18 +2,44 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:m="clr-namespace:MVVM.Models"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="MVVM.Views.Pages.PairChangerPage">
     <StackPanel HorizontalAlignment="Center">
-        <TextBlock Text="Группа И-31"/>
-        <ComboBox PlaceholderText="Выберите преподавателя-пару" HorizontalAlignment="Stretch"/>
+        <TextBlock x:Name="Title" Text=""/>
+        <ComboBox x:Name="Teachers" PlaceholderText="Выберите преподавателя-пару" HorizontalAlignment="Stretch">
+			<ComboBox.ItemTemplate>
+				<DataTemplate x:DataType="m:TeacherSubject">
+					    <TextBlock Text="{Binding Subject.FullName}"/>
+				</DataTemplate>
+			</ComboBox.ItemTemplate>
+		</ComboBox>
         <StackPanel Orientation="Horizontal" >
             <CalendarDatePicker SelectedDateFormat="Long" VerticalAlignment="Center"/>
-            <ComboBox Margin="5 5 0 0" PlaceholderText="Выберите время" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+            <ComboBox x:Name="Time" Margin="5 5 0 0" PlaceholderText="Выберите время" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+				<ComboBox.ItemTemplate>
+					<DataTemplate x:DataType="m:Time">
+						<TextBlock Text="{Binding name}"/>
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
         </StackPanel>
         
-        <ComboBox Margin="0 5 0 0" PlaceholderText="Выберите аудиторию" HorizontalAlignment="Stretch"/>
-        <ComboBox Margin="0 5 0 0" PlaceholderText="Выберите тип пары" HorizontalAlignment="Stretch"/>
+        <ComboBox x:Name="Audience" Margin="0 5 0 0" PlaceholderText="Выберите аудиторию" HorizontalAlignment="Stretch">
+			<ComboBox.ItemTemplate>
+				<DataTemplate x:DataType="m:Audience">
+					<TextBlock Text="{Binding name}"/>
+				</DataTemplate>
+			</ComboBox.ItemTemplate>
+		</ComboBox>
+		
+        <ComboBox x:Name="TypeOfPairs" Margin="0 5 0 0" PlaceholderText="Выберите тип пары" HorizontalAlignment="Stretch">
+			<ComboBox.ItemTemplate>
+				<DataTemplate x:DataType="m:TypeOfPair">
+					<TextBlock Text="{Binding name}"/>
+				</DataTemplate>
+			</ComboBox.ItemTemplate>
+		</ComboBox>
         <Button Margin="0 5 0 0" Content="Тимоха, ты че творишь? Это рофлс" Click="SavePair"/>
     </StackPanel>
 </UserControl>

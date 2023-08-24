@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Documents;
@@ -7,6 +8,7 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using MVVM.Models;
 using MVVM.Scripts;
+using MVVM.Scripts.Repositories;
 using MVVM.ViewModels;
 
 namespace MVVM.Views.Pages;
@@ -17,6 +19,7 @@ public partial class PairPage : UserControl
     {
         InitializeComponent();
         DataContext = new PairViewModel();
+
     }
 
     private async void DeletePair(object? sender, RoutedEventArgs e)
@@ -29,7 +32,18 @@ public partial class PairPage : UserControl
         {
             return;
         }
-        //TODO: Сделать уведомление об успешном удалении
+
+        try 
+        {
+            PairRepository pairRepository = new PairRepository();
+            await pairRepository.Delete(selectedPair.id);
+
+
+        }
+        catch (Exception ex)
+        {
+            await MessageBox.Show(SaveVariables.Instance.GetMainWindow(), ex.Message);
+        }
     }
 
     private Task<MessageBox.MessageBoxResult> SendNotificationOnDeletePair(Window main, Pair pair)

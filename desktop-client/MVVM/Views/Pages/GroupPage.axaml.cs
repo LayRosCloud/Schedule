@@ -24,7 +24,8 @@ public partial class GroupPage : UserControl
 
     private void SelectedChanged(object? sender, SelectionChangedEventArgs e)
     {
-        Group? selectedGroup = (sender as Button)?.DataContext as Group;
+        Group? selectedGroup = (sender as ListBox).SelectedItem as Group;
+        SaveVariables.Instance.Group = selectedGroup;
         SaveVariables.Instance.NavigateTo(new PairPage());
     }
 }

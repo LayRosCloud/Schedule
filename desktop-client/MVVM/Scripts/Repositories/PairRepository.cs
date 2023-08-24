@@ -20,7 +20,13 @@ namespace MVVM.Scripts.Repositories
         public async Task Delete(int id)
         {
             HttpClient httpClient = new HttpClient();
-            await httpClient.DeleteAsync($"{Constants.DOMAIN}/v1/pairs/{id}");
+            
+            httpClient.DefaultRequestHeaders.Accept.Clear();
+            httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+            httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {SaveVariables.Instance.AccessToken}");
+
+            var response = await httpClient.DeleteAsync($"{Constants.DOMAIN}/v1/pairs/{id}");
         }
 
         public async Task<Pair> Get(int id)

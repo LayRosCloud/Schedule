@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Avalonia.Controls;
+using MVVM.Models;
 
 namespace MVVM.Scripts;
 
@@ -26,6 +27,7 @@ public class SaveVariables
     }
     
     public string AccessToken { get; set; }
+    public Group Group { get; set; }
 
     public void SetPageControl(ContentControl pageControl)
     {
