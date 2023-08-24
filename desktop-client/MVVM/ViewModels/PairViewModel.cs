@@ -10,6 +10,7 @@ namespace MVVM.ViewModels;
 public class PairViewModel : ViewModelBase
 {
     private ObservableCollection<Pair> _pairs = new();
+    private bool _loadingVisible = true;
 
     public PairViewModel()
     {
@@ -20,7 +21,12 @@ public class PairViewModel : ViewModelBase
     {
         await GetPairs();
     }
-    
+
+    public bool LoadingVisible
+    {
+        get { return _loadingVisible; }
+        set { _loadingVisible = value; OnPropertyChanged(); }
+    }
     public ObservableCollection<Pair> Pairs
     {
         get { return _pairs; }
@@ -32,5 +38,6 @@ public class PairViewModel : ViewModelBase
         ICrudRepository<Pair> repository = new PairRepository();
         var pairs = await repository.GetAll();
         Pairs.AddRange(pairs);
+        LoadingVisible = false;
     }
 }

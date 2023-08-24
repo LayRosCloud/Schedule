@@ -9,14 +9,18 @@ namespace MVVM.Scripts.Repositories
 {
     internal class PairRepository : ICrudRepository<Pair>
     {
-        public Task<Pair> Create(Pair entity)
+        public async Task<Pair> Create(Pair entity)
         {
-            throw new System.NotImplementedException();
+            HttpClient httpClient = new HttpClient();
+            var response = await httpClient.PostAsJsonAsync($"{Constants.DOMAIN}/v1/pairs/", entity);
+            var pair = await response.Content.ReadFromJsonAsync<Pair>();
+            return pair!;
         }
 
-        public Task Delete(int id)
+        public async Task Delete(int id)
         {
-            throw new System.NotImplementedException();
+            HttpClient httpClient = new HttpClient();
+            await httpClient.DeleteAsync($"{Constants.DOMAIN}/v1/pairs/{id}");
         }
 
         public async Task<Pair> Get(int id)
@@ -44,9 +48,12 @@ namespace MVVM.Scripts.Repositories
             return response!;
         }
 
-        public Task<Pair> Update(Pair entity)
+        public async Task<Pair> Update(Pair entity)
         {
-            throw new System.NotImplementedException();
+            HttpClient httpClient = new HttpClient();
+            var response = await httpClient.PutAsJsonAsync($"{Constants.DOMAIN}/v1/pairs/{entity.id}", entity);
+            var pair = await response.Content.ReadFromJsonAsync<Pair>();
+            return pair!;
         }
     }
 }

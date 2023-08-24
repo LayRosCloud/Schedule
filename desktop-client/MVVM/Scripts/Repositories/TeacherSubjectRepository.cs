@@ -1,18 +1,27 @@
-﻿using System.Threading.Tasks;
+﻿using System.Net.Http;
+using System.Net.Http.Json;
+using System.Threading.Tasks;
 using MVVM.Models;
+using MVVM.Scripts.API;
 using MVVM.Scripts.Repositories.Interfaces;
 
 namespace MVVM.Scripts.Repositories;
 
 public class TeacherSubjectRepository : IDataReader<TeacherSubject>
 {
-    public Task<TeacherSubject[]> GetAll()
+    public async Task<TeacherSubject> Get(int id)
     {
-        throw new System.NotImplementedException();
+        HttpClient httpClient = new HttpClient();
+        var response = await httpClient.GetFromJsonAsync<TeacherSubject>($"{Constants.DOMAIN}/v1/cache/teacherSubjects/{id}");
+            
+        return response!;
     }
 
-    public Task<TeacherSubject> Get(int id)
+    public async Task<TeacherSubject[]> GetAll()
     {
-        throw new System.NotImplementedException();
+        HttpClient httpClient = new HttpClient();
+        var response = await httpClient.GetFromJsonAsync<TeacherSubject[]>($"{Constants.DOMAIN}/v1/cache/teacherSubjects/");
+
+        return response!;
     }
 }

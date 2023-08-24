@@ -1,18 +1,27 @@
-﻿using System.Threading.Tasks;
+﻿using System.Net.Http;
+using System.Net.Http.Json;
+using System.Threading.Tasks;
 using MVVM.Models;
+using MVVM.Scripts.API;
 using MVVM.Scripts.Repositories.Interfaces;
 
 namespace MVVM.Scripts.Repositories;
 
 public class GroupRepository : IDataReader<Group>
 {
-    public Task<Group[]> GetAll()
+    public async Task<Group[]> GetAll()
     {
-        throw new System.NotImplementedException();
+        HttpClient httpClient = new HttpClient();
+        var response = await httpClient.GetFromJsonAsync<Group[]>($"{Constants.DOMAIN}/v1/groups");
+            
+        return response!;
     }
 
-    public Task<Group> Get(int id)
+    public async Task<Group> Get(int id)
     {
-        throw new System.NotImplementedException();
+        HttpClient httpClient = new HttpClient();
+        var response = await httpClient.GetFromJsonAsync<Group>($"{Constants.DOMAIN}/v1/groups/{id}");
+            
+        return response!;
     }
 }

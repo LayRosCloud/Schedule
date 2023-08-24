@@ -55,5 +55,8 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
+        <Border Background="White" Grid.Row="2" IsVisible="{Binding LoadingVisible}">
+            <TextBlock Text="Загрузка..." VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="40"/>
+        </Border>
     </Grid>
 </UserControl>

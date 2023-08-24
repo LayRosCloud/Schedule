@@ -7,6 +7,7 @@
         x:Class="MVVM.Views.MainWindow"
         WindowStartupLocation="CenterScreen"
         WindowState="Maximized"
+        Icon="/Assets/avalonia-logo.ico"
         Title="Главное окно">
     <Grid>
         

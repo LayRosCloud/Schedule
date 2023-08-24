@@ -7,10 +7,13 @@
     <StackPanel HorizontalAlignment="Center">
         <TextBlock Text="Группа И-31"/>
         <ComboBox PlaceholderText="Выберите преподавателя-пару" HorizontalAlignment="Stretch"/>
-        <ComboBox Margin="0 5 0 0" PlaceholderText="Выберите день недели" HorizontalAlignment="Stretch"/>
-        <ComboBox Margin="0 5 0 0" PlaceholderText="Выберите время" HorizontalAlignment="Stretch"/>
+        <StackPanel Orientation="Horizontal" >
+            <CalendarDatePicker SelectedDateFormat="Long" VerticalAlignment="Center"/>
+            <ComboBox Margin="5 5 0 0" PlaceholderText="Выберите время" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+        </StackPanel>
+        
         <ComboBox Margin="0 5 0 0" PlaceholderText="Выберите аудиторию" HorizontalAlignment="Stretch"/>
-        <ComboBox Margin="0 5 0 0" PlaceholderText="Выберите день недели" HorizontalAlignment="Stretch"/>
-        <Button Margin="0 5 0 0" Content="Нахуярил"/>
+        <ComboBox Margin="0 5 0 0" PlaceholderText="Выберите тип пары" HorizontalAlignment="Stretch"/>
+        <Button Margin="0 5 0 0" Content="Тимоха, ты че творишь? Это рофлс" Click="SavePair"/>
     </StackPanel>
 </UserControl>

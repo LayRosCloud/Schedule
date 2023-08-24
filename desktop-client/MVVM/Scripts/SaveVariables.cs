@@ -42,7 +42,7 @@ public class SaveVariables
     
     public void NavigateTo(UserControl page)
     {
-        _listNavigate.Push(page);
+        _listNavigate.Push(_pageControl.Content as UserControl);
         _pageControl.Content = page;
     }
 
