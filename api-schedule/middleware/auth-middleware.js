@@ -13,11 +13,9 @@ module.exports = function (roles){
             if(!accessToken){
                 throw ApiError.notFound('Пользователь не авторизован')
             }
-            console.log('tag')
             const permissions = await axios.post(process.env.URL_VERIFY, {}, {headers: {
                 Authorization: `Bearer ${accessToken}`
                 }})
-            console.log(permissions)
             let hasRole = false
             for (const permission of permissions.data){
                 const isRole = roles.includes(permission.role.name);

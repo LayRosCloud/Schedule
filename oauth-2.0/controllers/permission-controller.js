@@ -1,7 +1,6 @@
 const PermissionService = require('../services/permission-service')
 
 class PermissionController{
-
     async create(req, res, next){
         const {userId, roleId} = req.body
         try{

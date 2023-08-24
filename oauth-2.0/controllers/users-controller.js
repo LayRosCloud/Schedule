@@ -10,6 +10,7 @@ class UsersController{
             return next(e)
         }
     }
+
     async login(req, res, next){
         const {login, password, clientId, clientSecret} = req.body
         try{

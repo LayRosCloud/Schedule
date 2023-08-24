@@ -36,6 +36,7 @@ class UsersService{
         if(!response){
             throw ApiException.badBody('Ошибка! Токен неправильный')
         }
+
         return response.permissions
     }
 
@@ -44,24 +45,29 @@ class UsersService{
         if(!login || !password || !clientId || !clientSecret){
             throw ApiException.badBody()
         }
+
         login = login.toLowerCase()
 
-        const client = await ClientService.getById(clientId)
-        if(!client && client.clientSecret !== clientSecret){
-            throw ApiException.notFound('Ошибка! Такого клиента не существует!')
-        }
-
         const user = await this.getByLogin(login)
+
         if(!user){
             throw ApiException.notFound('Ошибка! Неверный логин или пароль')
+        }
+
+        const client = await ClientService.getById(clientId)
+
+        if(!client && client.clientSecret !== clientSecret){
+            throw ApiException.notFound('Ошибка! Такого клиента не существует!')
         }
 
         const isPasswordEquals = await bcrypt.compare(password, user.password)
         if(isPasswordEquals === false){
             throw ApiException.notFound('Ошибка! Пароль')
         }
+
         const userDto = new UserDto(user)
         const accessToken = JwtService.create({...userDto});
+
         await UserEntity.update({login, password: user.password, accessToken}, {where: {id: user.id}})
         const lastUser = await this.getById(user.id);
         return lastUser

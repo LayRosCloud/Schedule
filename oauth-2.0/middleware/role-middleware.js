@@ -13,7 +13,7 @@ module.exports = function (roles){
             if(!accessToken){
                 throw ApiError.notFound('Пользователь не авторизован')
             }
-            const permissions = usersService.verify(accessToken).permissions
+            const permissions = await usersService.verify(accessToken)
             let hasRole = false
             for (const permission of permissions){
                 const isRole = roles.includes(permission.role.name);
@@ -22,7 +22,6 @@ module.exports = function (roles){
                     break;
                 }
             }
-
             if(hasRole === false){
                 throw new Error('Недостаточно прав')
             }
