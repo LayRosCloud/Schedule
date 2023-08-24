@@ -1,9 +1,8 @@
-const {CourseEntity, FacultyEntity} = require('../core/models')
+const {CourseEntity, FacultyEntity, GroupEntity} = require('../core/models')
 const ApiException = require('../exceptions/ApiException')
 
-const include = [FacultyEntity]
 const attributes = ['id', 'name']
-
+const include = [FacultyEntity, GroupEntity]
 class CourseService {
     async getAll(){
         const response = await CourseEntity.findAll({attributes, include});

@@ -1,8 +1,11 @@
-const {FacultyEntity, CollegeEntity} = require('../core/models')
+const {FacultyEntity, CollegeEntity, CourseEntity, GroupEntity} = require('../core/models')
 const ApiException = require('../exceptions/ApiException')
 
 const attributes = ['id', 'name']
-const include = [CollegeEntity]
+const include = [CollegeEntity, {
+    model: CourseEntity,
+    include: [GroupEntity]
+}]
 
 class FacultyService {
     async getAll(){
