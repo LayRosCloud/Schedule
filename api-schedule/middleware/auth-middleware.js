@@ -21,7 +21,7 @@ module.exports = function (roles){
             let hasRole = false
             for (const permission of permissions.data){
                 const isRole = roles.includes(permission.role.name);
-                if(hasRole === false){
+                if(isRole){
                     hasRole = isRole;
                     break;
                 }
