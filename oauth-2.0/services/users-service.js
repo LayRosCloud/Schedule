@@ -56,8 +56,8 @@ class UsersService{
 
         const client = await ClientService.getById(clientId)
 
-        if(!client && client.clientSecret !== clientSecret){
-            throw ApiException.notFound('Ошибка! Такого клиента не существует!')
+        if(client.clientSecret !== clientSecret){
+            throw ApiException.notFound('Ошибка! Неверный ключ!')
         }
 
         const isPasswordEquals = await bcrypt.compare(password, user.password)
