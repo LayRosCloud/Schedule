@@ -18,10 +18,10 @@ class PairController{
     }
 
     async create(req, res, next){
-        const {dateStart, numberOfWeeks, audienceId, teacherSubjectId, groupId, timeId, dayOfWeekId, typeOfPairId} = req.body
+        const {dateStart, dateEnd, audienceId, teacherSubjectId, groupId, timeId, dayOfWeekId, typeOfPairId} = req.body
 
         try{
-            const response = await service.create(dateStart, numberOfWeeks, audienceId, teacherSubjectId, groupId, timeId, dayOfWeekId, typeOfPairId)
+            const response = await service.create(dateStart, dateEnd, audienceId, teacherSubjectId, groupId, timeId, dayOfWeekId, typeOfPairId)
             return res.json(response)
         }catch (e){
             return  next(e)
@@ -30,10 +30,10 @@ class PairController{
 
     async update(req, res, next){
         const {id} = req.params
-        const {dateStart, numberOfWeeks, audienceId, teacherSubjectId, groupId, timeId, dayOfWeekId, typeOfPairId} = req.body
+        const {dateStart, dateEnd, audienceId, teacherSubjectId, groupId, timeId, dayOfWeekId, typeOfPairId} = req.body
 
         try{
-            const response = await service.update(id, dateStart, numberOfWeeks, audienceId, teacherSubjectId, groupId, timeId, dayOfWeekId, typeOfPairId)
+            const response = await service.update(id, dateStart, dateEnd, audienceId, teacherSubjectId, groupId, timeId, dayOfWeekId, typeOfPairId)
             return res.json(response)
         }catch (e){
             return  next(e)

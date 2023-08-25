@@ -1,10 +1,13 @@
-﻿namespace MVVM.Models
+﻿
+namespace MVVM.Models
 {
     public class TypeOfPair : DictionaryModel
     {
-        public TypeOfPair(int id, string name) 
+        public string color { get; set; }
+        public TypeOfPair(int id, string name, string color) 
             : base(id, name)
         {
+            this.color = color;
         }
     }
 }

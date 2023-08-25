@@ -64,13 +64,13 @@ class PairService {
         return new PairDto(response, teacherSubject, audience);
     }
 
-    async create(dateStart, numberOfWeeks, audienceId, teacherSubjectId, groupId, timeId, dayOfWeekId, typeOfPairId){
-        if(!dateStart || !numberOfWeeks || !audienceId || !teacherSubjectId || !groupId || !timeId || !dayOfWeekId || !typeOfPairId){
+    async create(dateStart, dateEnd, audienceId, teacherSubjectId, groupId, timeId, dayOfWeekId, typeOfPairId){
+        if(!dateStart || !dateEnd || !audienceId || !teacherSubjectId || !groupId || !timeId || !dayOfWeekId || !typeOfPairId){
             throw ApiException.badBody()
         }
 
         return await PairEntity.create({ dateStart,
-            numberOfWeeks,
+            dateEnd,
             audienceId,
             teacherSubjectId,
             groupId,
@@ -79,14 +79,14 @@ class PairService {
             typeOfPairId})
     }
 
-    async update(id, dateStart, numberOfWeeks, audienceId, teacherSubjectId, groupId, timeId, dayOfWeekId, typeOfPairId){
-        if(!dateStart || !numberOfWeeks || !audienceId || !teacherSubjectId || !groupId || !timeId || !dayOfWeekId || !typeOfPairId){
+    async update(id, dateStart, dateEnd, audienceId, teacherSubjectId, groupId, timeId, dayOfWeekId, typeOfPairId){
+        if(!dateStart || !dateEnd || !audienceId || !teacherSubjectId || !groupId || !timeId || !dayOfWeekId || !typeOfPairId){
             throw ApiException.badBody()
         }
 
         await this.getById(id)
         await PairEntity.update({ dateStart,
-                    numberOfWeeks,
+                    dateEnd,
                     audienceId,
                     teacherSubjectId,
                     groupId,

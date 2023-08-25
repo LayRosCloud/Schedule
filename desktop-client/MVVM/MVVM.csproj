@@ -28,9 +28,4 @@
     <ItemGroup>
       <UpToDateCheckInput Remove="Styles\Styles.axaml" />
     </ItemGroup>
-
-
-    <ItemGroup>
-      <Folder Include="Models\Exceptions\" />
-    </ItemGroup>
 </Project>

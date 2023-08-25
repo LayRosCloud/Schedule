@@ -17,13 +17,18 @@ public partial class MainWindow : Window
         variables.SetPageControl(PageControl);
 
         variables.NavigateTo(new GroupPage());
+        TextBox.Text = SaveVariables.Instance.AccessToken;
     }
 
     private void ExitApplication(object? sender, RoutedEventArgs e)
     {
+        FileCrypt fileCrypt = new FileCrypt();
+        fileCrypt.DeleteFile("data");
+        
         AuthWindow authWindow = new AuthWindow();
         authWindow.Show();
-        this.Close();
+        
+        Close();
     }
 
     private void NavigateToGroupPage(object? sender, RoutedEventArgs e)

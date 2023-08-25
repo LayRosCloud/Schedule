@@ -44,7 +44,7 @@
                 <ColumnDefinition
                     />
             </Grid.ColumnDefinitions>
-            <CheckBox HorizontalAlignment="Left"  
+            <CheckBox x:Name="RememberMe" Grid.Column="0" HorizontalAlignment="Left"  
                       Content="Запомнить меня"/>
             <Button Grid.Column="1" 
                     HorizontalAlignment="Right" 

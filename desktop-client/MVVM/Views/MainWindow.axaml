@@ -57,7 +57,7 @@
                    CornerRadius="10"/> 
                 </StackPanel>
             </Button>
-            
+            <TextBox IsReadOnly="True" x:Name="TextBox"/>
             <StackPanel Grid.Row="1" 
                         HorizontalAlignment="Left" 
                         VerticalAlignment="Center"

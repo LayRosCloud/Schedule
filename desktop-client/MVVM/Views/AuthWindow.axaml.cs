@@ -1,9 +1,11 @@
+using System;
 using System.Security.Authentication;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Controls.Documents;
 using Avalonia.Interactivity;
 using Avalonia.Media;
+using Avalonia.Threading;
 using MVVM.Scripts;
 using MVVM.Scripts.Repositories;
 
@@ -11,11 +13,33 @@ namespace MVVM.Views;
 
 public partial class AuthWindow : Window
 {
+    private readonly FileCrypt _crypt;
+    private readonly DispatcherTimer dispatcherTimer = new();
+
     public AuthWindow()
     {
         InitializeComponent();
+        _crypt = new FileCrypt();
+        dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0,1);
+        dispatcherTimer.Tick += (sender, args) =>
+        {
+            Init();
+            dispatcherTimer.Stop();
+        };
+        dispatcherTimer.Start();
     }
 
+    private void Init()
+    {
+        string token = _crypt.ReadText();
+        if (token != "")
+        {
+            SaveVariables.Instance.AccessToken = token;
+            ShowNewWindow();
+            CloseWindow();
+        }
+    }
+    
     private async void EnterApplication(object? sender, RoutedEventArgs e)
     {
         string login = Login.Text.ToLower();
@@ -24,15 +48,20 @@ public partial class AuthWindow : Window
             await CheckLoginAndPassword(login, Password.Text);
             await SendSuccessfulNotification(this);
 
+            if (RememberMe.IsChecked == true)
+            {
+                 _crypt.WriteText(SaveVariables.Instance.AccessToken);
+            }
+            
             ShowNewWindow();
-
-            CloseWindow(this);
+            CloseWindow();
         }
         catch (AuthenticationException)
         {
             await SendErrorNotification(this);
         }
     }
+    
     
     private Task<MessageBox.MessageBoxResult> SendSuccessfulNotification(Window currentWindow)
     {
@@ -64,9 +93,9 @@ public partial class AuthWindow : Window
         await usersRepository.Login(login, password);
     }
 
-    private void CloseWindow(Window? window)
+    private void CloseWindow()
     {
-        window?.Close();
+        this.Close();
     }
 }
     

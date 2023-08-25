@@ -72,6 +72,9 @@ public partial class PairPage : UserControl
 
     private void ChangePair(object? sender, RoutedEventArgs e)
     {
-        SaveVariables.Instance.NavigateTo(new PairChangerPage());
+        Pair? pair = (sender as Button)?.DataContext as Pair;
+        var page = new PairChangerPage();
+        page.SetPair(pair!);
+        SaveVariables.Instance.NavigateTo(page);
     }
 }
