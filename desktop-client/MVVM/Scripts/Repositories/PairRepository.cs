@@ -14,22 +14,12 @@ namespace MVVM.Scripts.Repositories
         public async Task<Pair> Create(Pair entity)
         {
             HttpClient httpClient = new HttpClient();
-            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, $"{Constants.DOMAIN}/v1/pairs/");
+            httpClient.DefaultRequestHeaders.Accept.Clear();
+            httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+            httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {SaveVariables.Instance.AccessToken}");
             
-            request.Headers.Add("Authorization", $"Bearer {SaveVariables.Instance.AccessToken}");
-            string requestBody = "{" +
-                                 $"\"dateStart\": \"{entity.dateStart}\"," +
-                                 $"\"dateEnd\": \"{entity.dateEnd}\"," +
-                                 $"\"audienceId\": \"{entity.audienceId}\"," +
-                                 $"\"teacherSubjectId\": \"{entity.teacherSubjectId}\"," +
-                                 $"\"groupId\": \"{entity.groupId}\"," +
-                                 $"\"timeId\": \"{entity.timeId}\"," +
-                                 $"\"dayOfWeekId\": \"{entity.dayOfWeekId}\"," +
-                                 $"\"typeOfPairId\": \"{entity.typeOfPairId}\"," +
-                                 "}";
-            request.Content = new StringContent(requestBody, Encoding.UTF8, "application/json");
-            HttpResponseMessage response = await httpClient.SendAsync(request);
-            await MessageBox.Show(SaveVariables.Instance.GetMainWindow(), response.StatusCode.ToString());
+            var response = await httpClient.PostAsJsonAsync($"{Constants.DOMAIN}/v1/pairs/", entity);
             var responseBody = await response.Content.ReadFromJsonAsync<Pair>();
 
             return responseBody!;

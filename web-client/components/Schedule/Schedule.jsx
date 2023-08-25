@@ -25,6 +25,7 @@ const Schedule = ({pairs, times, days, fullTimes, typeOfPairs}) => {
 
         for (const pair of pairs) {
             const dayId = pair.dayOfWeek.id
+
             if(dayMap.has(dayId)){
                 dayMap.get(dayId).pairs.push(pair)
             }
@@ -35,9 +36,11 @@ const Schedule = ({pairs, times, days, fullTimes, typeOfPairs}) => {
             const options = { weekday: 'long' };
 
             let weekDay = dateNow.toLocaleString('ru', options)
+
             if(weekDay === 'воскресенье'){
                 weekDay = 'суббота'
             }
+
             for (const obj of dayMap.values()){
                 if(obj.dayOfWeek.name.toLowerCase() === weekDay){
                     todayResult = obj

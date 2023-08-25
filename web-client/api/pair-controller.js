@@ -8,13 +8,14 @@ class PairController{
         if(!groupId && !teacherSubjectId && !audienceId){
             return await $api.get(url, {params: {isCurrentDate: 1}})
         }
+
         return await $api.get(url,
             {
                 params: {
+                    isCurrentDate: 1,
                     groupId: groupId,
                     teacherSubjectId: teacherSubjectId,
-                    audienceId: audienceId,
-                    isCurrentDate: 1
+                    audienceId: audienceId
                 }
             })
     }

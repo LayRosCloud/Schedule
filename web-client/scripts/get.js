@@ -19,7 +19,9 @@ const cachedKeys = {
 
 export async function getPairs(groupId, teacherId, audienceId){
     const responsePairs = await pairController.getAll(groupId, teacherId, audienceId);
-    return responsePairs.data
+    const data = responsePairs.data
+    const result = data.sort((a, b) => a.time.id - b.time.id)
+    return result
 }
 
 export async function getTypeOfPairs(){

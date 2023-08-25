@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:MVVM.ViewModels"
+             xmlns:m="clr-namespace:MVVM.Models"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="MVVM.Views.Pages.GroupPage"
              x:DataType="vm:GroupViewModel" 
@@ -45,11 +46,11 @@
                         <Border.Background>
                             <LinearGradientBrush>
                                 <GradientStop 
-                                        Color="#f598a8" 
-                                        Offset="0"/>
+                                    Color="#f598a8" 
+                                    Offset="0"/>
                                 <GradientStop 
-                                        Color="#f6edb2"
-                                        Offset="1"/>
+                                    Color="#f6edb2"
+                                    Offset="1"/>
                             </LinearGradientBrush>
                         </Border.Background>
                         <TextBlock Text="{Binding name}" 
@@ -62,5 +63,6 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+        
     </Grid>
 </UserControl>
