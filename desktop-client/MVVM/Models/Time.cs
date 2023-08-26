@@ -7,7 +7,8 @@
         }
         public override bool Equals(object? obj)
         {
-            return id.Equals(((Time)obj).id);
+            Time time = obj as Time;
+            return id.Equals(time.id);
         }
     }
 }

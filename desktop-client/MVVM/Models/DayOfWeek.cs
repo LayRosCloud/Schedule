@@ -8,7 +8,8 @@ public class DayOfWeek : DictionaryModel
 
     public override bool Equals(object? obj)
     {
-        return id.Equals(((DayOfWeek)obj).id);
+        DayOfWeek dayOfWeek = obj as DayOfWeek;
+        return id.Equals(dayOfWeek.id);
     }
 }
 

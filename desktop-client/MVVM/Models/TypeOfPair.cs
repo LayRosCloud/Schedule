@@ -10,7 +10,8 @@ namespace MVVM.Models
         }
         public override bool Equals(object? obj)
         {
-            return id.Equals(((TypeOfPair)obj).id);
+            TypeOfPair typeOfPair = obj as TypeOfPair;
+            return id.Equals(typeOfPair.id);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using MVVM.Scripts;
@@ -12,66 +13,123 @@ namespace MVVM.Views.Pages;
 
 public partial class PairChangerPage : UserControl
 {
-    private int globalAnus;
+    private readonly Pair _selectedPair;
+    private readonly Group _group;
 
-    public PairChangerPage(Pair pair)
+    private const int NewPairId = 0;
+    private const int DaysCountInWeek = 7;
+    private const int MinimumPair = 1;
+    
+    public PairChangerPage(Pair pair, Group group)
     {
         InitializeComponent();
-        Init(pair);
-        Title.Text = SaveVariables.Instance.Group.name;
+        
+        if (pair == null)
+        {
+            pair = new Pair();
+        }
+        
+        _selectedPair = pair;
+        _group = group;
+        
+        Init();
+
+        Title.Text = group.name;
     }
-    
-    private async void Init(Pair pair) 
+
+    private async void Init()
     {
-        await GetTeacherSubjects();
-        await GetTime();
-        await GetAudience();
-        await GetTypeOfPair();
-
-        globalAnus = pair.id;
-
-        Teachers.SelectedItem = pair.teacherSubject;
-        Time.SelectedItem = pair.time;
-        Audience.SelectedItem = pair.audience;
-        TypeOfPairs.SelectedItem = pair.typeOfPair;
-
-        var dateStart = new DateTime(pair.dateStart.Year, pair.dateStart.Month, pair.dateStart.Day);
-        var dateEnd = new DateTime(pair.dateEnd.Year, pair.dateEnd.Month, pair.dateEnd.Day);
-        DatePicker.SelectedDate = dateStart;
-        TbNumberOfWeeks.Value = (((decimal?)(dateEnd - dateStart).TotalDays) / 7) + 1;
-
+        await InitData();
+        if (_selectedPair.id != NewPairId)
+        {
+            SetDefaultParams();
+        }
+        LoadBar.IsVisible = false;
     }
 
-    private async Task GetTeacherSubjects() 
+    private async Task InitData()
+    {
+        Teachers.ItemsSource = await GetTeacherSubjects();
+        Time.ItemsSource = await GetTimes();
+        Audience.ItemsSource = await GetAudiences();
+        TypeOfPairs.ItemsSource = await GetTypeOfPairs();
+    }
+
+    private void SetDefaultParams()
+    {
+        
+
+        Teachers.SelectedItem = _selectedPair.teacherSubject;
+        Time.SelectedItem = _selectedPair.time;
+        Audience.SelectedItem = _selectedPair.audience;
+        TypeOfPairs.SelectedItem = _selectedPair.typeOfPair;
+        
+        var dateStart = new DateTime(_selectedPair.dateStart.Year, _selectedPair.dateStart.Month, _selectedPair.dateStart.Day);
+        var dateEnd = new DateTime(_selectedPair.dateEnd.Year, _selectedPair.dateEnd.Month, _selectedPair.dateEnd.Day);
+
+        
+        DatePicker.SelectedDate = dateStart;
+        TbNumberOfWeeks.Value = ((decimal?)(dateEnd - dateStart).TotalDays) / DaysCountInWeek + MinimumPair;
+    }
+
+    private async Task<TeacherSubject[]> GetTeacherSubjects() 
     { 
         var teacherSubjectRepository = new TeacherSubjectRepository();
         TeacherSubject[] teacherSubjects = await teacherSubjectRepository.GetAll();
-        Teachers.ItemsSource = teacherSubjects;
+        
+        return teacherSubjects;
     }
 
-    private async Task GetTime()
+    private async Task<Time[]> GetTimes()
     {
         var timeRepository = new TimeRepository();
         Time[] times = await timeRepository.GetAll();
-        Time.ItemsSource = times;
+        
+        return times;
     }
 
-    private async Task GetAudience()
+    private async Task<Audience[]> GetAudiences()
     {
         var audienceRepository = new AudienceRepository();
         Audience[] audiences = await audienceRepository.GetAll();
         
-        Audience.ItemsSource = audiences;
+        return audiences;
     }
 
-    private async Task GetTypeOfPair()
+    private async Task<TypeOfPair[]> GetTypeOfPairs()
     {
         var typeOfPairRepository = new TypeOfPairRepository();
         TypeOfPair[] typeOfPairs = await typeOfPairRepository.GetAll();
-        TypeOfPairs.ItemsSource = typeOfPairs;
+        
+        return typeOfPairs;
     }
 
     private async void SavePair(object? sender, RoutedEventArgs e)
+    {
+        try
+        {
+            Pair pair = CheckPair();
+            if (_selectedPair.id != NewPairId)
+            {
+                await UpdateToApi(pair);
+            }
+            else
+            {
+                await SaveToApi(pair);
+            }
+
+            var variables = SaveUserInterface.Instance;
+            variables.NavigateTo(new PairPage(_group));
+        }
+        catch (ValidationException exception)
+        {
+            await MessageBox.Show(SaveUserInterface.Instance.MainWindow, 
+                                exception.Message, 
+                                "Ошибка проверки данных");
+        }
+    }
+
+    private Pair CheckPair()
     {
         Audience? audience = Audience.SelectedItem as Audience;
         Time? time = Time.SelectedItem as Time;
@@ -79,25 +137,23 @@ public partial class PairChangerPage : UserControl
         TeacherSubject? teacherSubject = Teachers.SelectedItem as TeacherSubject;
         
         var fullDate = DatePicker.SelectedDate;
-        int numberOfWeeks = (int)TbNumberOfWeeks.Value!;
+        int pairCount = (int)TbNumberOfWeeks.Value!;
         
         if (audience == null || time == null || typeOfPair == null || teacherSubject == null || fullDate == null)
         {
-            await MessageBox.Show(SaveVariables.Instance.GetMainWindow(), "ХОПА");
-            return;
+            throw new ValidationException("Ошибка! Вы ввели не все поля");
         }
         
         DateOnly dateStart = new DateOnly(fullDate.Value.Year, fullDate.Value.Month, fullDate.Value.Day);
         
         if (dateStart.DayOfWeek == DayOfWeek.Sunday)
         {
-            await MessageBox.Show(SaveVariables.Instance.GetMainWindow(), "ХОПА v.2.0");
-            return;
+            throw new ValidationException("Ошибка, вы не можете выбрать день недели воскресенье");
         }
         
-        DateOnly dateEnd = dateStart.AddDays((numberOfWeeks - 1) * 7);
+        DateOnly dateEnd = dateStart.AddDays((pairCount - MinimumPair) * DaysCountInWeek);
         
-        Pair pair = new(globalAnus, 
+        return new Pair(_selectedPair.id,
             dateStart, 
             dateEnd, 
             audience.id, 
@@ -105,34 +161,33 @@ public partial class PairChangerPage : UserControl
             (int)dateStart.DayOfWeek,
             time.id, 
             typeOfPair.id, 
-            SaveVariables.Instance.Group.id);
-
-        if (globalAnus != 0) 
-        {
-            PairRepository pairRepository = new PairRepository();
-            await pairRepository.Update(pair);
-        }
-        else
-        {
-            await SaveToApi(pair);
-        }
-
-        SaveVariables variables = SaveVariables.Instance;
-        variables.NavigateTo(new PairPage());
+            _group.id);
     }
-
+    
     private async Task SaveToApi(Pair pair)
     {
         PairRepository repository = new PairRepository();
         await repository.Create(pair);
     }
     
+    private async Task UpdateToApi(Pair pair)
+    {
+        PairRepository pairRepository = new PairRepository();
+        await pairRepository.Update(pair);
+    }
     private void TbNumberOfWeeks_OnKeyDown(object? sender, KeyEventArgs e)
     {
+        const string panelWithNumbers = "NumPad";
+        const string nothing = "";
+        const int firstLetter = 0;
+        
         Key code = e.Key;
+        
         string keyCode = e.Key.ToString();
         
-        if (!(keyCode.Contains("NumPad") && char.IsDigit(keyCode.Replace("NumPad", "")[0]) || (keyCode[0] == 'D' && code != Key.D)))
+        if (!(keyCode.Contains(panelWithNumbers) && 
+                char.IsDigit(keyCode.Replace(panelWithNumbers, nothing)[firstLetter]) 
+                || (keyCode[firstLetter] == 'D' && code != Key.D)))
         {
             e.Handled = true;
         }

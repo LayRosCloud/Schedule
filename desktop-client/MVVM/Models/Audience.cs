@@ -8,7 +8,8 @@ public class Audience : DictionaryModel
 
     public override bool Equals(object? obj)
     {
-        return id.Equals(((Audience)obj).id);
+        Audience audience = obj as Audience;
+        return id.Equals(audience.id);
     }
 }
 

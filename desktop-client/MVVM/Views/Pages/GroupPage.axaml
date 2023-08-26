@@ -2,11 +2,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:vm="clr-namespace:MVVM.ViewModels"
              xmlns:m="clr-namespace:MVVM.Models"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="MVVM.Views.Pages.GroupPage"
-             x:DataType="vm:GroupViewModel" 
              x:Name="GroupWindow">
     <Grid Margin="10">
         <Grid.RowDefinitions>
@@ -29,8 +27,8 @@
 				 />
         
         <ListBox x:Name="GroupsList"
-			     Grid.Row="2" 
-                 ItemsSource="{Binding Groups}" 
+			     Grid.Row="2"
+                 x:DataType="m:Group"
                  Background="Transparent" 
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  HorizontalAlignment="Left"
@@ -42,7 +40,7 @@
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
             <ListBox.ItemTemplate>
-                <DataTemplate>
+                <DataTemplate x:DataType="m:Group">
                     <Border CornerRadius="20" 
                             Height="100" 
                             Width="100" 
@@ -67,6 +65,13 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        
+        <Border x:Name="LoadingBar" 
+                Grid.Row="2"
+                Background="White">
+            <TextBlock Text="Загрузка..." 
+                       VerticalAlignment="Center" 
+                       HorizontalAlignment="Center" 
+                       FontSize="25"/>
+        </Border>
     </Grid>
 </UserControl>

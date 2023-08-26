@@ -2,28 +2,27 @@
 using Avalonia.Interactivity;
 using MVVM.Scripts;
 using MVVM.Views.Pages;
-using MVVM.Models;
 
 namespace MVVM.Views;
 
 public partial class MainWindow : Window
 {
+    private const string PathToFileData = "data";
     public MainWindow()
     {
         InitializeComponent();
-        SaveVariables variables = SaveVariables.Instance;
-        variables.SetMainWindow(this);
+        var saverInterface = SaveUserInterface.Instance;
+        saverInterface.MainWindow = this;
 
-        variables.SetPageControl(PageControl);
+        saverInterface.PageControl = PageControl;
 
-        variables.NavigateTo(new GroupPage());
-        TextBox.Text = SaveVariables.Instance.AccessToken;
+        saverInterface.NavigateTo(new GroupPage());
     }
 
     private void ExitApplication(object? sender, RoutedEventArgs e)
     {
         FileCrypt fileCrypt = new FileCrypt();
-        fileCrypt.DeleteFile("data");
+        fileCrypt.DeleteFile(PathToFileData);
         
         AuthWindow authWindow = new AuthWindow();
         authWindow.Show();
@@ -33,7 +32,7 @@ public partial class MainWindow : Window
 
     private void NavigateToGroupPage(object? sender, RoutedEventArgs e)
     {
-        SaveVariables variables = SaveVariables.Instance;
+        var variables = SaveUserInterface.Instance;
         variables.NavigateTo(new GroupPage());
     }
 }

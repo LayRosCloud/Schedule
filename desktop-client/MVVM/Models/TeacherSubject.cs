@@ -16,7 +16,8 @@
         }
         public override bool Equals(object? obj)
         {
-            return id.Equals(((TeacherSubject)obj).id);
+            TeacherSubject teacherSubject = obj as TeacherSubject;
+            return id.Equals(teacherSubject.id);
         }
     }
 }

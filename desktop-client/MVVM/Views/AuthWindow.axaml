@@ -5,12 +5,12 @@
         mc:Ignorable="d" Width="600" Height="450"
         MinWidth="600" MinHeight="450"
         x:Class="MVVM.Views.AuthWindow"
-        Icon="/Assets/avalonia-logo.ico"
+        Icon="/Assets/logo.ico"
         Title="Авторизация"
         WindowState="Normal"
         CanResize="False"
         WindowStartupLocation="CenterScreen" 
-        x:Name="authWindow">
+        x:Name="authWindow" Loaded="AuthWindowLoaded">
     
 
     <Grid VerticalAlignment="Center" 

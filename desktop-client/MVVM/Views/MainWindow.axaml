@@ -7,7 +7,7 @@
         x:Class="MVVM.Views.MainWindow"
         WindowStartupLocation="CenterScreen"
         WindowState="Maximized"
-        Icon="/Assets/avalonia-logo.ico"
+        Icon="/Assets/logo.ico"
         Title="Главное окно">
     <Grid>
         
@@ -57,7 +57,7 @@
                    CornerRadius="10"/> 
                 </StackPanel>
             </Button>
-            <TextBox IsReadOnly="True" x:Name="TextBox"/>
+            
             <StackPanel Grid.Row="1" 
                         HorizontalAlignment="Left" 
                         VerticalAlignment="Center"

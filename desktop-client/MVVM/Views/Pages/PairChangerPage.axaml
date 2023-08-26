@@ -5,7 +5,8 @@
 			 xmlns:m="clr-namespace:MVVM.Models"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="MVVM.Views.Pages.PairChangerPage">
-    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="400">
+	<Grid>
+		<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="400">
         <TextBlock x:Name="Title" Text="" FontWeight="Bold" FontSize="25"/>
         
         <ComboBox x:Name="Teachers" 
@@ -68,5 +69,13 @@
         <Button Margin="0 5 0 0" 
                 Content="Тимоха, ты че творишь? Это рофлс" 
                 Click="SavePair"/>
-    </StackPanel>
+		</StackPanel>
+		<Border x:Name="LoadBar" Background="White">
+			<TextBlock Text="Загрузка..." 
+			           FontSize="25" 
+			           HorizontalAlignment="Center" 
+			           VerticalAlignment="Center"/>
+		</Border>
+	</Grid>
+	
 </UserControl>

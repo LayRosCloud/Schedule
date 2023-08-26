@@ -3,20 +3,37 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:m="clr-namespace:MVVM.Models"
-             xmlns:vm="clr-namespace:MVVM.ViewModels"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="MVVM.Views.Pages.PairPage" x:DataType="vm:PairViewModel">
+             mc:Ignorable="d" 
+             d:DesignWidth="800" 
+             d:DesignHeight="450"
+             x:Class="MVVM.Views.Pages.PairPage">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
             <RowDefinition Height="40"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="1" Orientation="Horizontal">
-            <TextBox x:Name="Searcher" Watermark="поиск..." FontSize="20" Width="200" TextChanged="SearcherTextChanged"/>
-            <Button Content="Добавить" Margin="10 0 0 0" Click="ChangePair"/>
+        
+        <StackPanel Grid.Row="1" 
+                    Orientation="Horizontal">
+            
+            <TextBox x:Name="Searcher" 
+                     Watermark="поиск..." 
+                     FontSize="20" 
+                     Width="200" 
+                     TextChanged="SearcherTextChanged"/>
+            
+            <Button Content="Добавить" 
+                    Margin="10 0 0 0" 
+                    Click="ChangePair"/>
         </StackPanel>
-        <TextBlock Grid.Row="0" Text="{Binding Path=NameGroup}" FontSize="20" FontWeight="Bold"/>
+        
+        <TextBlock x:Name="TitlePage" 
+                   Grid.Row="0" 
+                   Text="Группа" 
+                   FontSize="20" 
+                   FontWeight="Bold"/>
+        
         <DataGrid x:Name="Pairs"
 			      Grid.Row="2"  
                   AutoGenerateColumns="False" x:DataType="m:Pair">
@@ -45,7 +62,7 @@
                                     IsReadOnly="True"
                                     Binding="{Binding typeOfPair.name}"/>
                 
-                <DataGridTemplateColumn Header="Actions" 
+                <DataGridTemplateColumn Header="Действия" 
                                         IsReadOnly="True">
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
@@ -54,10 +71,14 @@
                         </StackPanel>
                     </DataTemplate>
                 </DataGridTemplateColumn>
+                
             </DataGrid.Columns>
+            
         </DataGrid>
-        <Border x:Name="LoadingVisible" Background="White" Grid.Row="2">
+        
+        <Border x:Name="LoadingBar" Background="White" Grid.Row="2">
             <TextBlock Text="Загрузка..." VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="40"/>
         </Border>
+        
     </Grid>
 </UserControl>

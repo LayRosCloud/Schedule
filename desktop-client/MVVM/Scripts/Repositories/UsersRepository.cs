@@ -15,14 +15,15 @@ internal class UsersRepository
     {
         HttpClient httpClient = new HttpClient();
         JsonContent content = JsonContent.Create(new UserAuth(login, password));
-        var post = await httpClient.PostAsync($"{Constants.DOMAIN_OAUTH}/v1/users/login", content);
+        
+        HttpResponseMessage post = await httpClient.PostAsync($"{Constants.DOMAIN_AUTH}/v1/users/login", content);
+        
         if (post.StatusCode != HttpStatusCode.OK)
         {
             throw new AuthenticationException();
         }
         
         User? user = await post.Content.ReadFromJsonAsync<User>();
-        SaveVariables.Instance.AccessToken = user.accessToken;
         return user;
     }
 }

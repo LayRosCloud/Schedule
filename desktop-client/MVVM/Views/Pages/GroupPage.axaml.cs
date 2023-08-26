@@ -1,13 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Diagnostics;
-using System.Security.Cryptography.X509Certificates;
 using Avalonia.Controls;
-using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
 using MVVM.Models;
 using MVVM.Scripts;
-using MVVM.ViewModels;
 using MVVM.Scripts.Repositories;
 using System.Threading.Tasks;
 
@@ -15,7 +10,7 @@ namespace MVVM.Views.Pages;
 
 public partial class GroupPage : UserControl
 {
-    private List<Group> _groups;
+    private readonly List<Group> _groups;
     public GroupPage()
     {
         InitializeComponent();
@@ -25,23 +20,42 @@ public partial class GroupPage : UserControl
 
     private async void Init()
     {
-        await GetGroup();
+         var groups = await GetGroups();
+         LoadToList(groups);
+         LoadingBar.IsVisible = false;
     }
 
-    private async Task GetGroup()
+    private async Task<Group[]> GetGroups()
     {
         GroupRepository repository = new GroupRepository();
-        var group = await repository.GetAll();
+        Group[] groups = await repository.GetAll();
+        
+        return groups;
+    }
 
-        GroupsList.ItemsSource = group;
-        _groups.AddRange(group);
+    private void LoadToList(Group[] groups)
+    {
+        GroupsList.ItemsSource = groups;
+        _groups.AddRange(groups);
     }
 
     private void SelectedChanged(object? sender, SelectionChangedEventArgs e)
     {
-        Group? selectedGroup = (sender as ListBox).SelectedItem as Group;
-        SaveVariables.Instance.Group = selectedGroup;
-        SaveVariables.Instance.NavigateTo(new PairPage());
+        var listBox = sender as ListBox;
+        
+        if (listBox == null)
+        {
+            return;
+        }
+        
+        Group? selectedGroup = listBox.SelectedItem as Group;
+        
+        if (selectedGroup == null)
+        {
+            return;
+        }
+        
+        SaveUserInterface.Instance.NavigateTo(new PairPage(selectedGroup));
     }
 
     private void SearcherTextChanged(object sender, TextChangedEventArgs e)
@@ -51,7 +65,7 @@ public partial class GroupPage : UserControl
 
     private void FindOnText()
     {
-        string find = Searcher.Text.ToLower();
+        string find = Searcher.Text!.ToLower();
         GroupsList.ItemsSource = _groups.Where(x => x.name.ToLower().Contains(find)).ToList();
     }
 }

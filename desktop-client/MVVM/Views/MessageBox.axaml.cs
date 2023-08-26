@@ -7,6 +7,9 @@ namespace MVVM.Views;
 
 public partial class MessageBox : Window
 {
+    private const string TbText = "Text";
+    private const string TbTitleMain = "TitleMain";
+    private const string SpButtons = "Buttons";
     public enum MessageBoxButtons
     {
         Ok,
@@ -34,9 +37,9 @@ public partial class MessageBox : Window
         {
             Title = title
         };
-        messageBox.FindControl<TextBlock>("Text")!.Inlines.AddRange(text);
-        messageBox.FindControl<TextBlock>("TitleMain")!.Text = title;
-        var buttonPanel = messageBox.FindControl<StackPanel>("Buttons");
+        messageBox.FindControl<TextBlock>(TbText)!.Inlines.AddRange(text);
+        messageBox.FindControl<TextBlock>(TbTitleMain)!.Text = title;
+        var buttonPanel = messageBox.FindControl<StackPanel>(SpButtons);
 
         var res = MessageBoxResult.Ok;
 
@@ -54,18 +57,18 @@ public partial class MessageBox : Window
 
         if (buttons == MessageBoxButtons.Ok || buttons == MessageBoxButtons.OkCancel)
         {
-            AddButton("Ok", MessageBoxResult.Ok, true);
+            AddButton("Ок", MessageBoxResult.Ok, true);
         }
         
         if (buttons == MessageBoxButtons.YesNo || buttons == MessageBoxButtons.YesNoCancel)
         {
-            AddButton("Yes", MessageBoxResult.Yes);
-            AddButton("No", MessageBoxResult.No, true);
+            AddButton("Да", MessageBoxResult.Yes);
+            AddButton("Нет", MessageBoxResult.No, true);
         }
 
         if (buttons == MessageBoxButtons.OkCancel || buttons == MessageBoxButtons.YesNoCancel)
         {
-            AddButton("Cancel", MessageBoxResult.Cancel, true);
+            AddButton("Отмена", MessageBoxResult.Cancel, true);
         }
 
         var tcs = new TaskCompletionSource<MessageBoxResult>();
