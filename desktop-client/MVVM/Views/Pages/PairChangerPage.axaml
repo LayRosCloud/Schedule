@@ -12,6 +12,7 @@
                   PlaceholderText="Выберите преподавателя-пару" 
                   HorizontalAlignment="Stretch"
                   x:DataType="m:Pair">
+			      
 			<ComboBox.ItemTemplate>
 				<DataTemplate x:DataType="m:TeacherSubject">
 					    <TextBlock Text="{Binding FullName}"/>

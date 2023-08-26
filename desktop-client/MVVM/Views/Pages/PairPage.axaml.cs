@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Documents;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
@@ -10,16 +12,25 @@ using MVVM.Models;
 using MVVM.Scripts;
 using MVVM.Scripts.Repositories;
 using MVVM.ViewModels;
+using System.Collections.Generic;
 
 namespace MVVM.Views.Pages;
 
 public partial class PairPage : UserControl
 {
+    private List<Pair> _pairs;
+
     public PairPage()
     {
         InitializeComponent();
-        DataContext = new PairViewModel();
 
+        _pairs = new List<Pair>();
+        Init();
+    }
+
+    private async void Init()
+    {
+        await GetPairs();        
     }
 
     private async void DeletePair(object? sender, RoutedEventArgs e)
@@ -37,8 +48,6 @@ public partial class PairPage : UserControl
         {
             PairRepository pairRepository = new PairRepository();
             await pairRepository.Delete(selectedPair.id);
-
-
         }
         catch (Exception ex)
         {
@@ -73,8 +82,30 @@ public partial class PairPage : UserControl
     private void ChangePair(object? sender, RoutedEventArgs e)
     {
         Pair? pair = (sender as Button)?.DataContext as Pair;
-        var page = new PairChangerPage();
-        page.SetPair(pair!);
+        var page = new PairChangerPage(pair!);
         SaveVariables.Instance.NavigateTo(page);
+    }
+
+    private void SearcherTextChanged(object sender, TextChangedEventArgs e) 
+    {
+        FindOnText();
+    }
+
+    private async Task GetPairs()
+    {
+        PairRepository repository = new PairRepository();
+
+        var variables = SaveVariables.Instance.Group;
+        var pairs = await repository.GetAll(variables.id);
+
+        Pairs.ItemsSource = pairs;
+        LoadingVisible.IsVisible = false;
+        _pairs.AddRange(pairs);
+    }
+
+    private void FindOnText()
+    {
+        string find = Searcher.Text.ToLower();
+        Pairs.ItemsSource = _pairs.Where(x => x.teacherSubject.FullName.ToLower().Contains(find)).ToList();
     }
 }

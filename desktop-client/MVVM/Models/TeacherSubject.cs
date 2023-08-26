@@ -14,5 +14,9 @@
             Teacher = teacher;
             FullName =  $"{Teacher.LastName} {Teacher.Name[firstLetter]}. {Teacher.Patronymic[firstLetter]}. - {Subject.FullName}";
         }
+        public override bool Equals(object? obj)
+        {
+            return id.Equals(((TeacherSubject)obj).id);
+        }
     }
 }

@@ -16,5 +16,10 @@ namespace MVVM.Models
             this.Patronymic = patronymic;
             this.Phone = phone;
         }
+
+        public override bool Equals(object? obj)
+        {
+            return id.Equals(((Teacher)obj).id);
+        }
     }
 }

@@ -20,12 +20,16 @@
                    FontWeight="Bold" 
                    FontSize="20"/>
 
-        <TextBox Grid.Row="1"  
+        <TextBox x:Name="Searcher"
+			     Grid.Row="1"  
                  Watermark="Поиск..." 
                  Width="350" 
-                 HorizontalAlignment="Left"/>
+                 HorizontalAlignment="Left"
+				 TextChanged="SearcherTextChanged"
+				 />
         
-        <ListBox Grid.Row="2" 
+        <ListBox x:Name="GroupsList"
+			     Grid.Row="2" 
                  ItemsSource="{Binding Groups}" 
                  Background="Transparent" 
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"

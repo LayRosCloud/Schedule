@@ -12,24 +12,34 @@ namespace MVVM.Views.Pages;
 
 public partial class PairChangerPage : UserControl
 {
-    public PairChangerPage()
+    private int globalAnus;
+
+    public PairChangerPage(Pair pair)
     {
         InitializeComponent();
-        Init();
+        Init(pair);
         Title.Text = SaveVariables.Instance.Group.name;
     }
-
-    public void SetPair(Pair pair)
-    {
-        DataContext = pair;
-    }
     
-    private async void Init() 
+    private async void Init(Pair pair) 
     {
         await GetTeacherSubjects();
         await GetTime();
         await GetAudience();
         await GetTypeOfPair();
+
+        globalAnus = pair.id;
+
+        Teachers.SelectedItem = pair.teacherSubject;
+        Time.SelectedItem = pair.time;
+        Audience.SelectedItem = pair.audience;
+        TypeOfPairs.SelectedItem = pair.typeOfPair;
+
+        var dateStart = new DateTime(pair.dateStart.Year, pair.dateStart.Month, pair.dateStart.Day);
+        var dateEnd = new DateTime(pair.dateEnd.Year, pair.dateEnd.Month, pair.dateEnd.Day);
+        DatePicker.SelectedDate = dateStart;
+        TbNumberOfWeeks.Value = (((decimal?)(dateEnd - dateStart).TotalDays) / 7) + 1;
+
     }
 
     private async Task GetTeacherSubjects() 
@@ -73,6 +83,7 @@ public partial class PairChangerPage : UserControl
         
         if (audience == null || time == null || typeOfPair == null || teacherSubject == null || fullDate == null)
         {
+            await MessageBox.Show(SaveVariables.Instance.GetMainWindow(), "ХОПА");
             return;
         }
         
@@ -80,12 +91,13 @@ public partial class PairChangerPage : UserControl
         
         if (dateStart.DayOfWeek == DayOfWeek.Sunday)
         {
+            await MessageBox.Show(SaveVariables.Instance.GetMainWindow(), "ХОПА v.2.0");
             return;
         }
         
         DateOnly dateEnd = dateStart.AddDays((numberOfWeeks - 1) * 7);
         
-        Pair pair = new(0, 
+        Pair pair = new(globalAnus, 
             dateStart, 
             dateEnd, 
             audience.id, 
@@ -94,7 +106,17 @@ public partial class PairChangerPage : UserControl
             time.id, 
             typeOfPair.id, 
             SaveVariables.Instance.Group.id);
-        await SaveToApi(pair);
+
+        if (globalAnus != 0) 
+        {
+            PairRepository pairRepository = new PairRepository();
+            await pairRepository.Update(pair);
+        }
+        else
+        {
+            await SaveToApi(pair);
+        }
+
         SaveVariables variables = SaveVariables.Instance;
         variables.NavigateTo(new PairPage());
     }
