@@ -17,14 +17,14 @@
                    Text="Группы" 
                    FontWeight="Bold" 
                    FontSize="20"/>
-
-        <TextBox x:Name="Searcher"
-			     Grid.Row="1"  
-                 Watermark="Поиск..." 
-                 Width="350" 
-                 HorizontalAlignment="Left"
-				 TextChanged="SearcherTextChanged"
-				 />
+        
+            <TextBox Grid.Row="1" x:Name="Searcher"
+                     Watermark="Поиск..." 
+                     Width="350" 
+                     HorizontalAlignment="Left"
+                     TextChanged="SearcherTextChanged"
+            />
+        
         
         <ListBox x:Name="GroupsList"
 			     Grid.Row="2"
@@ -67,11 +67,12 @@
         </ListBox>
         <Border x:Name="LoadingBar" 
                 Grid.Row="2"
-                Background="White">
+                Background="#f1f1f1">
             <TextBlock Text="Загрузка..." 
                        VerticalAlignment="Center" 
                        HorizontalAlignment="Center" 
-                       FontSize="25"/>
+                       FontWeight="Bold"
+                       FontSize="60"/>
         </Border>
     </Grid>
 </UserControl>

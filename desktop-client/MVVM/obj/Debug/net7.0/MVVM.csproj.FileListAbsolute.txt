@@ -242,7 +242,6 @@ D:\Projects\WebProjects\Schedule\desktop-client\MVVM\bin\Debug\net7.0\runtimes\o
 D:\Projects\WebProjects\Schedule\desktop-client\MVVM\bin\Debug\net7.0\runtimes\win-arm64\native\libHarfBuzzSharp.dll
 D:\Projects\WebProjects\Schedule\desktop-client\MVVM\bin\Debug\net7.0\runtimes\win-x64\native\libHarfBuzzSharp.dll
 D:\Projects\WebProjects\Schedule\desktop-client\MVVM\bin\Debug\net7.0\runtimes\win-x86\native\libHarfBuzzSharp.dll
-D:\Projects\WebProjects\Schedule\desktop-client\MVVM\bin\Debug\net7.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
 D:\Projects\WebProjects\Schedule\desktop-client\MVVM\bin\Debug\net7.0\runtimes\linux-arm\native\libSkiaSharp.so
 D:\Projects\WebProjects\Schedule\desktop-client\MVVM\bin\Debug\net7.0\runtimes\linux-arm64\native\libSkiaSharp.so
 D:\Projects\WebProjects\Schedule\desktop-client\MVVM\bin\Debug\net7.0\runtimes\linux-musl-x64\native\libSkiaSharp.so
@@ -251,8 +250,6 @@ D:\Projects\WebProjects\Schedule\desktop-client\MVVM\bin\Debug\net7.0\runtimes\o
 D:\Projects\WebProjects\Schedule\desktop-client\MVVM\bin\Debug\net7.0\runtimes\win-arm64\native\libSkiaSharp.dll
 D:\Projects\WebProjects\Schedule\desktop-client\MVVM\bin\Debug\net7.0\runtimes\win-x64\native\libSkiaSharp.dll
 D:\Projects\WebProjects\Schedule\desktop-client\MVVM\bin\Debug\net7.0\runtimes\win-x86\native\libSkiaSharp.dll
-D:\Projects\WebProjects\Schedule\desktop-client\MVVM\bin\Debug\net7.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
-D:\Projects\WebProjects\Schedule\desktop-client\MVVM\bin\Debug\net7.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
 D:\Projects\WebProjects\Schedule\desktop-client\MVVM\obj\Debug\net7.0\MVVM.csproj.AssemblyReference.cache
 D:\Projects\WebProjects\Schedule\desktop-client\MVVM\obj\Debug\net7.0\Avalonia\Resources.Inputs.cache
 D:\Projects\WebProjects\Schedule\desktop-client\MVVM\obj\Debug\net7.0\Avalonia\resources
@@ -542,3 +539,20 @@ C:\Rofls\W\Schedule\desktop-client\MVVM\obj\Debug\net7.0\MVVM.pdb
 C:\Rofls\W\Schedule\desktop-client\MVVM\obj\Debug\net7.0\MVVM.csproj.CopyComplete
 C:\Rofls\W\Schedule\desktop-client\MVVM\obj\Debug\net7.0\MVVM.genruntimeconfig.cache
 C:\Rofls\W\Schedule\desktop-client\MVVM\obj\Debug\net7.0\ref\MVVM.dll
+D:\Projects\WebProjects\Schedule\desktop-client\MVVM\bin\Debug\net7.0\Microsoft.Office.Interop.Word.dll
+D:\Projects\WebProjects\Schedule\desktop-client\MVVM\bin\Debug\net7.0\EPPlus.dll
+D:\Projects\WebProjects\Schedule\desktop-client\MVVM\bin\Debug\net7.0\EPPlus.Interfaces.dll
+D:\Projects\WebProjects\Schedule\desktop-client\MVVM\bin\Debug\net7.0\EPPlus.System.Drawing.dll
+D:\Projects\WebProjects\Schedule\desktop-client\MVVM\bin\Debug\net7.0\Microsoft.Extensions.Configuration.dll
+D:\Projects\WebProjects\Schedule\desktop-client\MVVM\bin\Debug\net7.0\Microsoft.Extensions.Configuration.Abstractions.dll
+D:\Projects\WebProjects\Schedule\desktop-client\MVVM\bin\Debug\net7.0\Microsoft.Extensions.Configuration.FileExtensions.dll
+D:\Projects\WebProjects\Schedule\desktop-client\MVVM\bin\Debug\net7.0\Microsoft.Extensions.Configuration.Json.dll
+D:\Projects\WebProjects\Schedule\desktop-client\MVVM\bin\Debug\net7.0\Microsoft.Extensions.FileProviders.Abstractions.dll
+D:\Projects\WebProjects\Schedule\desktop-client\MVVM\bin\Debug\net7.0\Microsoft.Extensions.FileProviders.Physical.dll
+D:\Projects\WebProjects\Schedule\desktop-client\MVVM\bin\Debug\net7.0\Microsoft.Extensions.FileSystemGlobbing.dll
+D:\Projects\WebProjects\Schedule\desktop-client\MVVM\bin\Debug\net7.0\Microsoft.Extensions.Primitives.dll
+D:\Projects\WebProjects\Schedule\desktop-client\MVVM\bin\Debug\net7.0\Microsoft.IO.RecyclableMemoryStream.dll
+D:\Projects\WebProjects\Schedule\desktop-client\MVVM\bin\Debug\net7.0\System.Security.Cryptography.Pkcs.dll
+D:\Projects\WebProjects\Schedule\desktop-client\MVVM\bin\Debug\net7.0\runtimes\win\lib\net7.0\Microsoft.Win32.SystemEvents.dll
+D:\Projects\WebProjects\Schedule\desktop-client\MVVM\bin\Debug\net7.0\runtimes\win\lib\net7.0\System.Drawing.Common.dll
+D:\Projects\WebProjects\Schedule\desktop-client\MVVM\bin\Debug\net7.0\runtimes\win\lib\net7.0\System.Security.Cryptography.Pkcs.dll

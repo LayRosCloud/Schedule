@@ -8,6 +8,7 @@ namespace MVVM.Models
         public string LastName { get; set; }
         public string Patronymic { get; set; }
         public string Phone { get; set; }
+        public string FullName { get; set; }
 
         public Teacher(int id, string name, string lastName, string patronymic, string phone):base(id)
         { 
@@ -15,6 +16,7 @@ namespace MVVM.Models
             this.LastName = lastName;
             this.Patronymic = patronymic;
             this.Phone = phone;
+            FullName = $"{LastName} {Name[0]}. {Patronymic[0]}.";
         }
 
         public override bool Equals(object? obj)

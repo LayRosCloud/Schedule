@@ -9,7 +9,7 @@
         WindowState="Maximized"
         Icon="/Assets/logo.ico"
         Title="Главное окно">
-    <Grid>
+    <Grid Background="#f1f1f1">
         
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
@@ -35,28 +35,6 @@
                     </LinearGradientBrush>
                 </Border.Background>
             </Border>
-            
-            <Button Grid.Row="0">
-                <StackPanel>
-                   <Border Width="15" 
-                   Height="3" 
-                   Background="#FFF" 
-                   Opacity="0.8" 
-                   CornerRadius="10"/> 
-                   
-                   <Border Width="15" 
-                   Height="3" 
-                   Margin="0 3" 
-                   Background="#FFF" 
-                   Opacity="0.8" CornerRadius="10"/> 
-                   
-                   <Border Width="15" 
-                   Height="3" 
-                   Background="#FFF" 
-                   Opacity="0.8" 
-                   CornerRadius="10"/> 
-                </StackPanel>
-            </Button>
             
             <StackPanel Grid.Row="1" 
                         HorizontalAlignment="Left" 

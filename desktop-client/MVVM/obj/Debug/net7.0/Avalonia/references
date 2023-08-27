@@ -23,6 +23,9 @@ C:\Users\betrayal\.nuget\packages\avalonia.themes.simple\11.0.0\lib\net6.0\Avalo
 C:\Users\betrayal\.nuget\packages\avalonia.win32\11.0.0\lib\net6.0\Avalonia.Win32.dll
 C:\Users\betrayal\.nuget\packages\avalonia.x11\11.0.0\lib\net6.0\Avalonia.X11.dll
 C:\Users\betrayal\.nuget\packages\dynamicdata\7.9.5\lib\net6.0\DynamicData.dll
+C:\Users\betrayal\.nuget\packages\epplus\7.0.0-preview2\lib\net7.0\EPPlus.dll
+C:\Users\betrayal\.nuget\packages\epplus.interfaces\6.1.1\lib\net7.0\EPPlus.Interfaces.dll
+C:\Users\betrayal\.nuget\packages\epplus.system.drawing\6.1.1\lib\net7.0\EPPlus.System.Drawing.dll
 C:\Users\betrayal\.nuget\packages\harfbuzzsharp\2.8.2.3\lib\net6.0\HarfBuzzSharp.dll
 C:\Users\betrayal\.nuget\packages\microcom.runtime\0.11.0\lib\net5.0\MicroCom.Runtime.dll
 C:\Users\betrayal\.nuget\packages\microsoft.codeanalysis.csharp\3.8.0\lib\netcoreapp3.1\Microsoft.CodeAnalysis.CSharp.dll
@@ -30,11 +33,21 @@ C:\Users\betrayal\.nuget\packages\microsoft.codeanalysis.csharp.scripting\3.8.0\
 C:\Users\betrayal\.nuget\packages\microsoft.codeanalysis.common\3.8.0\lib\netcoreapp3.1\Microsoft.CodeAnalysis.dll
 C:\Users\betrayal\.nuget\packages\microsoft.codeanalysis.scripting.common\3.8.0\lib\netcoreapp3.1\Microsoft.CodeAnalysis.Scripting.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\7.0.8\ref\net7.0\Microsoft.CSharp.dll
+C:\Users\betrayal\.nuget\packages\microsoft.extensions.configuration.abstractions\7.0.0\lib\net7.0\Microsoft.Extensions.Configuration.Abstractions.dll
+C:\Users\betrayal\.nuget\packages\microsoft.extensions.configuration\7.0.0\lib\net7.0\Microsoft.Extensions.Configuration.dll
+C:\Users\betrayal\.nuget\packages\microsoft.extensions.configuration.fileextensions\7.0.0\lib\net7.0\Microsoft.Extensions.Configuration.FileExtensions.dll
+C:\Users\betrayal\.nuget\packages\microsoft.extensions.configuration.json\7.0.0\lib\net7.0\Microsoft.Extensions.Configuration.Json.dll
+C:\Users\betrayal\.nuget\packages\microsoft.extensions.fileproviders.abstractions\7.0.0\lib\net7.0\Microsoft.Extensions.FileProviders.Abstractions.dll
+C:\Users\betrayal\.nuget\packages\microsoft.extensions.fileproviders.physical\7.0.0\lib\net7.0\Microsoft.Extensions.FileProviders.Physical.dll
+C:\Users\betrayal\.nuget\packages\microsoft.extensions.filesystemglobbing\7.0.0\lib\net7.0\Microsoft.Extensions.FileSystemGlobbing.dll
+C:\Users\betrayal\.nuget\packages\microsoft.extensions.primitives\7.0.0\lib\net7.0\Microsoft.Extensions.Primitives.dll
+C:\Users\betrayal\.nuget\packages\microsoft.io.recyclablememorystream\2.2.1\lib\net5.0\Microsoft.IO.RecyclableMemoryStream.dll
+C:\Users\betrayal\.nuget\packages\microsoft.office.interop.word\15.0.4797.1004\lib\netstandard2.0\Microsoft.Office.Interop.Word.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\7.0.8\ref\net7.0\Microsoft.VisualBasic.Core.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\7.0.8\ref\net7.0\Microsoft.VisualBasic.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\7.0.8\ref\net7.0\Microsoft.Win32.Primitives.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\7.0.8\ref\net7.0\Microsoft.Win32.Registry.dll
-C:\Users\betrayal\.nuget\packages\microsoft.win32.systemevents\6.0.0\lib\net6.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\betrayal\.nuget\packages\microsoft.win32.systemevents\7.0.0\lib\net7.0\Microsoft.Win32.SystemEvents.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\7.0.8\ref\net7.0\mscorlib.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\7.0.8\ref\net7.0\netstandard.dll
 C:\Users\betrayal\.nuget\packages\reactiveui\18.3.1\lib\net6.0\ReactiveUI.dll
@@ -70,7 +83,7 @@ C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\7.0.8\ref\net7.0\System.
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\7.0.8\ref\net7.0\System.Diagnostics.TraceSource.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\7.0.8\ref\net7.0\System.Diagnostics.Tracing.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\7.0.8\ref\net7.0\System.dll
-C:\Users\betrayal\.nuget\packages\system.drawing.common\6.0.0\lib\net6.0\System.Drawing.Common.dll
+C:\Users\betrayal\.nuget\packages\system.drawing.common\7.0.0\lib\net7.0\System.Drawing.Common.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\7.0.8\ref\net7.0\System.Drawing.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\7.0.8\ref\net7.0\System.Drawing.Primitives.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\7.0.8\ref\net7.0\System.Dynamic.Runtime.dll
@@ -159,6 +172,7 @@ C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\7.0.8\ref\net7.0\System.
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\7.0.8\ref\net7.0\System.Security.Cryptography.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\7.0.8\ref\net7.0\System.Security.Cryptography.Encoding.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\7.0.8\ref\net7.0\System.Security.Cryptography.OpenSsl.dll
+C:\Users\betrayal\.nuget\packages\system.security.cryptography.pkcs\7.0.2\lib\net7.0\System.Security.Cryptography.Pkcs.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\7.0.8\ref\net7.0\System.Security.Cryptography.Primitives.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\7.0.8\ref\net7.0\System.Security.Cryptography.X509Certificates.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\7.0.8\ref\net7.0\System.Security.dll

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using MVVM.Scripts;
@@ -15,6 +17,7 @@ public partial class PairChangerPage : UserControl
 {
     private readonly Pair _selectedPair;
     private readonly Group _group;
+    private readonly List<Pair> _allPairs;
 
     private const int NewPairId = 0;
     private const int DaysCountInWeek = 7;
@@ -24,11 +27,12 @@ public partial class PairChangerPage : UserControl
     {
         InitializeComponent();
         
-        if (pair == null)
+        if(pair == null!)
         {
             pair = new Pair();
         }
-        
+
+        _allPairs = new List<Pair>();
         _selectedPair = pair;
         _group = group;
         
@@ -49,27 +53,25 @@ public partial class PairChangerPage : UserControl
 
     private async Task InitData()
     {
-        Teachers.ItemsSource = await GetTeacherSubjects();
-        Time.ItemsSource = await GetTimes();
-        Audience.ItemsSource = await GetAudiences();
-        TypeOfPairs.ItemsSource = await GetTypeOfPairs();
+        CbTeachers.ItemsSource = await GetTeacherSubjects();
+        CbTime.ItemsSource = await GetTimes();
+        CbAudience.ItemsSource = await GetAudiences();
+        CbTypeOfPairs.ItemsSource = await GetTypeOfPairs();
+        _allPairs.AddRange(await GetAllPairs());
     }
 
     private void SetDefaultParams()
     {
-        
-
-        Teachers.SelectedItem = _selectedPair.teacherSubject;
-        Time.SelectedItem = _selectedPair.time;
-        Audience.SelectedItem = _selectedPair.audience;
-        TypeOfPairs.SelectedItem = _selectedPair.typeOfPair;
-        
         var dateStart = new DateTime(_selectedPair.dateStart.Year, _selectedPair.dateStart.Month, _selectedPair.dateStart.Day);
         var dateEnd = new DateTime(_selectedPair.dateEnd.Year, _selectedPair.dateEnd.Month, _selectedPair.dateEnd.Day);
 
-        
-        DatePicker.SelectedDate = dateStart;
-        TbNumberOfWeeks.Value = ((decimal?)(dateEnd - dateStart).TotalDays) / DaysCountInWeek + MinimumPair;
+        CdpDateStart.SelectedDate = dateStart;
+        CbTime.SelectedItem = _selectedPair.time;
+        NudNumberOfWeeks.Value = ( ( (decimal?)(dateEnd - dateStart).TotalDays) / DaysCountInWeek) + MinimumPair;
+
+        CbTeachers.SelectedItem = _selectedPair.teacherSubject;
+        CbAudience.SelectedItem = _selectedPair.audience;
+        CbTypeOfPairs.SelectedItem = _selectedPair.typeOfPair;
     }
 
     private async Task<TeacherSubject[]> GetTeacherSubjects() 
@@ -87,13 +89,21 @@ public partial class PairChangerPage : UserControl
         
         return times;
     }
+    
+    private async Task<Pair[]> GetAllPairs()
+    {
+        var pairRepository = new PairRepository();
+        Pair[] pairs = await pairRepository.GetAll();
+        
+        return pairs;
+    }
 
     private async Task<Audience[]> GetAudiences()
     {
         var audienceRepository = new AudienceRepository();
         Audience[] audiences = await audienceRepository.GetAll();
         
-        return audiences;
+        return audiences.OrderBy(audience => audience.name).ToArray();
     }
 
     private async Task<TypeOfPair[]> GetTypeOfPairs()
@@ -106,6 +116,7 @@ public partial class PairChangerPage : UserControl
 
     private async void SavePair(object? sender, RoutedEventArgs e)
     {
+        const string errorTitle = "Ошибка проверки данных";
         try
         {
             Pair pair = CheckPair();
@@ -123,44 +134,39 @@ public partial class PairChangerPage : UserControl
         }
         catch (ValidationException exception)
         {
-            await MessageBox.Show(SaveUserInterface.Instance.MainWindow, 
-                                exception.Message, 
-                                "Ошибка проверки данных");
+            SendErrorNotification(exception.Message, errorTitle);
         }
     }
 
+    private void SendErrorNotification(string text, string title)
+    {
+        TitleError.Text = title;
+        MessageError.Text = text;
+        ErrorNotification.IsVisible = true;
+    }
+    
     private Pair CheckPair()
     {
-        Audience? audience = Audience.SelectedItem as Audience;
-        Time? time = Time.SelectedItem as Time;
-        TypeOfPair? typeOfPair = TypeOfPairs.SelectedItem as TypeOfPair;
-        TeacherSubject? teacherSubject = Teachers.SelectedItem as TeacherSubject;
+        Audience? audience = CbAudience.SelectedItem as Audience;
+        Time? time = CbTime.SelectedItem as Time;
+        TypeOfPair? typeOfPair = CbTypeOfPairs.SelectedItem as TypeOfPair;
+        TeacherSubject? teacherSubject = CbTeachers.SelectedItem as TeacherSubject;
         
-        var fullDate = DatePicker.SelectedDate;
-        int pairCount = (int)TbNumberOfWeeks.Value!;
-        
-        if (audience == null || time == null || typeOfPair == null || teacherSubject == null || fullDate == null)
-        {
-            throw new ValidationException("Ошибка! Вы ввели не все поля");
-        }
-        
-        DateOnly dateStart = new DateOnly(fullDate.Value.Year, fullDate.Value.Month, fullDate.Value.Day);
-        
-        if (dateStart.DayOfWeek == DayOfWeek.Sunday)
-        {
-            throw new ValidationException("Ошибка, вы не можете выбрать день недели воскресенье");
-        }
-        
+        var fullDate = CdpDateStart.SelectedDate;
+        int pairCount = (int)NudNumberOfWeeks.Value!;
+
+        DateOnly dateStart = new DateOnly(fullDate!.Value.Year, fullDate.Value.Month, fullDate.Value.Day);
+
         DateOnly dateEnd = dateStart.AddDays((pairCount - MinimumPair) * DaysCountInWeek);
         
         return new Pair(_selectedPair.id,
             dateStart, 
             dateEnd, 
-            audience.id, 
-            teacherSubject.id, 
+            audience!.id, 
+            teacherSubject!.id, 
             (int)dateStart.DayOfWeek,
-            time.id, 
-            typeOfPair.id, 
+            time!.id, 
+            typeOfPair!.id, 
             _group.id);
     }
     
@@ -175,21 +181,104 @@ public partial class PairChangerPage : UserControl
         PairRepository pairRepository = new PairRepository();
         await pairRepository.Update(pair);
     }
-    private void TbNumberOfWeeks_OnKeyDown(object? sender, KeyEventArgs e)
+    
+    private void KeyDownNumberOfWeeks(object? sender, KeyEventArgs e)
     {
-        const string panelWithNumbers = "NumPad";
-        const string nothing = "";
-        const int firstLetter = 0;
-        
         Key code = e.Key;
         
-        string keyCode = e.Key.ToString();
-        
-        if (!(keyCode.Contains(panelWithNumbers) && 
-                char.IsDigit(keyCode.Replace(panelWithNumbers, nothing)[firstLetter]) 
-                || (keyCode[firstLetter] == 'D' && code != Key.D)))
+        if ((code < Key.D0 || code > Key.D9) && 
+             (code < Key.NumPad0 || code > Key.NumPad9))
         {
             e.Handled = true;
         }
+    }
+
+    private void DateChanged(object? sender, SelectionChangedEventArgs e)
+    {
+        CheckOnError();
+
+        CbTime.IsVisible = true;
+    }
+
+    private void SelectedTime(object? sender, SelectionChangedEventArgs e)
+    {
+        CheckOnError();
+        
+        NudNumberOfWeeks.IsVisible = true;
+    }
+
+    private void InputNumberOfWeeks(object? sender, NumericUpDownValueChangedEventArgs e)
+    {
+        SettingsPairs.IsVisible = true;
+        CbTeachers.IsVisible = true;
+    }
+
+    private void SelectTeachers(object? sender, SelectionChangedEventArgs e)
+    {
+        CheckOnError();
+        
+        CbAudience.IsVisible = true;
+    }
+    
+    private void SelectAudience(object? sender, SelectionChangedEventArgs e)
+    {
+        CheckOnError();
+        
+        CbTypeOfPairs.IsVisible = true;
+    }
+
+    private void CheckOnError()
+    {
+        var fullDate = CdpDateStart.SelectedDate!;
+        var dayOfWeek = fullDate.Value.DayOfWeek;
+        
+        Time? time = CbTime.SelectedItem as Time;
+        
+        TeacherSubject? teacherSubject = CbTeachers.SelectedItem as TeacherSubject;
+        Audience? audience = CbAudience.SelectedItem as Audience;
+        
+        DateOnly dateStart = new DateOnly(fullDate!.Value.Year, fullDate.Value.Month, fullDate.Value.Day);
+        int pairCount = 0;
+        
+        if (NudNumberOfWeeks.Value != null)
+        {
+            pairCount = (int)NudNumberOfWeeks.Value;
+        }
+        
+        DateOnly dateEnd = dateStart.AddDays((pairCount - MinimumPair) * DaysCountInWeek);
+        
+        if (dayOfWeek == DayOfWeek.Sunday)
+        {
+            SendErrorNotification("Нельзя выбрать воскресенье", "Ошибка");
+            return;
+        }
+        
+        var pairTime = _allPairs.Where(pair => pair.time.name == time!.name);
+        var pairDayOfWeek = pairTime.Where(pair => dayOfWeek == pair.dateStart.DayOfWeek);
+        var pairCurrentDate = pairDayOfWeek.Where(pair => dateStart <= pair.dateEnd && dateEnd >= pair.dateStart);
+        
+        Pair pair = null;
+        
+        if (teacherSubject != null)
+        {
+            pair = pairCurrentDate.Where(pair => pair.teacherSubject.Teacher.id == teacherSubject.Teacher.id).FirstOrDefault();
+        }
+        else if (audience != null)
+        {
+            pair = pairCurrentDate.Where(pair => pair.audience.id == audience.id).FirstOrDefault();
+        }
+        
+        ErrorNotification.IsVisible = pair != null;
+        
+        if (pair != null)
+        {
+            SendErrorNotification($"С {pair.dateStart} по {pair.dateEnd} есть пара у {teacherSubject.Teacher.FullName}, " +
+                                  $"у группы {pair.group.name}, тип пары {pair.typeOfPair.name}", "Предупреждение");
+        }
+    }
+    
+    private void SelectTypeOfPair(object? sender, SelectionChangedEventArgs e)
+    {
+        SendButton.IsVisible = true;
     }
 }

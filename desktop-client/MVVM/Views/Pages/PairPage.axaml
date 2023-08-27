@@ -26,6 +26,7 @@
             <Button Content="Добавить" 
                     Margin="10 0 0 0" 
                     Click="ChangePair"/>
+            <Button Content="Печать" Click="Print"/>
         </StackPanel>
         
         <TextBlock x:Name="TitlePage" 
@@ -35,39 +36,46 @@
                    FontWeight="Bold"/>
         
         <DataGrid x:Name="Pairs"
-			      Grid.Row="2"  
-                  AutoGenerateColumns="False" x:DataType="m:Pair">
+			      Grid.Row="2"
+                  AutoGenerateColumns="False" x:DataType="m:Pair" RowBackground="#d8d8d8">
             <DataGrid.Columns>
                 
                 <DataGridTextColumn Header="Полное название" 
                                     IsReadOnly="True"
+                                    FontSize="17"
                                     Binding="{Binding teacherSubject.Subject.FullName}"/>
                 <DataGridTextColumn Header="Дата начало" 
                                     IsReadOnly="True"
+                                    FontSize="17"
                                     Binding="{Binding dateStart}"/>
                 <DataGridTextColumn Header="Дата конец" 
                                     IsReadOnly="True"
+                                    FontSize="17"
                                     Binding="{Binding dateEnd}"/>
                 <DataGridTextColumn Header="Преподаватель" 
                                     IsReadOnly="True"
-                                    Binding="{Binding teacherSubject.Teacher.LastName}"/>
+                                    FontSize="17"
+                                    Binding="{Binding teacherSubject.Teacher.FullName}"/>
                 <DataGridTextColumn Header="День недели" 
                                     IsReadOnly="True"
+                                    FontSize="17"
                                     Binding="{Binding dayOfWeek.name}"/>
                 <DataGridTextColumn Header="Время" 
                                     IsReadOnly="True"
+                                    FontSize="17"
                                     Binding="{Binding time.name}"/>
                 
                 <DataGridTextColumn Header="Тип пары" 
                                     IsReadOnly="True"
+                                    FontSize="17"
                                     Binding="{Binding typeOfPair.name}"/>
                 
                 <DataGridTemplateColumn Header="Действия" 
                                         IsReadOnly="True">
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                            <Button Content="✏️" Click="ChangePair"/>
-                            <Button Content="🗑️" Click="DeletePair"/>
+                            <Button FontSize="17" Content="✏️" Click="ChangePair"/>
+                            <Button FontSize="17" Content="🗑️" Click="DeletePair"/>
                         </StackPanel>
                     </DataTemplate>
                 </DataGridTemplateColumn>
@@ -76,8 +84,12 @@
             
         </DataGrid>
         
-        <Border x:Name="LoadingBar" Background="White" Grid.Row="2">
-            <TextBlock Text="Загрузка..." VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="40"/>
+        <Border x:Name="LoadingBar" Background="#f1f1f1" Grid.Row="2">
+            <TextBlock Text="Загрузка..." 
+                       VerticalAlignment="Center" 
+                       HorizontalAlignment="Center" 
+                       FontWeight="Bold" 
+                       FontSize="60"/>
         </Border>
         
     </Grid>

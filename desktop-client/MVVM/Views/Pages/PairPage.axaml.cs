@@ -9,6 +9,9 @@ using MVVM.Models;
 using MVVM.Scripts;
 using MVVM.Scripts.Repositories;
 using System.Collections.Generic;
+using System.IO;
+using Avalonia.Threading;
+using DayOfWeek = MVVM.Models.DayOfWeek;
 
 namespace MVVM.Views.Pages;
 
@@ -26,6 +29,8 @@ public partial class PairPage : UserControl
     private readonly IBrush FOREGROUND_PAIR = Brushes.ForestGreen;
     private readonly FontWeight STYLE_PAIR = FontWeight.Bold;
 
+    private readonly DispatcherTimer _timerFind = new();
+
     public PairPage(Group group)
     {
         InitializeComponent();
@@ -33,7 +38,8 @@ public partial class PairPage : UserControl
         _pairs = new List<Pair>();
         
         _selectedGroup = group;
-        
+        _timerFind.Interval = new TimeSpan(0, 0, 0, 0, 500);
+        _timerFind.Tick += TimerFindOnTick;
         Init();
     }
 
@@ -125,10 +131,53 @@ public partial class PairPage : UserControl
         Pair[] pairs = await repository.GetAll(_selectedGroup.id);
         return pairs;
     }
+    private async Task<Time[]> GetTimes()
+    {
+        var repository = new TimeRepository();
+
+        Time[] times = await repository.GetAll();
+        return times;
+    }
+    private async Task<DayOfWeek[]> GetDayOfWeeks()
+    {
+        var repository = new DayOfWeekRepository();
+
+        DayOfWeek[] dayOfWeeks = await repository.GetAll();
+        return dayOfWeeks;
+    }
 
     private void FindOnText()
     {
-        string find = Searcher.Text.ToLower();
+        _timerFind.Stop();
+        _timerFind.Start();
+    }
+    private void TimerFindOnTick(object? sender, EventArgs e)
+    {
+        string find = Searcher.Text!.ToLower();
         Pairs.ItemsSource = _pairs.Where(x => x.teacherSubject.FullName.ToLower().Contains(find)).ToList();
+        _timerFind.Stop();
+    }
+
+    private async void Print(object? sender, RoutedEventArgs e)
+    {
+        var dialog = new SaveFileDialog();
+        FileDialogFilter filter = new();
+        filter.Name = "Excel документы (*.xlsx)";
+        filter.Extensions = new List<string> { ".xlsx" };
+        dialog.Filters.Add(filter);
+        
+        string? path = await dialog.ShowAsync(SaveUserInterface.Instance.MainWindow);
+        
+        if (path == null)
+        {
+            return;
+        }
+        
+        ExcelController controller = new ExcelController(_selectedGroup);
+        
+        controller.AddTablePairs(_pairs.ToArray(), await GetTimes(), await GetDayOfWeeks());
+        
+        byte[] file = controller.Generate();
+        await File.WriteAllBytesAsync(path, file);
     }
 }
