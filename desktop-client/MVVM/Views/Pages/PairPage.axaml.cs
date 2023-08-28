@@ -172,12 +172,20 @@ public partial class PairPage : UserControl
         {
             return;
         }
+
+        try
+        {
+            ExcelController controller = new ExcelController(_selectedGroup);
+
+            controller.AddTablePairs(_pairs.ToArray(), await GetTimes(), await GetDayOfWeeks());
+
+            byte[] file = controller.Generate();
+            await File.WriteAllBytesAsync(path, file);
+        }
+        catch (AccessViolationException)
+        {
+            await MessageBox.Show(SaveUserInterface.Instance.MainWindow, "Закройте excel файл", "Ошибка!");
+        }
         
-        ExcelController controller = new ExcelController(_selectedGroup);
-        
-        controller.AddTablePairs(_pairs.ToArray(), await GetTimes(), await GetDayOfWeeks());
-        
-        byte[] file = controller.Generate();
-        await File.WriteAllBytesAsync(path, file);
     }
 }

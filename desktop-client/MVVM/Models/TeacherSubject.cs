@@ -12,7 +12,7 @@
             int firstLetter = 0;
             Subject = subject;
             Teacher = teacher;
-            FullName =  $"{Teacher.LastName} {Teacher.Name[firstLetter]}. {Teacher.Patronymic[firstLetter]}. - {Subject.FullName}";
+            FullName =  $"{Teacher?.LastName} {Teacher?.Name[firstLetter]}. {Teacher?.Patronymic[firstLetter]}. - {Subject?.FullName}";
         }
         public override bool Equals(object? obj)
         {

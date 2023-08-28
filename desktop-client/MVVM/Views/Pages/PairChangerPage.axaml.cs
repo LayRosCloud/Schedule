@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
@@ -8,6 +9,7 @@ using MVVM.Scripts;
 using MVVM.Scripts.Repositories;
 using System.Threading.Tasks;
 using Avalonia.Input;
+using Avalonia.Media;
 using MVVM.Models;
 using DayOfWeek = System.DayOfWeek;
 
@@ -22,10 +24,11 @@ public partial class PairChangerPage : UserControl
     private const int NewPairId = 0;
     private const int DaysCountInWeek = 7;
     private const int MinimumPair = 1;
-    
+
     public PairChangerPage(Pair pair, Group group)
     {
         InitializeComponent();
+        BackButton.Content = "<-";
         
         if(pair == null!)
         {
@@ -40,7 +43,7 @@ public partial class PairChangerPage : UserControl
 
         Title.Text = group.name;
     }
-
+    
     private async void Init()
     {
         await InitData();
@@ -120,6 +123,7 @@ public partial class PairChangerPage : UserControl
         try
         {
             Pair pair = CheckPair();
+            
             if (_selectedPair.id != NewPairId)
             {
                 await UpdateToApi(pair);
@@ -128,9 +132,8 @@ public partial class PairChangerPage : UserControl
             {
                 await SaveToApi(pair);
             }
-
-            var variables = SaveUserInterface.Instance;
-            variables.NavigateTo(new PairPage(_group));
+            
+            NavigateToPairPage();
         }
         catch (ValidationException exception)
         {
@@ -138,8 +141,22 @@ public partial class PairChangerPage : UserControl
         }
     }
 
+    private void NavigateToPairPage()
+    {
+        var variables = SaveUserInterface.Instance;
+        variables.NavigateTo(new PairPage(_group));
+    }
+    
     private void SendErrorNotification(string text, string title)
     {
+        ErrorNotification.Background = new SolidColorBrush(Color.FromRgb(168, 75, 75));//"#a84b4b"
+        TitleError.Text = title;
+        MessageError.Text = text;
+        ErrorNotification.IsVisible = true;
+    }
+    private void SendNotification(string text, string title)
+    {
+        ErrorNotification.Background = new SolidColorBrush(Color.FromRgb(176, 176, 0));//"#cbcd00"
         TitleError.Text = title;
         MessageError.Text = text;
         ErrorNotification.IsVisible = true;
@@ -246,7 +263,8 @@ public partial class PairChangerPage : UserControl
         }
         
         DateOnly dateEnd = dateStart.AddDays((pairCount - MinimumPair) * DaysCountInWeek);
-        
+        SendButton.IsEnabled = dayOfWeek != DayOfWeek.Sunday;
+
         if (dayOfWeek == DayOfWeek.Sunday)
         {
             SendErrorNotification("Нельзя выбрать воскресенье", "Ошибка");
@@ -257,28 +275,44 @@ public partial class PairChangerPage : UserControl
         var pairDayOfWeek = pairTime.Where(pair => dayOfWeek == pair.dateStart.DayOfWeek);
         var pairCurrentDate = pairDayOfWeek.Where(pair => dateStart <= pair.dateEnd && dateEnd >= pair.dateStart);
         
-        Pair pair = null;
-        
+        Pair pairTeacher = null;
+        Pair pairAudience = null;
         if (teacherSubject != null)
         {
-            pair = pairCurrentDate.Where(pair => pair.teacherSubject.Teacher.id == teacherSubject.Teacher.id).FirstOrDefault();
-        }
-        else if (audience != null)
-        {
-            pair = pairCurrentDate.Where(pair => pair.audience.id == audience.id).FirstOrDefault();
+            pairTeacher = pairCurrentDate.Where(pair => pair.teacherSubject.Teacher.id == teacherSubject.Teacher.id).FirstOrDefault();
         }
         
-        ErrorNotification.IsVisible = pair != null;
-        
-        if (pair != null)
+        if (audience != null )
         {
-            SendErrorNotification($"С {pair.dateStart} по {pair.dateEnd} есть пара у {teacherSubject.Teacher.FullName}, " +
-                                  $"у группы {pair.group.name}, тип пары {pair.typeOfPair.name}", "Предупреждение");
+            pairAudience = pairCurrentDate.Where(pair => pair.audience.id == audience.id).FirstOrDefault();
         }
+        
+        string notification = "";
+        if (pairTeacher != null)
+        {
+            notification =
+                $"Преподаватель\n С {pairTeacher.dateStart} по {pairTeacher.dateEnd} есть пара у преподавателя \"{pairTeacher.teacherSubject.Teacher.FullName}\"\n" +
+                $"• группа: {pairTeacher.group.name}\n• тип пары: {pairTeacher.typeOfPair.name}\n• аудитория: {pairTeacher.audience.fullName}";
+        }
+
+        if (pairAudience != null)
+        {
+            notification += "\n\n";
+            notification +=
+                $"Аудитория\n С {pairAudience.dateStart} по {pairAudience.dateEnd} есть пара у преподавателя \"{pairAudience.teacherSubject.Teacher.FullName}\"\n" +
+                $"• группа: {pairAudience.group.name}\n• тип пары: {pairAudience.typeOfPair.name}\n• аудитория: {pairAudience.audience.fullName}";
+        }
+        SendNotification(notification, "Предупреждение");
+        ErrorNotification.IsVisible = pairTeacher != null || pairAudience != null;
     }
     
     private void SelectTypeOfPair(object? sender, SelectionChangedEventArgs e)
     {
         SendButton.IsVisible = true;
+    }
+
+    private void Back(object? sender, RoutedEventArgs e)
+    {
+        NavigateToPairPage();
     }
 }

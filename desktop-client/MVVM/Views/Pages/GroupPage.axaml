@@ -17,14 +17,12 @@
                    Text="Группы" 
                    FontWeight="Bold" 
                    FontSize="20"/>
-        
-            <TextBox Grid.Row="1" x:Name="Searcher"
-                     Watermark="Поиск..." 
-                     Width="350" 
-                     HorizontalAlignment="Left"
-                     TextChanged="SearcherTextChanged"
-            />
-        
+        <TextBox Grid.Row="1"  x:Name="Searcher"
+                 Watermark="Поиск..." 
+                 Width="350" 
+                 HorizontalAlignment="Left"
+                 TextChanged="SearcherTextChanged"
+        />
         
         <ListBox x:Name="GroupsList"
 			     Grid.Row="2"

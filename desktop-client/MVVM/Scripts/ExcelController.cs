@@ -38,21 +38,8 @@ public class ExcelController
     
     public void AddTablePairs(Pair[] pairs, Time[] times, DayOfWeek[] dayOfWeeks)
     {
-        var groupedByDayOfWeek = new DayOfWeekGrouped();
-        foreach (DayOfWeek dayOfWeek in dayOfWeeks)
-        {
-            var groupedByTime = new PairGrouped();
-            foreach (Time time in times)
-            {
-                var list = pairs.Where(pair => pair.time.id == time.id && pair.dayOfWeek.id == dayOfWeek.id).ToList();
-                if (list.Count != 0)
-                {
-                    groupedByTime.Add(time, list);
-                }
-            }
-            groupedByDayOfWeek.Add(dayOfWeek, groupedByTime);
-        }
-
+        var groupedByDayOfWeek = GetGroupedPairs(dayOfWeeks, pairs, times);
+        
         CurrentSheet.Cells[1, 1, 1, 2].Merge = true;
         CreateTitle(CurrentSheet.Cells[1, 1], "09.05-01.11");
 
@@ -60,47 +47,67 @@ public class ExcelController
         CreateTitle(CurrentSheet.Cells[1, 3], _group.name);
         SetCenter(CurrentSheet.Cells[1, 3]);
         
+        CurrentSheet.Columns[1].Width = 3.71;
+        CurrentSheet.Columns[2].Width = 10.71;
+        CurrentSheet.Columns[3].Width = 35.71;
+        CurrentSheet.Columns[4].Width = 11.71;
+        
+        CreateCellWithDate(dayOfWeeks, groupedByDayOfWeek);
+    }
+
+    private DayOfWeekGrouped GetGroupedPairs(DayOfWeek[] dayOfWeeks, Pair[] pairs, Time[] times)
+    {
+        var groupedByDayOfWeek = new DayOfWeekGrouped();
+        foreach (DayOfWeek dayOfWeek in dayOfWeeks)
+        {
+            var groupedByTime = new PairGrouped();
+            
+            int max = int.MinValue;
+            int min = int.MaxValue;
+            
+            for (int i = 0; i < pairs.Length; i++)
+            {
+                if (pairs[i].dayOfWeek.id != dayOfWeek.id)
+                {
+                    continue;
+                }
+
+                if (min > pairs[i].time.id)
+                {
+                    min = pairs[i].time.id;
+                }
+
+                if (max < pairs[i].time.id)
+                {
+                    max = pairs[i].time.id;
+                }
+            }
+            
+            foreach (Time time in times)
+            {
+                var list = pairs.Where(pair => pair.time.id == time.id && pair.dayOfWeek.id == dayOfWeek.id).ToList();
+                if (time.id >= min && time.id <= max)
+                {
+                    groupedByTime.Add(time, list);
+                }
+            }
+            groupedByDayOfWeek.Add(dayOfWeek, groupedByTime);
+        }
+
+        return groupedByDayOfWeek;
+    }
+    private void CreateCellWithDate(DayOfWeek[] dayOfWeeks, DayOfWeekGrouped groupedByDayOfWeek)
+    {
         int row = 2;
         int lastRow = 2;
         int countDays = 0;
-
-        CurrentSheet.Columns[3].Width = 50;
-        CurrentSheet.Columns[4].Width = 25;
-        
         foreach (var dayOfWeek in dayOfWeeks)
         {
             countDays++;
             var listByTimeGrouped = groupedByDayOfWeek.Get(dayOfWeek);
             foreach (var time in listByTimeGrouped.Keys)
             {
-                var currentTime = time;
-                var filteredPairs = listByTimeGrouped.Get(currentTime);
-                
-                CreateCell(CurrentSheet.Cells[row, 2], currentTime.name);
-                
-                string audienceText = "";
-                string pairText = "";
-                
-                foreach (var pair in filteredPairs)
-                {
-                    pairText += string.IsNullOrEmpty(pair.teacherSubject.Subject.Name) 
-                        ? pair.teacherSubject.Subject.FullName 
-                        : pair.teacherSubject.Subject.Name;
-                    
-                    var dateStart = pair.dateStart.ToDateTime(TimeOnly.MinValue);
-                    var dateEnd = pair.dateEnd.ToDateTime(TimeOnly.MinValue);
-                    int numberOfWeeks = ((int)(dateEnd - dateStart).TotalDays) / 7 + 1;
-                    
-                    pairText += $" {numberOfWeeks} н. с {pair.dateStart:d/M} {pair.teacherSubject.Teacher.FullName}       \t";
-                    audienceText += pair.audience.fullName + " \n";
-                }
-                CreateCell(CurrentSheet.Cells[row, 3], pairText);
-                CreateCell(CurrentSheet.Cells[row, 4], audienceText);
-                
-                CurrentSheet.Cells[row, 3].Style.WrapText = true;
-                CurrentSheet.Cells[row, 4].Style.WrapText = true;
-                CurrentSheet.Cells[row, 4].Style.Border.BorderAround(ExcelBorderStyle.Medium);
-                
+                CreateRow(listByTimeGrouped, time, row);
                 row++;
             }
             
@@ -125,6 +132,43 @@ public class ExcelController
         }
     }
     
+    private void CreateRow(PairGrouped listByTimeGrouped, Time time, int row )
+    {
+        var filteredPairs = listByTimeGrouped.Get(time);
+                
+        CreateCell(CurrentSheet.Cells[row, 2], time.name);
+                
+        var (pairText, audienceText) = CreateTextForCell(filteredPairs.ToArray());
+                
+        CreateCell(CurrentSheet.Cells[row, 3], pairText);
+        CreateCell(CurrentSheet.Cells[row, 4], audienceText);
+                
+        CurrentSheet.Cells[row, 3].Style.WrapText = true;
+        CurrentSheet.Cells[row, 4].Style.WrapText = true;
+        CurrentSheet.Cells[row, 4].Style.Border.BorderAround(ExcelBorderStyle.Medium);
+    }
+    
+    private (string, string) CreateTextForCell(Pair[] pairs)
+    {
+        string pairText = "";
+        string audienceText = "";
+        
+        foreach (var pair in pairs)
+        {
+            pairText += string.IsNullOrEmpty(pair.teacherSubject.Subject.Name) 
+                ? pair.teacherSubject.Subject.FullName 
+                : pair.teacherSubject.Subject.Name;
+                    
+            var dateStart = pair.dateStart.ToDateTime(TimeOnly.MinValue);
+            var dateEnd = pair.dateEnd.ToDateTime(TimeOnly.MinValue);
+            int numberOfWeeks = ((int)(dateEnd - dateStart).TotalDays) / 7 + 1;
+                    
+            pairText += $" {numberOfWeeks} н. с {pair.dateStart:d/M} {pair.teacherSubject.Teacher.FullName}       \t";
+            audienceText += pair.audience.fullName + " \n";
+        }
+        
+        return (pairText, audienceText);
+    }
     
     private void CreateCell(ExcelRange range, string text)
     {

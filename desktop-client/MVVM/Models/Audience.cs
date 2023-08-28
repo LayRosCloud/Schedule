@@ -7,7 +7,7 @@ public class Audience : DictionaryModel
     public Audience(int id, string name, Corpus corpu) : base(id, name)
     {
         this.corpu = corpu;
-        fullName = $"ауд. {name} к. {corpu.name}";
+        fullName = $"ауд. {name} к. {corpu?.name}";
     }
 
     public override bool Equals(object? obj)
