@@ -12,45 +12,63 @@
         WindowStartupLocation="CenterScreen" 
         x:Name="authWindow" Loaded="AuthWindowLoaded">
     
-
-    <Grid VerticalAlignment="Center" 
-          Margin="100 0 100 0">
-        <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-        </Grid.RowDefinitions>
-        <TextBlock Text="Авторизация" 
-                   FontSize="24"/>
-        <TextBox x:Name="Login" 
-                Text="" 
-                 Margin="0 5 0 0" 
-                 Padding="15 5" 
-                 Grid.Row="1" 
-                 Watermark="Введите логин*"/>
-        <TextBox x:Name="Password"
-                 Text="" 
-                 Margin="0 5 0 0" 
-                 Padding="15 5" 
-                 Grid.Row="2" 
-                 Watermark="Введите пароль*" 
-                 PasswordChar="*"/>
+    <Grid>
+        <Grid VerticalAlignment="Center" 
+              Margin="100 0 100 0">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Авторизация" 
+                       FontSize="24"/>
+            <TextBox x:Name="Login" 
+                     Text="" 
+                     Margin="0 5 0 0" 
+                     Padding="15 5" 
+                     Grid.Row="1" 
+                     Watermark="Введите логин*"/>
+            <TextBox x:Name="Password"
+                     Text="" 
+                     Margin="0 5 0 0" 
+                     Padding="15 5" 
+                     Grid.Row="2" 
+                     Watermark="Введите пароль*" 
+                     PasswordChar="*"/>
         
-        <Grid Grid.Row="3" Margin="0 10 0 0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition
+            <Grid Grid.Row="3" Margin="0 10 0 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition
                     />
-                <ColumnDefinition
+                    <ColumnDefinition
                     />
-            </Grid.ColumnDefinitions>
-            <CheckBox x:Name="RememberMe" Grid.Column="0" HorizontalAlignment="Left"  
-                      Content="Запомнить меня"/>
-            <Button Grid.Column="1" 
-                    HorizontalAlignment="Right" 
-                    Content="Войти" 
-                    Click="EnterApplication"/>
+                </Grid.ColumnDefinitions>
+                <CheckBox x:Name="RememberMe" Grid.Column="0" HorizontalAlignment="Left"  
+                          Content="Запомнить меня"/>
+                <Button Grid.Column="1" 
+                        HorizontalAlignment="Right" 
+                        Content="Войти" 
+                        Click="EnterApplication"/>
+            </Grid>
+        
         </Grid>
+        
+        <Border x:Name="ErrorBorder" 
+                CornerRadius="5" 
+                IsVisible="False" 
+                Background="Brown" 
+                Padding="15 5" 
+                HorizontalAlignment="Right" 
+                VerticalAlignment="Bottom" 
+                Margin="10">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock x:Name="TbError" Foreground="White" VerticalAlignment="Center" FontWeight="Bold">Ошибка</TextBlock>
+                <Button Background="Transparent" BorderThickness="0" Content="x" FontWeight="Bold" Foreground="White" Opacity="0.8" Click="CloseErrorMessage"/>
+            </StackPanel>
+            
+        </Border>
     </Grid>
+    
 
 </Window>

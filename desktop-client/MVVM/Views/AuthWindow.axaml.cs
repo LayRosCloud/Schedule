@@ -18,8 +18,6 @@ public partial class AuthWindow : Window
     private const string Error = "Ошибка!";
     private const string ErrorMessage = " Неверный логин или пароль!";
     private const string ErrorFields = $"{Error} Не все поля заполнены";
-    private const string Successful = "Успех!";
-    private const string SuccessfulMessage = " Вы успешно авторизовались.";
 
     public AuthWindow()
     {
@@ -43,6 +41,12 @@ public partial class AuthWindow : Window
             CloseWindow();
         }
     }
+
+    private void SendError(string text)
+    {
+        ErrorBorder.IsVisible = true;
+        TbError.Text = text;
+    }
     
     private async void EnterApplication(object? sender, RoutedEventArgs e)
     {
@@ -52,8 +56,7 @@ public partial class AuthWindow : Window
         try
         {
             await CheckLoginAndPassword(login, password);
-            await SendSuccessfulNotification(this);
-
+            
             if (RememberMe.IsChecked == true)
             {
                  _crypt.WriteText(SaveVariables.Instance.AccessToken);
@@ -64,45 +67,15 @@ public partial class AuthWindow : Window
         }
         catch (AuthenticationException)
         {
-            await SendErrorNotification(this);
+            SendError(ErrorMessage);
         }
         catch (ArgumentException ex)
         {
-            await MessageBox.Show(this, ex.Message, Error);
+            SendError(ex.Message);
         }
     }
     
-    
-    private Task<MessageBox.MessageBoxResult> SendSuccessfulNotification(Window currentWindow)
-    {
-        const int sentenceCount = 2;
-        
-        Run[] runs = new Run[sentenceCount];
-        
-        runs[0] = new Run(Successful)
-        {
-            Foreground = Brushes.ForestGreen
-        };
-        
-        runs[1] = new Run(SuccessfulMessage);
-        return MessageBox.Show(currentWindow, runs, Successful);
-    }
-    
-    private Task<MessageBox.MessageBoxResult> SendErrorNotification(Window currentWindow)
-    {
-        const int sentenceCount = 2;
-        Run[] runs = new Run[sentenceCount];
-        
-        runs[0] = new Run(Error)
-        {
-            Foreground = Brushes.DarkRed
-        };
-        
-        runs[1] = new Run(ErrorMessage);
-        
-        return MessageBox.Show(currentWindow, runs, Error);
-    }
-    
+
     private void ShowNewWindow()
     {
         Window mainWindow = new MainWindow();
@@ -127,5 +100,9 @@ public partial class AuthWindow : Window
     }
 
 
+    private void CloseErrorMessage(object? sender, RoutedEventArgs e)
+    {
+        ErrorBorder.IsVisible = false;
+    }
 }
     
