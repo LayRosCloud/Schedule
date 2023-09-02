@@ -6,7 +6,7 @@ import {getFilteredArray, getSortedArrayRatio} from "../../scripts/sort";
 import SearchAudienceList from "../Lists/SearchList/AudienceList/SearchAudienceList";
 import SearchGroupList from "../Lists/SearchList/GroupList/SearchGroupList";
 import SearchTeacherList from "../Lists/SearchList/TeacherList/SearchTeacherList";
-const Search = ({array, myClass}) => {
+const Search = ({array, myClass, setIsActiveSideMenu}) => {
     const [filterText, setFilterText] = useState('')
     const [timeoutHandler, setTimeoutHandler] = useState({handle: null})
 
@@ -50,7 +50,7 @@ const Search = ({array, myClass}) => {
 
     return (
         <div className={`${classes.search} ${myClass}`}>
-            <FinderInput value={filterText} setValue={setText} placeholder='поиск...' onFocus={setFocused}/>
+            <FinderInput value={filterText} setValue={setText} placeholder='поиск...' onFocus={setFocused} setIsActiveSideMenu={setIsActiveSideMenu}/>
             {(filteredGroups.length || filteredTeachers.length || filteredAudiences.length) && isFocused
                 ?<div className={classes.list}>
                     <SearchAudienceList audiences={filteredAudiences}/>

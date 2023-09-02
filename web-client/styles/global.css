@@ -20,9 +20,11 @@
     --radius-tile:5px
 }
 
+
 body{
     background: var(--main-color);
 }
+
 h1,h2,h3,h4,h5,h6,p,div,button, input, th, tr{
     font-family: 'Montserrat', sans-serif;
     color: var(--foreground-color)
@@ -101,6 +103,24 @@ main{
     background: #D196FF;
 }
 
+@media screen and (prefers-color-scheme: dark) {
+    :root{
+        --accent-color: #619a8a;
+        --two-accent-color: #111111;
+
+        --foreground-color: #d9d9d9;
+
+        --main-color: #232323;
+        --two-color: #0c0c0c;
+    }
+    .one p, .two p, .three p, .four p, .five p, .six p{
+        color: var(--main-color);
+    }
+    .one, .two, .three, .four, .five, .six{
+        opacity: 0.7;
+    }
+}
+
 .title, .under__tile{
     text-align: center;
     color: var(--accent-color);
@@ -156,9 +176,11 @@ main{
 .button__find:hover{
     background: var(--two-color);
 }
+
 .active{
     border-bottom: 2px solid var(--accent-color);
 }
+
 .middle__button{
     margin: 0 5px 5px 0;
 }

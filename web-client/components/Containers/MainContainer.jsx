@@ -4,6 +4,7 @@ import Head from "next/head";
 import {useEffect, useState} from "react";
 import Search from "../Search/Search";
 import Link from "next/link";
+import Footer from "../Footer/Footer";
 
 const MainContainer = ({children, search}) => {
     const [isActiveSideMenu,setIsActiveSideMenu] = useState(false)
@@ -26,6 +27,7 @@ const MainContainer = ({children, search}) => {
                 <title>Расписание</title>
                 <link rel="shortcut icon" href="/logo.png" type="image/x-icon"/>
             </Head>
+
             <Header search={search} onClickToBurger={clickBurger}/>
             {isActiveSideMenu
                 ?<div>
@@ -42,7 +44,7 @@ const MainContainer = ({children, search}) => {
                                     <h1>расписание</h1>
                                 </Link>
                             </div>
-                            <Search array={search}/>
+                            <Search array={search} setIsActiveSideValue={setIsActiveSideMenu}/>
                         </div>
                     </div>
                 </div>
@@ -52,6 +54,8 @@ const MainContainer = ({children, search}) => {
             <main className={classes.main__container}>
                 {children}
             </main>
+
+            <Footer/>
         </>
     );
 };

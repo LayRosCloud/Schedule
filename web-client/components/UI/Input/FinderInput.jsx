@@ -3,7 +3,7 @@ import classes from "./FinderInput.module.css";
 import Image from "next/image";
 import {useRouter} from "next/router";
 
-const FinderInput = ({value, setValue, placeholder, onFocus}) => {
+const FinderInput = ({value, setValue, placeholder, onFocus, setIsActiveSideMenu}) => {
     const router = useRouter();
     const inputRef = useRef(null);
 
@@ -26,7 +26,7 @@ const FinderInput = ({value, setValue, placeholder, onFocus}) => {
                    onChange={(e)=>setValue(e.target.value)}
                    placeholder={placeholder}
             />
-            <Image onClick={()=>{setValue(''); handleIconClick()}}
+            <Image onClick={()=>{setValue(''); handleIconClick(); setIsActiveSideMenu(false)}}
                    className={`${classes.btn} ignore-click`}
                    src='/close.svg'
                    alt=''

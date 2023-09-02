@@ -15,15 +15,17 @@
     font-size: 33px;
     font-weight: bold;
 }
+
 .title__without{
     font-size: 33px;
     font-weight: bold;
 }
+
 .title::after{
     font-size: 15px;
     content: attr(data-title);
     width: 110px;
-    background: #FFFFFF;
+    background: var(--two-accent-color);
     padding: 10px;
     opacity: 0;
     border-radius: 15px;
@@ -31,6 +33,7 @@
     position: absolute;
     transition: 0.15s;
 }
+
 .title:hover::after{
     opacity: 1;
 }
@@ -47,8 +50,21 @@
     opacity: 0.5;
 
 }
+
 @media (max-width: 768px) {
     .title::after{
         width: auto;
+    }
+}
+
+@media screen and (prefers-color-scheme: dark) {
+    .title{
+        color: var(--main-color);
+    }
+    .tile p{
+        color: var(--main-color);
+    }
+    .title:after{
+        color: var(--foreground-color);
     }
 }

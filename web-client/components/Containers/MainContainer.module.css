@@ -53,3 +53,9 @@
     position: relative;
     min-height: 100%;
 }
+
+@media screen and (prefers-color-scheme: dark) {
+    .side__menu{
+        background: var(--foreground-color);
+    }
+}

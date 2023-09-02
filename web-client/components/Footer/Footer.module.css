@@ -1,0 +1,38 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.container__inner{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.link__container{
+    padding: 10px;
+    margin-right: 5px;
+    border-radius: 50%;
+    background: #4C75A3;
+    height: 50px;
+    width: 50px;
+    text-align: center;
+    line-height: 30px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.link__container:hover{
+    opacity: 0.8;
+}
+
+.link{
+    color: #FFF;
+    text-decoration: none;
+    text-align: center;
+}
+.title{
+    margin: 10px 0;
+}

@@ -15,9 +15,18 @@
 .active__p{
     color: var(--main-color);
 }
+@media screen and (prefers-color-scheme: dark) {
+    .active__h1{
+        color: var(--foreground-color);
+    }
+    .active__p{
+        color: var(--foreground-color);
+    }
+}
 .container:hover{
     background: var(--two-color);
 }
+
 .container.active:hover{
     background: var(--accent-color);
     opacity: 0.8;
