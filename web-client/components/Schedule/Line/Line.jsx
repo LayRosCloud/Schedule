@@ -39,12 +39,12 @@ const Line = ({item, times, index, isList}) => {
     return (
         <tr>
             <td onClick={()=>setVisible(!visibleLine)}
-                className={`${classes.day} ${colorsForDays[index]} ${isList ? classes.day__isList : ''}  ${colorsForDays[index] === 'one'?classes.first:''}`}>
+                className={`${classes.day} ${colorsForDays[index]} ${isList ? classes.day__isList : ''}`}>
                 <p>{item.dayOfWeek.name}</p>
             </td>
             {visibleLine
-                ?result.map(res=> res)
-                :''
+                ? result.map(res=> res)
+                : ''
             }
 
         </tr>
