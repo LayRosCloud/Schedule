@@ -1,8 +1,8 @@
 import axios from 'axios'
 
-export const domain = 'http://185.250.44.61:5000'
-export const domainTeacher = 'http://185.250.44.61:5002'
-export const domainAudience = 'http://185.250.44.61:5001'
+export const domain = 'http://188.225.77.116:5000'
+export const domainTeacher = 'http://188.225.77.116:5002'
+export const domainAudience = 'http://188.225.77.116:5001'
 const $api = axios.create({
     withCredentials: true,
 })
